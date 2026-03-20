@@ -1,4 +1,4 @@
-const socket = io('https://socketkill.com');
+const socket = io('188.166.153.213');
 const feed = document.getElementById('feed');
 const status = document.getElementById('status');
 const counterElement = document.getElementById('kill-counter');
