@@ -410,6 +410,7 @@ body::after {
 .status-online {
     color: var(--neon-green);
     text-shadow: 0 0 6px rgba(63, 185, 80, 0.4);
+    animation: dot-pulse 4s ease-in-out infinite; 
 }
 
 .status-offline {
