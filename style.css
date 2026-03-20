@@ -461,6 +461,22 @@ body::after {
     border-radius: 8px;
 }
 
+.status-online {
+    color: var(--neon-green);
+    text-shadow: 0 0 6px rgba(63, 185, 80, 0.4);
+    animation: dot-pulse 2s ease-in-out infinite;
+}
+
+@keyframes dot-pulse {
+    0%, 100% { 
+        text-shadow: 0 0 4px rgba(63, 185, 80, 0.4);
+    }
+    50% { 
+        text-shadow: 0 0 8px rgba(63, 185, 80, 0.9), 
+                     0 0 16px rgba(63, 185, 80, 0.4);
+    }
+}
+
 /* === FEED ROWS === */
 .kill-row {
     transform: translateZ(0);
