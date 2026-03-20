@@ -579,7 +579,6 @@ body::after {
     color: #f0f6fc;
     font-weight: 600;
     display: block;
-    animation: textFlicker 1s infinite;
     text-shadow: var(--phosphor-glow);
     mix-blend-mode: screen;
 }
