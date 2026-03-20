@@ -241,6 +241,7 @@ body::after {
     pointer-events: none;
     z-index: 2;
     opacity: 0.8;
+    will-change: auto;
 }
 
 
@@ -438,6 +439,7 @@ body::after {
     content: "";
     position: absolute;
     inset: 0;
+    will-change: tranform;
     width: 100%;
     height: 100%;
     background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.4'/%3E%3C/svg%3E");
@@ -461,7 +463,6 @@ body::after {
 
 /* === FEED ROWS === */
 .kill-row {
-    will-change: transform, opacity, clip-path;
     transform: translateZ(0);
     backface-visibility: hidden;
     border-bottom: 1px solid #1c2128;
@@ -472,15 +473,15 @@ body::after {
     background: transparent;
     transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275), background 0.1s ease;
     animation: slideIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+    will-change: transform, opacity;
 }
 
 .kill-row.removing {
     animation: phosphor-decay 0.4s ease-out forwards;
 }
 
-
 .kill-row:hover {
-    /* 1. Use a gradient to simulate the "scanline beam" focusing on the row */
+    transform: translateX(4px) translateZ(0);
     background: linear-gradient(
         90deg, 
         rgba(63, 185, 80, 0.08) 0%, 
@@ -596,7 +597,6 @@ body::after {
 #socket-title {
     text-shadow: 0 0 8px rgba(63, 185, 80, 0.6);
     letter-spacing: 2px;
-    font-family: 'Oxanium', sans-serif;
 }
 
 .timestamp {
@@ -966,22 +966,6 @@ body.signal-interference {
     0%   { opacity: 0; transform: scaleY(0.01) translateX(-20px); filter: blur(4px) brightness(3) saturate(0); }
     60%  { opacity: 1; transform: scaleY(1.05) translateX(2px);   filter: blur(2px) brightness(1.5) saturate(0.5); }
     100% { opacity: 1; transform: translateY(0) scaleY(1);         filter: blur(0) brightness(1) saturate(1); }
-}
-
-@keyframes online-pulse {
-    0%, 100% { box-shadow: 0 0 4px rgba(63, 185, 80, 0.4); }
-    50%       { box-shadow: 0 0 12px rgba(63, 185, 80, 0.9), 
-                            0 0 20px rgba(63, 185, 80, 0.4); }
-}
-
-@keyframes slideInRight {
-    from { transform: translateX(50px); opacity: 0; }
-    to   { transform: translateX(0);    opacity: 1; }
-}
-
-@keyframes borderPulse {
-    0%   { border-color: #ffffff; box-shadow: 0 0 15px rgba(88, 166, 255, 0.4); }
-    100% { border-color: #1c2128; box-shadow: none; }
 }
 
 @keyframes textFlicker {
