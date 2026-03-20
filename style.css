@@ -433,6 +433,20 @@ body::after {
     margin-top: 20px;
     border: 1px solid rgba(63, 185, 80, 0.2);
     box-shadow: 0 20px 50px rgba(0, 0, 0, 0.9), 0 0 15px rgba(63, 185, 80, 0.05), inset 0 0 40px rgba(0, 0, 0, 0.8);
+    animation: power-hum 4s ease-in-out infinite;
+}
+
+@keyframes power-hum {
+    0%, 100% { 
+        box-shadow: 0 20px 50px rgba(0, 0, 0, 0.9), 
+                    0 0 15px rgba(63, 185, 80, 0.05), 
+                    inset 0 0 40px rgba(0, 0, 0, 0.8);
+    }
+    50% { 
+        box-shadow: 0 20px 50px rgba(0, 0, 0, 0.9), 
+                    0 0 25px rgba(63, 185, 80, 0.12), 
+                    inset 0 0 40px rgba(0, 0, 0, 0.8);
+    }
 }
 
 #feed::after {

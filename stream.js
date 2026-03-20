@@ -67,10 +67,10 @@ const formatIskValue = (value) => {
 function typeBootSequence() {
     const bootLines = [
         '> INITIALIZING GRID MONITOR...',
-        '> CONNECTING TO ESI DATASOURCE...',
-        '> PARSING ZKILLBOARD STREAM...',
+        '> CONNECTING TO DATASOURCE...',
+        '> CREW EXPENDABLE — PRIORITY ONE OVERRIDE',
         '> UPLINK ESTABLISHED',
-        '> AWAITING KILL DATA'
+        '> AWAITING DATA STREAM'
     ];
     const bootDisplay = document.querySelector('.boot-sequence');
     if (!bootDisplay) return;
