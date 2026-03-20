@@ -472,8 +472,15 @@ body::after {
     align-items: center;
     background: transparent;
     transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275), background 0.1s ease;
-    animation: slideIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+    animation: phosphor-strike 0.4s ease-out forwards;
     will-change: transform, opacity;
+}
+
+@keyframes phosphor-strike {
+    0%   { opacity: 0; filter: brightness(0) blur(2px); }
+    15%  { opacity: 1; filter: brightness(3) blur(0) saturate(0); color: var(--neon-green); }
+    40%  { filter: brightness(1.5) saturate(0.5); }
+    100% { opacity: 1; filter: brightness(1) blur(0) saturate(1); }
 }
 
 .kill-row.removing {
