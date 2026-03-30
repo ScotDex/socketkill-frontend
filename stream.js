@@ -155,7 +155,21 @@ const typeShipNameSurgical = (el, text) => {
 // Terminal Autocomplete
 let selectedIndex = -1;
 
-
+const typeIskValue = (el, text) => {
+    el.innerText = '';
+    let i = 0;
+    const render = () => {
+        if (i < text.length) {
+         const span = document.createElement('span');
+            span.className = 'char-flash';
+            span.textContent = text[i];
+            el.appendChild(span);
+            i++;
+            setTimeout(render, 40);
+        }
+    };
+    render();
+};
 
 function showSuggestions(term) {
     const dropdown = document.getElementById('region-suggestions');
@@ -378,7 +392,8 @@ div.innerHTML = `
             <img src="${kill.corpImageUrl}" alt="Corporation Logo" class="corp-logo-square" loading="lazy">
         </div>
         <div class="text-end" style="width: 100px;">
-            <div class="${val >= 1000000000 ? 'isk-billion' : 'isk-million'} fw-bold">${formatIskValue(val)}</div>
+            <!-- <div class="${val >= 1000000000 ? 'isk-billion' : 'isk-million'} fw-bold">${formatIskValue(val)}</div> -->
+            <div class="${val >= 1000000000 ? 'isk-billion' : 'isk-million'} fw-bold isk-value"></div>
         </div>
     </div>
 `;
@@ -390,6 +405,7 @@ div.innerHTML = `
     }
 
     feed.prepend(div);
+    typeIskValue(div.querySelector('.isk-value'), formatIskValue(val));
     div.querySelector('.article-target').innerText = kill.article || "a";
     renderShipName(div.querySelector('.type-target'), kill.ship);
 
