@@ -251,6 +251,7 @@ body::after {
 .fog-overlay {
     position: fixed;
     inset: 0;
+    animation: vignette-breathe 6s ease-in-out infinite;
     background:
         radial-gradient(ellipse at center, transparent 0%, rgba(0, 0, 0, 0.3) 60%, rgba(0, 0, 0, 0.7) 100%),
         radial-gradient(ellipse 600px 400px at 30% 40%, rgba(20, 60, 80, 0.15) 0%, transparent 50%),
@@ -261,6 +262,17 @@ body::after {
     will-change: auto;
 }
 
+@keyframes vignette-breathe {
+
+    0%,
+    100% {
+        opacity: 0.8;
+    }
+
+    50% {
+        opacity: 0.95;
+    }
+}
 
 #crt-screen {
     animation: crt-boot 1.5s ease-out forwards;
@@ -271,7 +283,7 @@ body::after {
 #crt-screen::before {
     content: "";
     position: fixed;
-    animation: scanline-drift 8s linear infinite;
+
     inset: 0;
     background:
         repeating-linear-gradient(90deg, rgba(255, 0, 0, 0.03) 0px, rgba(255, 0, 0, 0.03) 1px, transparent 1px, transparent 3px),
@@ -279,16 +291,6 @@ body::after {
     pointer-events: none;
     z-index: -1;
     opacity: 0.6;
-}
-
-@keyframes scanline-drift {
-    0% {
-        background-position: 0 0;
-    }
-
-    100% {
-        background-position: 0 100px;
-    }
 }
 
 .final-blow-label {
