@@ -271,6 +271,7 @@ body::after {
 #crt-screen::before {
     content: "";
     position: fixed;
+    animation: scanline-drift 8s linear infinite;
     inset: 0;
     background:
         repeating-linear-gradient(90deg, rgba(255, 0, 0, 0.03) 0px, rgba(255, 0, 0, 0.03) 1px, transparent 1px, transparent 3px),
@@ -278,6 +279,16 @@ body::after {
     pointer-events: none;
     z-index: -1;
     opacity: 0.6;
+}
+
+@keyframes scanline-drift {
+    0% {
+        background-position: 0 0;
+    }
+
+    100% {
+        background-position: 0 100px;
+    }
 }
 
 .final-blow-label {
@@ -488,6 +499,7 @@ body::after {
     pointer-events: none;
     z-index: 2;
     border-radius: 8px;
+    animation: grain 4s steps(8) infinite;
 }
 
 #feed::before {
