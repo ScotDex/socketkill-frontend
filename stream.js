@@ -357,6 +357,7 @@ div.innerHTML = `
         <div class="ship-icon-container">
             <img src="${kill.shipImageUrl}" alt="Ship Render" class="ship-render" loading="lazy">
         </div>
+        <a href="${kill.zkillUrl}" target="_blank" rel="noopener" class="kill-info-link">
         <div class="kill-info">
             <div><strong class="ship-name">
                 <span class="timestamp">${timestamp}</span>
@@ -368,6 +369,7 @@ div.innerHTML = `
             </div>
         </div>
     </div>
+    </a>
     <div class="kill-meta">
         <span class="final-blow-label">${kill.attackerCount} attackers </span>
     </div>
