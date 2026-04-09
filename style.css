@@ -501,7 +501,6 @@ body::after {
     pointer-events: none;
     z-index: 2;
     border-radius: 8px;
-    animation: grain 4s steps(8) infinite;
 }
 
 #feed::before {
