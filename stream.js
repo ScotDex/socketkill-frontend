@@ -4,7 +4,7 @@ const status = document.getElementById('status');
 const counterElement = document.getElementById('kill-counter');
 const regionSearch = document.getElementById('regionSearch');
 
-const MAX_FEED_SIZE = 60;
+const MAX_FEED_SIZE = 70;
 let isTyping = false;
 let regionCache = [];
 
