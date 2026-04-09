@@ -409,10 +409,8 @@ socket.on('raw-kill', (kill) => {
     div.querySelector('.article-target').innerText = kill.article || "a";
     renderShipName(div.querySelector('.type-target'), kill.ship);
 
-    if (feed.children.length > MAX_FEED_SIZE) {
-        const lastRow = feed.lastChild;
-        lastRow.classList.add('removing');
-        setTimeout(() => lastRow.remove(), 400);
+    while (feed.children.length > MAX_FEED_SIZE) {
+        feed.lastElementChild?.remove();
     }
 });
 
