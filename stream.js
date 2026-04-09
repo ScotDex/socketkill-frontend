@@ -10,15 +10,15 @@ let regionCache = [];
 
 function formatIskShorthand(value) {
     if (value >= 1e12) return (value / 1e12).toFixed(2) + "T";
-    if (value >= 1e9)  return (value / 1e9).toFixed(2) + "B";
-    if (value >= 1e6)  return (value / 1e6).toFixed(1) + "M";
+    if (value >= 1e9) return (value / 1e9).toFixed(2) + "B";
+    if (value >= 1e6) return (value / 1e6).toFixed(1) + "M";
     return value.toLocaleString();
 }
 
 // === COUNTER SURGE EFFECT ===
 function counterSurge() {
     const counter = document.getElementById('kill-counter');
-    
+
     gsap.timeline()
         .to(counter, {
             duration: 0.2,
@@ -45,17 +45,17 @@ const formatIskValue = (value) => {
     return (num / 1000000).toFixed(2) + "M";
 };
 
-(function() {
+(function () {
     const banner = document.getElementById('awards-banner');
     const dismissBtn = document.getElementById('dismiss-banner');
     const storageKey = 'creator-awards-banner-dismissed';
-    
+
     // Check if user already dismissed
     if (!localStorage.getItem(storageKey)) {
         banner.style.display = 'block';
         document.body.classList.add('awards-banner-visible');
     }
-    
+
     // Dismiss permanently
     dismissBtn?.addEventListener('click', () => {
         localStorage.setItem(storageKey, 'true');
@@ -107,18 +107,18 @@ const typeTitle = (elementId, text, speed = 150) => {
     if (!element) return;
     element.innerHTML = "";
     let i = 0;
-function type() {
-    if (i < text.length) {
-        const span = document.createElement('span');
-        span.className = 'char-flash';
-        span.textContent = text.charAt(i);
-        element.appendChild(span);
-        i++;
-        setTimeout(type, speed);
-    } else {
-        element.style.borderRight = "none";
+    function type() {
+        if (i < text.length) {
+            const span = document.createElement('span');
+            span.className = 'char-flash';
+            span.textContent = text.charAt(i);
+            element.appendChild(span);
+            i++;
+            setTimeout(type, speed);
+        } else {
+            element.style.borderRight = "none";
+        }
     }
-}
     type();
 };
 
@@ -160,7 +160,7 @@ const typeIskValue = (el, text) => {
     let i = 0;
     const render = () => {
         if (i < text.length) {
-         const span = document.createElement('span');
+            const span = document.createElement('span');
             span.className = 'char-flash';
             span.textContent = text[i];
             el.appendChild(span);
@@ -183,7 +183,7 @@ function showSuggestions(term) {
         return;
     }
 
-    dropdown.innerHTML = matches.map((region, idx) => 
+    dropdown.innerHTML = matches.map((region, idx) =>
         `<div class="suggestion-item" data-region="${region}" data-idx="${idx}">${region}</div>`
     ).join('');
 
@@ -240,7 +240,7 @@ regionSearch.addEventListener('input', (e) => {
     header.classList.toggle('filter-active', term !== '');
     filterLabel.innerText = term ? `// FILTERING: ${term.toUpperCase()}` : '';
     filterLabel.classList.toggle('active', term !== '');
-    
+
     // Filter kill rows
     const rows = document.querySelectorAll('.kill-row');
     rows.forEach(row => {
@@ -248,7 +248,7 @@ regionSearch.addEventListener('input', (e) => {
         row.hidden = term !== "" && !locationText.includes(term);
     });
 
-    const exactMatch = regionCache.some (r => r.toLowerCase() === term);
+    const exactMatch = regionCache.some(r => r.toLowerCase() === term);
     if (exactMatch) {
         document.getElementById('region-suggestions').classList.remove('active');
         return;
@@ -308,7 +308,7 @@ socket.on('gatekeeper-stats', (data) => {
         counterElement.classList.remove('counter-update');
         void counterElement.offsetWidth;
         counterElement.classList.add('counter-update');
-        counterSurge(); 
+        counterSurge();
     }
     if (data.totalIsk) {
         const headerIsk = document.getElementById("isk-ticker-header");
@@ -348,7 +348,7 @@ socket.on('raw-kill', (kill) => {
         counterElement.classList.remove('counter-update');
         void counterElement.offsetWidth;
         counterElement.classList.add('counter-update');
-        counterSurge(); 
+        counterSurge();
     }
 
     const div = document.createElement('div');
@@ -366,7 +366,7 @@ socket.on('raw-kill', (kill) => {
         : `${kill.victimName} of ${kill.corpName}`;
 
 
-div.innerHTML = `
+    div.innerHTML = `
     <div class="d-flex align-items-center" style="flex: 1;">
         <div class="ship-icon-container">
             <img src="${kill.shipImageUrl}" alt="Ship Render" class="ship-render" loading="lazy">
@@ -399,7 +399,7 @@ div.innerHTML = `
 `;
 
 
-    if (regionSearch.value.toLowerCase().trim() !== "" && 
+    if (regionSearch.value.toLowerCase().trim() !== "" &&
         !kill.locationLabel.toLowerCase().includes(regionSearch.value.toLowerCase().trim())) {
         div.hidden = true;
     }
@@ -410,10 +410,10 @@ div.innerHTML = `
     renderShipName(div.querySelector('.type-target'), kill.ship);
 
     if (feed.children.length > MAX_FEED_SIZE) {
-    const lastRow = feed.lastChild;
-    lastRow.classList.add('removing');
-    setTimeout(() => lastRow.remove(), 400);
-}
+        const lastRow = feed.lastChild;
+        lastRow.classList.add('removing');
+        setTimeout(() => lastRow.remove(), 400);
+    }
 });
 
 const updateNPCTicker = async () => {
