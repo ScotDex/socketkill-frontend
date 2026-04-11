@@ -8,11 +8,11 @@ let raycaster, mouse;
 
 // Constants
 const SCALE = 1e-12; // 
-const DECAY_TIME = 300000; 
-const DECAY_INTERVAL = 10000; 
+const DECAY_TIME = 300000;
+const DECAY_INTERVAL = 10000;
 
 // === SOCKET.IO CONNECTION ===
-const socket = io();
+const socket = io('https://ws.socketkill.com');
 
 socket.on('connect', () => {
     console.log('✅ Connected to kill stream');
@@ -26,30 +26,30 @@ socket.on('disconnect', () => {
 
 socket.on('raw-kill', (kill) => {
     const systemName = kill.system;
-    
+
     const system = systems.find(s => s.name === systemName);
-    
-    const systemId = system.id; 
-    
-    
+
+    const systemId = system.id;
+
+
     // Update heatmap data
-    const current = heatmap.get(systemId) || { 
-        count: 0, 
-        value: 0, 
-        lastKill: 0 
+    const current = heatmap.get(systemId) || {
+        count: 0,
+        value: 0,
+        lastKill: 0
     };
-    
+
     current.count++;
     current.value += kill.val || 0;
     current.lastKill = Date.now();
-    
-    
+
+
 
     heatmap.set(systemId, current);
-    
+
     // Update visual marker
     updateSystemMarker(systemId, current);
-    
+
     // Update HUD stats
     updateStats();
 });
@@ -58,7 +58,7 @@ socket.on('raw-kill', (kill) => {
 function updateConnectionStatus(status) {
     const statusElement = document.getElementById('connection-status');
     const statusText = document.querySelector('.status-text');
-    
+
     if (status === 'connected') {
         statusElement.classList.add('connected');
         statusElement.classList.remove('disconnected');
@@ -74,31 +74,31 @@ function updateConnectionStatus(status) {
 function updateStats() {
     // Active systems count
     document.getElementById('active-systems').textContent = heatmap.size;
-    
+
     // Total kills and ISK
     let totalKills = 0;
     let totalISK = 0;
     let hottestSystem = null;
     let maxKills = 0;
-    
+
     heatmap.forEach((data, systemId) => {
         totalKills += data.count;
         totalISK += data.value;
-        
+
         if (data.count > maxKills) {
             maxKills = data.count;
             const system = systems.find(s => s.id === systemId);
             if (system) hottestSystem = system.name;
         }
     });
-    
+
     document.getElementById('kill-count').textContent = totalKills;
     document.getElementById('hottest-system').textContent = hottestSystem || '--';
-    
+
     // Format ISK (billions)
     const iskB = (totalISK / 1e9).toFixed(1);
     document.getElementById('total-isk').textContent = iskB + 'B';
-    
+
     // Add flash animation to values
     document.querySelectorAll('.stat .value').forEach(el => {
         el.classList.add('updating');
@@ -114,25 +114,25 @@ function updateSystemMarker(systemId, data) {
         firstSystemIdType: typeof systems[0]?.id,
         totalSystems: systems.length
     });
-    
+
     const system = systems.find(s => s.id === systemId);
-    
+
     if (!system) {
         console.warn(`❌ System ${systemId} not found in dataset`);
         console.warn('Sample system IDs from dataset:', systems.slice(0, 10).map(s => s.id));
         return;
     }
-    
+
     console.log('✅ Found system:', system.name);
-    
+
     const position = new THREE.Vector3(
         system.x * SCALE,
         system.y * SCALE,
         system.z * SCALE
     );
-    
+
     let mesh = activeMeshes.get(systemId);
-    
+
     if (!mesh) {
         const geometry = new THREE.SphereGeometry(5000, 16, 16);
         const material = new THREE.MeshBasicMaterial({
@@ -140,25 +140,25 @@ function updateSystemMarker(systemId, data) {
             transparent: true,
             opacity: 0.8
         });
-        
+
         mesh = new THREE.Mesh(geometry, material);
         mesh.position.copy(position);
-        mesh.userData = { 
-            systemId, 
+        mesh.userData = {
+            systemId,
             system,
             pulsePhase: 0
         };
-        
+
         scene.add(mesh);
         activeMeshes.set(systemId, mesh);
-        
+
         console.log(`🎯 Created marker for ${system.name} (${data.count} kills)`);
     }
-    
+
     const intensity = Math.min(data.count / 10, 1);
     const baseSize = 100;
     const size = baseSize + (data.count * 20);
-    
+
     mesh.scale.setScalar(size / baseSize);
     mesh.material.opacity = 0.5 + (intensity * 0.5);
 }
@@ -166,18 +166,18 @@ function updateSystemMarker(systemId, data) {
 // === DECAY OLD ACTIVITY ===
 setInterval(() => {
     const now = Date.now();
-    
+
     heatmap.forEach((data, systemId) => {
         const age = now - data.lastKill;
-        
+
         if (age > DECAY_TIME) {
             // Reduce kill count
             data.count = Math.max(0, data.count - 1);
-            
+
             if (data.count === 0) {
                 // Remove from heatmap
                 heatmap.delete(systemId);
-                
+
                 // Remove and dispose mesh
                 const mesh = activeMeshes.get(systemId);
                 if (mesh) {
@@ -185,7 +185,7 @@ setInterval(() => {
                     mesh.geometry.dispose();
                     mesh.material.dispose();
                     activeMeshes.delete(systemId);
-                    
+
                     const system = systems.find(s => s.id === systemId);
                     console.log(`Removed marker for ${system?.name || systemId}`);
                 }
@@ -195,7 +195,7 @@ setInterval(() => {
             }
         }
     });
-    
+
     updateStats();
 }, DECAY_INTERVAL);
 
@@ -203,24 +203,24 @@ setInterval(() => {
 async function loadSystems() {
     try {
         updateLoadingStatus('Loading system coordinates...');
-        
+
         const response = await fetch('/map/data/systems.json');
-        
+
         if (!response.ok) {
             throw new Error(`HTTP ${response.status}: ${response.statusText}`);
         }
-        
+
         systems = await response.json();
-        
+
         // Debug output
         console.log('✅ Loaded', systems.length, 'systems');
         console.log('First system:', systems[0]);
         console.log('Sample security values:', systems.slice(0, 5).map(s => s.security));
-        
+
         updateLoadingStatus(`Loaded ${systems.length} systems`);
-        
+
         return true;
-        
+
     } catch (err) {
         console.error('❌ Failed to load systems:', err);
         updateLoadingStatus('ERROR: Failed to load system data');
@@ -250,11 +250,11 @@ function hideLoadingScreen() {
 // === SCENE INITIALIZATION ===
 function initScene() {
     console.log('🎨 Initializing Three.js scene...');
-    
+
     // Create scene
     scene = new THREE.Scene();
     scene.fog = new THREE.FogExp2(0x000000, 0.00000001);
-    
+
     // Create camera
     camera = new THREE.PerspectiveCamera(
         60,
@@ -264,7 +264,7 @@ function initScene() {
     );
     camera.position.set(200000, 200000, 200000);
     camera.lookAt(0, 0, 0);
-    
+
     // Create renderer
     const canvas = document.getElementById('galaxy-map');
     renderer = new THREE.WebGLRenderer({
@@ -274,7 +274,7 @@ function initScene() {
     });
     renderer.setSize(window.innerWidth, window.innerHeight);
     renderer.setPixelRatio(window.devicePixelRatio);
-    
+
     // OrbitControls
     controls = new THREE.OrbitControls(camera, renderer.domElement);
     controls.enableDamping = true;
@@ -283,28 +283,28 @@ function initScene() {
     controls.zoomSpeed = 1.2;
     controls.minDistance = 50000;
     controls.maxDistance = 1000000;
-    
+
     // Lights
     const ambientLight = new THREE.AmbientLight(0x404040, 0.5);
     scene.add(ambientLight);
-    
+
     // Raycaster for hover/click
     raycaster = new THREE.Raycaster();
     mouse = new THREE.Vector2();
-    
+
     // Event listeners
     window.addEventListener('resize', onWindowResize);
     window.addEventListener('mousemove', onMouseMove);
     window.addEventListener('click', onClick);
-    
+
     console.log('✅ Scene initialized');
-    
+
     // Render systems
     renderSystems();
-    
+
     // Hide loading screen
     hideLoadingScreen();
-    
+
     // Start animation loop
     animate();
 }
@@ -312,11 +312,11 @@ function initScene() {
 // === RENDER ALL SYSTEMS ===
 function renderSystems() {
     console.log('🌌 Rendering systems...');
-    
+
     const geometry = new THREE.BufferGeometry();
     const positions = [];
     const colors = [];
-    
+
     systems.forEach(sys => {
         // Scale coordinates
         positions.push(
@@ -324,12 +324,12 @@ function renderSystems() {
             sys.y * SCALE,
             sys.z * SCALE
         );
-        
+
         // Color by security status
         const color = getSecurityColor(sys.security);
         colors.push(color.r, color.g, color.b);
     });
-    
+
     geometry.setAttribute(
         'position',
         new THREE.Float32BufferAttribute(positions, 3)
@@ -338,7 +338,7 @@ function renderSystems() {
         'color',
         new THREE.Float32BufferAttribute(colors, 3)
     );
-    
+
     // Material
     const material = new THREE.PointsMaterial({
         size: 2000,
@@ -347,11 +347,11 @@ function renderSystems() {
         opacity: 0.6,
         sizeAttenuation: true
     });
-    
+
     // Create points
     systemPoints = new THREE.Points(geometry, material);
     scene.add(systemPoints);
-    
+
     console.log('✅ Rendered', systems.length, 'systems');
 }
 
@@ -377,10 +377,10 @@ function getSecurityColor(security) {
 // === ANIMATION LOOP ===
 function animate() {
     requestAnimationFrame(animate);
-    
+
     // Update controls
     controls.update();
-    
+
     // Animate active system spheres (pulsing)
     activeMeshes.forEach(mesh => {
         if (mesh.userData.pulsePhase !== undefined) {
@@ -389,7 +389,7 @@ function animate() {
             mesh.scale.setScalar(scale);
         }
     });
-    
+
     // Render
     renderer.render(scene, camera);
 }
@@ -404,24 +404,24 @@ function onWindowResize() {
 function onMouseMove(event) {
     mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
     mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
-    
+
     // Set raycaster threshold for Points (not just meshes)
     raycaster.params.Points.threshold = 1000;  // ✅ Detect points within 1000 units
-    
+
     raycaster.setFromCamera(mouse, camera);
-    
+
     // Check active combat zones first (meshes)
     const meshArray = Array.from(activeMeshes.values());
     const meshIntersects = raycaster.intersectObjects(meshArray);
-    
+
     const tooltip = document.getElementById('tooltip');
-    
+
     if (meshIntersects.length > 0) {
         // Hovering over active combat zone
         const mesh = meshIntersects[0].object;
         const system = mesh.userData.system;
         const data = heatmap.get(system.id);
-        
+
         const tooltipContent = `
             <div class="tooltip-content">
                 <div class="system-name">${system.name}</div>
@@ -442,21 +442,21 @@ function onMouseMove(event) {
                 <div class="system-hint">Click to filter feed</div>
             </div>
         `;
-        
+
         tooltip.innerHTML = tooltipContent;
         tooltip.style.left = event.clientX + 15 + 'px';
         tooltip.style.top = event.clientY + 15 + 'px';
         tooltip.classList.add('visible');
-        
+
     } else {
         // Check if hovering over regular system points
         const pointIntersects = raycaster.intersectObject(systemPoints);
-        
+
         if (pointIntersects.length > 0) {
             // Get the index of the intersected point
             const index = pointIntersects[0].index;
             const system = systems[index];
-            
+
             if (system) {
                 const tooltipContent = `
                     <div class="tooltip-content">
@@ -469,7 +469,7 @@ function onMouseMove(event) {
                         </div>
                     </div>
                 `;
-                
+
                 tooltip.innerHTML = tooltipContent;
                 tooltip.style.left = event.clientX + 15 + 'px';
                 tooltip.style.top = event.clientY + 15 + 'px';
@@ -486,13 +486,13 @@ function onMouseMove(event) {
 // === CLICK HANDLER ===
 function onClick(event) {
     raycaster.setFromCamera(mouse, camera);
-    
+
     const meshArray = Array.from(activeMeshes.values());
     const intersects = raycaster.intersectObjects(meshArray);
-    
+
     if (intersects.length > 0) {
         const system = intersects[0].object.userData.system;
-        
+
         // Redirect to main feed filtered by this system
         window.location.href = `/?system=${encodeURIComponent(system.name)}`;
     }
@@ -501,29 +501,29 @@ function onClick(event) {
 // === INITIALIZATION ===
 async function init() {
     console.log('🚀 Initializing tactical map...');
-    
+
     // Load system data
     const success = await loadSystems();
-    
+
     if (!success) {
         console.error('Failed to load systems - aborting initialization');
         return;
     }
-    
+
     // Test data
     console.log('✅ Systems loaded:', systems.length);
     console.log('First system:', systems[0]);
     console.log('Last system:', systems[systems.length - 1]);
-    
+
     // Test coordinate scaling
     const testSys = systems[0];
     console.log('Original coords:', testSys.x, testSys.y, testSys.z);
-    console.log('Scaled coords:', 
-        testSys.x * SCALE, 
-        testSys.y * SCALE, 
+    console.log('Scaled coords:',
+        testSys.x * SCALE,
+        testSys.y * SCALE,
         testSys.z * SCALE
     );
-    
+
     // Initialize Three.js scene
     initScene();
 }
