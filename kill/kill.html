@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Loading kill... | Socket.Kill</title>
+<link rel="icon" type="image/png" href="/favicon.png">
+<link rel="stylesheet" href="/style.css">
+<link rel="stylesheet" href="/kill.css">
+</head>
+<body>
+
+<div class="kill-page">
+
+    <header class="kill-header">
+        <h1>
+            <span id="victim-name">—</span>
+            lost
+            <span id="victim-article">a</span>
+            <span id="victim-ship">—</span>
+        </h1>
+        <div class="kill-meta">
+            <span id="kill-time">—</span>
+            ·
+            <span id="kill-system">—</span>
+            ·
+            <span id="kill-region">—</span>
+        </div>
+    </header>
+
+    <section class="victim-block">
+        <div class="victim-corp" id="victim-corp">—</div>
+        <div class="kill-value" id="kill-value">—</div>
+    </section>
+
+    <section class="finalblow-block">
+        <h2>Final Blow</h2>
+        <div>
+            <span id="finalblow-name">—</span>
+            ·
+            <span id="finalblow-corp">—</span>
+            ·
+            <span id="finalblow-ship">—</span>
+        </div>
+    </section>
+
+    <section class="attackers-block">
+        <h2>Attackers (<span id="attacker-count">—</span>)</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Pilot</th>
+                    <th>Corporation</th>
+                    <th>Ship</th>
+                    <th class="num">Damage</th>
+                </tr>
+            </thead>
+            <tbody id="attackers-tbody"></tbody>
+        </table>
+    </section>
+
+    <footer class="kill-footer">
+        <a id="zkill-link" href="#" target="_blank" rel="noopener">View on zKillboard</a>
+        ·
+        <a href="/">Socket.Kill</a>
+    </footer>
+
+</div>
+
+<script src="/kill.js"></script>
+</body>
+</html>
