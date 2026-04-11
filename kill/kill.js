@@ -39,6 +39,15 @@ function render(data) {
     setText('kill-system', data.system.name);
     setText('kill-region', data.system.region);
 
+    // Pilot ID card
+    setText('pilot-name', data.victim.name);
+    setText('pilot-corp', data.victim.corp);
+    setText('pilot-alliance', data.victim.alliance || 'UNAFFILIATED');
+    setText('pilot-charid', data.victim.characterID);
+    const portraitImg = document.getElementById('pilot-portrait-img');
+    portraitImg.src = `https://images.evetech.net/characters/${data.victim.characterID}/portrait?size=128`;
+    portraitImg.alt = data.victim.name;
+
     // Victim block
     setText('victim-corp', data.victim.corp);
     setText('kill-value', '—'); // placeholder, value isn't in the API yet

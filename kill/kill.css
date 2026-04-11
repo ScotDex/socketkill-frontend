@@ -15,6 +15,136 @@ body {
     -webkit-font-smoothing: antialiased;
 }
 
+/* === PILOT ID CARD === */
+.pilot-id-card {
+    position: fixed;
+    top: 30px;
+    right: 30px;
+    width: 320px;
+    background: rgba(10, 12, 16, 0.92);
+    border: 1px solid var(--neon-green);
+    box-shadow:
+        0 0 20px rgba(63, 185, 80, 0.25),
+        inset 0 0 30px rgba(0, 0, 0, 0.6);
+    font-family: var(--mono-font);
+    z-index: 10;
+    backdrop-filter: blur(3px);
+}
+
+.pilot-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: rgba(63, 185, 80, 0.12);
+    border-bottom: 1px solid rgba(63, 185, 80, 0.3);
+    padding: 8px 14px;
+    font-size: 0.65rem;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+}
+
+.pilot-card-title {
+    color: var(--neon-green);
+    text-shadow: var(--phosphor-glow);
+}
+
+.pilot-card-status {
+    color: rgba(63, 185, 80, 0.6);
+    font-size: 0.6rem;
+}
+
+.pilot-card-body {
+    display: flex;
+    gap: 14px;
+    padding: 16px;
+}
+
+.pilot-portrait {
+    position: relative;
+    width: 96px;
+    height: 96px;
+    flex-shrink: 0;
+    border: 1px solid rgba(63, 185, 80, 0.4);
+    background: #000;
+    overflow: hidden;
+}
+
+.pilot-portrait img {
+    width: 100%;
+    height: 100%;
+    display: block;
+    filter: grayscale(0.4) contrast(1.1) brightness(0.9);
+}
+
+.pilot-portrait-overlay {
+    position: absolute;
+    inset: 0;
+    background:
+        repeating-linear-gradient(0deg,
+            rgba(63, 185, 80, 0.04) 0px,
+            rgba(63, 185, 80, 0.04) 1px,
+            transparent 1px,
+            transparent 3px),
+        linear-gradient(180deg, rgba(63, 185, 80, 0.08) 0%, transparent 50%, rgba(63, 185, 80, 0.05) 100%);
+    pointer-events: none;
+}
+
+.pilot-data {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    min-width: 0;
+}
+
+.pilot-field {
+    display: flex;
+    flex-direction: column;
+    gap: 1px;
+}
+
+.pilot-label {
+    font-size: 0.55rem;
+    color: rgba(63, 185, 80, 0.5);
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+}
+
+.pilot-value {
+    font-size: 0.78rem;
+    color: var(--neon-green);
+    text-shadow: 0 0 4px rgba(63, 185, 80, 0.4);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.pilot-id-num {
+    color: rgba(63, 185, 80, 0.6);
+    font-size: 0.7rem;
+}
+
+.pilot-card-footer {
+    border-top: 1px solid rgba(63, 185, 80, 0.2);
+    padding: 6px 14px;
+    font-size: 0.6rem;
+    letter-spacing: 2px;
+    color: #ff6b6b;
+    text-align: left;
+    background: rgba(0, 0, 0, 0.4);
+}
+
+@media (max-width: 968px) {
+    .pilot-id-card {
+        position: relative;
+        top: auto;
+        right: auto;
+        width: 100%;
+        max-width: 400px;
+        margin: 0 auto 20px auto;
+    }
+}
+
 /* === LAYOUT CONTAINER === */
 .kill-page {
     max-width: 900px;
