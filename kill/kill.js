@@ -27,6 +27,28 @@ async function loadKill() {
     }
 }
 
+const typeTitle = (elementId, text, speed = 150) => {
+    if (isTyping) return;
+    isTyping = true;
+    const element = document.getElementById(elementId);
+    if (!element) return;
+    element.innerHTML = "";
+    let i = 0;
+    function type() {
+        if (i < text.length) {
+            const span = document.createElement('span');
+            span.className = 'char-flash';
+            span.textContent = text.charAt(i);
+            element.appendChild(span);
+            i++;
+            setTimeout(type, speed);
+        } else {
+            element.style.borderRight = "none";
+        }
+    }
+    type();
+};
+
 function render(data) {
     // Page title
     document.title = `${data.victim.name} lost a ${data.victim.ship} | Socket.Kill`;

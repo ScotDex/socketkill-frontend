@@ -1,106 +1,102 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Loading kill... | Socket.Kill</title>
-<link rel="icon" type="image/png" href="https://edge.socketkill.com/favicon.png">
-<link rel="stylesheet" href="/style.css">
-<link rel="stylesheet" href="/kill/kill.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Killmail // Socket.Kill</title>
+    <meta name="description" content="Eve Online Killmail Record">
+    <meta name="author" content="Dexomus Viliana">
+
+    <!-- Open Graph — will be overwritten by kill.js once data loads -->
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="Killmail // Socket.Kill">
+    <meta property="og:description" content="Eve Online Killmail Record">
+    <meta property="og:image" content="https://socketkill.com/socket-preview-v1.png">
+    <meta property="og:site_name" content="Socket.Kill">
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Killmail // Socket.Kill">
+    <meta name="twitter:description" content="Eve Online Killmail Record">
+    <meta name="twitter:image" content="https://socketkill.com/socket-preview-v1.png">
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@400;600;700;800&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+    <!-- Favicon + styles -->
+    <link rel="icon" type="image/png" href="https://edge.socketkill.com/favicon.png">
+    <link rel="stylesheet" href="/style.css">
+    <link rel="stylesheet" href="/kill/base.css">
+
+    <!-- Analytics -->
+    <script defer src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "9a7b8334fd974f46a3b570cbc18d90b1"}'></script>
 </head>
 <body>
+<body>
 
-<div class="kill-page">
+<main class="kill-grid">
 
-
-    <div class="pilot-id-card" id="pilot-card">
-    <div class="pilot-card-header">
-        <span class="pilot-card-title">CASUALTY MANIFEST</span>
-        <span class="pilot-card-status">RECORD ARCHIVED</span>
-    </div>
-    <div class="pilot-card-body">
-        <div class="pilot-portrait">
-            <img id="pilot-portrait-img" src="" alt="">
-            <div class="pilot-portrait-overlay"></div>
-        </div>
-        <div class="pilot-data">
-            <div class="pilot-field">
-                <span class="pilot-label">PILOT</span>
-                <span class="pilot-value" id="pilot-name">—</span>
+    <section class="zone-pilot" aria-label="Pilot Identification">
+        <div class="pilot-card">
+            <div class="pilot-card-header">
+                <span>PILOT IDENTIFICATION</span>
+                <span class="pilot-card-status">RECORD ARCHIVED</span>
             </div>
-            <div class="pilot-field">
-                <span class="pilot-label">CORPORATION</span>
-                <span class="pilot-value" id="pilot-corp">—</span>
+            <div class="pilot-row">
+                <div class="pilot-portrait">
+                    <img id="pilot-portrait-img" src="" alt="">
+                </div>
+                <div id="pilot-name" class="pilot-name">—</div>
             </div>
-            <div class="pilot-field">
-                <span class="pilot-label">ALLIANCE</span>
-                <span class="pilot-value" id="pilot-alliance">UNAFFILIATED</span>
+            <div class="pilot-row">
+                <div class="pilot-crest">
+                    <img id="pilot-crest-img" src="" alt="">
+                </div>
+                <div class="pilot-corp-block">
+                    <div id="pilot-corp" class="pilot-corp">—</div>
+                    <div id="pilot-alliance" class="pilot-alliance">UNAFFILIATED</div>
+                </div>
             </div>
-            <div class="pilot-field">
-                <span class="pilot-label">CHARACTER ID</span>
-                <span class="pilot-value pilot-id-num" id="pilot-charid">—</span>
+            <div class="pilot-card-footer">
+                &gt; STATUS: KIA
             </div>
-        </div>
-    </div>
-    <div class="pilot-card-footer">
-        <span>&gt; STATUS: KIA</span>
-    </div>
-</div>
-
-    <header class="kill-header">
-        <h1>
-            <span id="victim-name">—</span>
-            lost
-            <span id="victim-article">a</span>
-            <span id="victim-ship">—</span>
-        </h1>
-        <div class="kill-meta">
-            <span id="kill-time">—</span>
-            ·
-            <span id="kill-system">—</span>
-            ·
-            <span id="kill-region">—</span>
-        </div>
-    </header>
-
-    <section class="victim-block">
-        <div class="victim-corp" id="victim-corp">—</div>
-        <div class="kill-value" id="kill-value">—</div>
-    </section>
-
-    <section class="finalblow-block">
-        <h2>Final Blow</h2>
-        <div>
-            <span id="finalblow-name">—</span>
-            ·
-            <span id="finalblow-corp">—</span>
-            ·
-            <span id="finalblow-ship">—</span>
         </div>
     </section>
 
-    <section class="attackers-block">
-        <h2>Attackers (<span id="attacker-count">—</span>)</h2>
-        <table>
-            <thead>
-                <tr>
-                    <th>Pilot</th>
-                    <th>Corporation</th>
-                    <th>Ship</th>
-                    <th class="num">Damage</th>
-                </tr>
-            </thead>
-            <tbody id="attackers-tbody"></tbody>
-        </table>
+    <section class="zone-ship" aria-label="Vessel Destruction">
+        <header class="section-header">&gt; VESSEL DESTROYED</header>
+        <div class="ship-name" id="ship-name">—</div>
+        <div class="ship-render">
+            <img id="ship-render-img" src="" alt="">
+        </div>
+        <div class="fit-placeholder">
+            <div class="section-header">&gt; WRECKAGE RECOVERED</div>
+            <div class="fit-pending">&gt; ITEM ANALYSIS PENDING</div>
+        </div>
     </section>
 
-    <footer class="kill-footer">
-        <a id="zkill-link" href="#" target="_blank" rel="noopener">View on zKillboard</a>
-        ·
-        <a href="/">Socket.Kill</a>
-    </footer>
+    <section class="zone-intel" aria-label="Combat Intel">
+        <div class="replay-block">
+            <header class="section-header">&gt; RECOVERED FOOTAGE</header>
+            <div class="replay-placeholder" id="replay-slot">
+                &gt; FOOTAGE PENDING
+            </div>
+        </div>
+        <div class="attackers-block">
+            <header class="section-header">
+                &gt; HOSTILE SIGNATURES
+                <span class="attacker-count" id="attacker-count">0</span>
+            </header>
+            <ul class="attacker-list" id="attacker-list"></ul>
+            <button class="attacker-expand" id="attacker-expand" hidden>
+                SHOW <span id="attacker-expand-count">0</span> MORE
+            </button>
+        </div>
+    </section>
 
-</div>
+</main>
 
 <script src="/kill/kill.js"></script>
 </body>
