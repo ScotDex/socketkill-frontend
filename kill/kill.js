@@ -1,125 +1,85 @@
-// kill.js — fetch the killmail JSON and populate the skeleton
-
 const API_BASE = 'https://ws.socketkill.com';
+const EVE_IMG = 'https://images.evetech.net';
+const VISIBLE_ATTACKERS = 5;
 
 async function loadKill() {
     const params = new URLSearchParams(window.location.search);
     const killID = params.get('id');
     const date = params.get('date');
-
-    if (!killID || !date) {
-        document.title = 'Invalid kill | Socket.Kill';
-        document.querySelector('.kill-page').innerHTML = '<p>Missing id or date parameter.</p>';
-        return;
-    }
+    if (!killID || !date) return showError('Missing id or date parameter.');
 
     try {
         const res = await fetch(`${API_BASE}/api/kill/${date}/${killID}`);
-        if (!res.ok) {
-            const err = await res.json().catch(() => ({ error: 'Unknown error' }));
-            throw new Error(err.error || `HTTP ${res.status}`);
-        }
-        const data = await res.json();
-        render(data);
+        if (!res.ok) throw new Error(`HTTP ${res.status}`);
+        render(await res.json());
     } catch (err) {
-        document.title = 'Kill not found | Socket.Kill';
-        document.querySelector('.kill-page').innerHTML = `<p>Failed to load kill: ${err.message}</p>`;
+        showError(`Failed to load kill: ${err.message}`);
     }
 }
 
-const typeTitle = (elementId, text, speed = 150) => {
-    if (isTyping) return;
-    isTyping = true;
-    const element = document.getElementById(elementId);
-    if (!element) return;
-    element.innerHTML = "";
-    let i = 0;
-    function type() {
-        if (i < text.length) {
-            const span = document.createElement('span');
-            span.className = 'char-flash';
-            span.textContent = text.charAt(i);
-            element.appendChild(span);
-            i++;
-            setTimeout(type, speed);
-        } else {
-            element.style.borderRight = "none";
-        }
-    }
-    type();
-};
-
 function render(data) {
-    // Page title
     document.title = `${data.victim.name} lost a ${data.victim.ship} | Socket.Kill`;
 
-    // Header
-    setText('victim-name', data.victim.name);
-    setText('victim-ship', data.victim.ship);
-    setText('victim-article', /^[aeiou]/i.test(data.victim.ship) ? 'an' : 'a');
-    setText('kill-time', formatTime(data.killmailTime));
-    setText('kill-system', data.system.name);
-    setText('kill-region', data.system.region);
+    // Body background
+    document.body.style.backgroundImage = `
+        linear-gradient(rgba(13,17,23,0.82), rgba(13,17,23,0.92)),
+        url('${EVE_IMG}/types/${data.victim.shipTypeID}/render?size=1024')`;
 
-    // Pilot ID card
+    // Pilot card
     setText('pilot-name', data.victim.name);
     setText('pilot-corp', data.victim.corp);
     setText('pilot-alliance', data.victim.alliance || 'UNAFFILIATED');
-    setText('pilot-charid', data.victim.characterID);
-    const portraitImg = document.getElementById('pilot-portrait-img');
-    portraitImg.src = `https://images.evetech.net/characters/${data.victim.characterID}/portrait?size=128`;
-    portraitImg.alt = data.victim.name;
+    setImg('pilot-portrait-img', `${EVE_IMG}/characters/${data.victim.characterID}/portrait?size=128`);
+    if (data.victim.corporationID) {
+        setImg('pilot-crest-img', `${EVE_IMG}/corporations/${data.victim.corporationID}/logo?size=64`);
+    }
 
-    // Victim block
-    setText('victim-corp', data.victim.corp);
-    setText('kill-value', '—'); // placeholder, value isn't in the API yet
-
-    // Final blow
-    setText('finalblow-name', data.finalBlow.name);
-    setText('finalblow-corp', data.finalBlow.corp);
-    setText('finalblow-ship', data.finalBlow.ship);
+    // Ship panel
+    setText('ship-name', data.victim.ship);
+    setImg('ship-render-img', `${EVE_IMG}/types/${data.victim.shipTypeID}/render?size=512`);
 
     // Attackers
     setText('attacker-count', data.attackerCount);
-    const tbody = document.getElementById('attackers-tbody');
-    tbody.innerHTML = data.attackers
-        .sort((a, b) => b.damage - a.damage)
-        .map(a => `
-            <tr${a.finalBlow ? ' class="final-blow-row"' : ''}>
-                <td>${escapeHtml(a.name)}</td>
-                <td>${escapeHtml(a.corp)}</td>
-                <td>${escapeHtml(a.ship)}</td>
-                <td class="num">${a.damage.toLocaleString()}</td>
-            </tr>
-        `).join('');
-
-    // zKill fallback link
-    document.getElementById('zkill-link').href = `https://zkillboard.com/kill/${data.killID}/`;
-
-    // Ship background — the design idea
-    document.body.style.backgroundImage = `
-        linear-gradient(rgba(13,17,23,0.82), rgba(13,17,23,0.92)),
-        url('https://images.evetech.net/types/${data.victim.shipTypeID}/render?size=1024')
-    `;
+    renderAttackers(data.attackers || []);
 }
 
-function setText(id, value) {
-    const el = document.getElementById(id);
-    if (el) el.textContent = value;
+function renderAttackers(attackers) {
+    const sorted = [...attackers].sort((a, b) => b.damage - a.damage);
+    const list = document.getElementById('attacker-list');
+    const expandBtn = document.getElementById('attacker-expand');
+
+    const renderRows = (arr) => arr.map(a => `
+        <li class="attacker-row${a.finalBlow ? ' final-blow' : ''}">
+            <div class="attacker-portrait">
+                ${a.characterID ? `<img src="${EVE_IMG}/characters/${a.characterID}/portrait?size=64" alt="">` : ''}
+            </div>
+            <div class="attacker-ship">
+                ${a.shipTypeID ? `<img src="${EVE_IMG}/types/${a.shipTypeID}/render?size=64" alt="">` : ''}
+            </div>
+            <div class="attacker-info">
+                <div class="attacker-name">${escapeHtml(a.name)}</div>
+                <div class="attacker-corp">${escapeHtml(a.corp)}</div>
+            </div>
+            <div class="attacker-damage">${a.damage.toLocaleString()}</div>
+        </li>
+    `).join('');
+
+    list.innerHTML = renderRows(sorted.slice(0, VISIBLE_ATTACKERS));
+
+    const remaining = sorted.length - VISIBLE_ATTACKERS;
+    if (remaining > 0) {
+        expandBtn.hidden = false;
+        document.getElementById('attacker-expand-count').textContent = remaining;
+        expandBtn.onclick = () => {
+            list.innerHTML = renderRows(sorted);
+            expandBtn.hidden = true;
+        };
+    }
 }
 
-function formatTime(iso) {
-    if (!iso) return 'Unknown';
-    return iso.replace('T', ' ').replace('Z', ' UTC');
-}
-
-function escapeHtml(str) {
-    return String(str ?? '')
-        .replace(/&/g, '&amp;')
-        .replace(/</g, '&lt;')
-        .replace(/>/g, '&gt;')
-        .replace(/"/g, '&quot;')
-        .replace(/'/g, '&#39;');
-}
+function setText(id, v) { const el = document.getElementById(id); if (el) el.textContent = v; }
+function setImg(id, src) { const el = document.getElementById(id); if (el) el.src = src; }
+function showError(msg) { document.querySelector('main').innerHTML = `<p style="color:#ff6b6b;padding:40px;">${msg}</p>`; }
+function escapeHtml(s) { return String(s ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c])); }
 
 loadKill();
