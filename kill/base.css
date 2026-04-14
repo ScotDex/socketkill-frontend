@@ -1,161 +1,407 @@
-/* kill/base.css */
+/* ============================= */
+/*  BASE LAYOUT                  */
+/* ============================= */
 
-:root {
-    --neon-green: #3fb950;
-    --panel-bg: rgba(10, 12, 16, 0.92);
-    --border-color: rgba(63, 185, 80, 0.3);
-    --mono: 'Share Tech Mono', monospace;
-}
-
-.killmail-view {
-    background-color: #05070a;
+body {
+    background-color: var(--dark-bg);
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    min-height: 100vh;
     margin: 0;
     padding: 0;
-    min-height: 100vh;
+    font-family: 'Exo 2', sans-serif;
     color: #c9d1d9;
 }
 
-.kill-container {
-    max-width: 1600px;
-    margin: 0 auto;
-    padding: 40px 20px;
-}
-
-/* THE MASTER GRID */
 .kill-grid {
     display: grid;
-    grid-template-columns: 320px 1fr 380px; 
+    grid-template-columns: 340px 1fr 380px;
     gap: 24px;
+    max-width: 1600px;
+    margin: 0 auto;
+    padding: 40px 30px;
+    min-height: 100vh;
     align-items: start;
 }
 
-/* RESPONSIVE STACKING */
-@media (max-width: 1200px) {
-    .kill-grid { grid-template-columns: 1fr; }
-    .kill-container { padding: 10px; }
+.zone-pilot,
+.zone-ship,
+.zone-intel {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
 }
 
-/* SHARED PANEL STYLES */
-.pilot-card, .ship-panel, .intel-panel, .attackers-panel, .fit-panel {
-    background: var(--panel-bg);
-    border: 1px solid var(--border-color);
-    box-shadow: 0 0 20px rgba(0,0,0,0.5);
-    backdrop-filter: blur(8px);
-    margin-bottom: 20px;
+/* ============================= */
+/*  SHARED SECTION CHROME        */
+/* ============================= */
+
+.section-header {
+    font-family: var(--mono-font);
+    font-size: 0.75rem;
+    color: var(--neon-green);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+    text-shadow: var(--phosphor-glow);
 }
 
-.panel-header {
-    background: rgba(63, 185, 80, 0.1);
-    border-bottom: 1px solid var(--border-color);
-    padding: 10px 15px;
+/* ============================= */
+/*  PILOT IDENTIFICATION CARD    */
+/* ============================= */
+
+.pilot-card {
+    background: rgba(10, 12, 16, 0.92);
+    border: 1px solid var(--neon-green);
+    box-shadow:
+        0 0 20px rgba(63, 185, 80, 0.25),
+        inset 0 0 30px rgba(0, 0, 0, 0.6);
+    font-family: var(--mono-font);
+    backdrop-filter: blur(3px);
+}
+
+.pilot-card-header {
     display: flex;
     justify-content: space-between;
-    font-family: var(--mono);
-    font-size: 0.7rem;
+    align-items: center;
+    background: rgba(63, 185, 80, 0.12);
+    border-bottom: 1px solid rgba(63, 185, 80, 0.3);
+    padding: 8px 14px;
+    font-size: 0.65rem;
     letter-spacing: 2px;
-    color: var(--neon-green);
     text-transform: uppercase;
-    animation: header-flicker 4s infinite;
+    color: var(--neon-green);
+    text-shadow: var(--phosphor-glow);
 }
 
-.panel-header {
-    animation: header-flicker 4s infinite;
+.pilot-card-status {
+    color: rgba(63, 185, 80, 0.55);
+    font-size: 0.6rem;
 }
 
-/* CENTER PANEL: SHIP CONSTRAINTS */
-.ship-render-wrap {
+.pilot-row {
+    display: flex;
+    gap: 14px;
+    padding: 14px 16px;
+    align-items: center;
+}
+
+.pilot-row + .pilot-row {
+    border-top: 1px solid rgba(63, 185, 80, 0.15);
+}
+
+.pilot-portrait {
     position: relative;
-    width: 100%;
-    height: 400px; /* Fixed maximum viewing height */
+    width: 72px;
+    height: 72px;
+    flex-shrink: 0;
+    border: 1px solid rgba(63, 185, 80, 0.4);
     background: #000;
+    overflow: hidden;
+}
+
+.pilot-portrait img {
+    width: 100%;
+    height: 100%;
+    display: block;
+    filter: grayscale(0.4) contrast(1.1) brightness(0.9);
+}
+
+.pilot-crest {
+    width: 72px;
+    height: 48px;
+    flex-shrink: 0;
+    border: 1px solid rgba(63, 185, 80, 0.3);
+    background: rgba(0, 0, 0, 0.6);
     display: flex;
     align-items: center;
     justify-content: center;
     overflow: hidden;
 }
 
-#ship-render-img {
-    max-width: 100%;
-    max-height: 100%;
-    object-fit: contain; /* CRITICAL: Prevents ship from blowing out */
-    z-index: 1;
-    filter: brightness(0.8) contrast(1.2);
+.pilot-crest img {
+    max-width: 75%;
+    max-height: 75%;
+    filter: grayscale(0.6) brightness(0.85) contrast(1.1);
+}
+
+.pilot-name {
+    font-size: 1rem;
+    color: var(--neon-green);
+    text-shadow: var(--phosphor-glow);
+    font-weight: 600;
+    letter-spacing: 1px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.pilot-corp-block {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+    min-width: 0;
+}
+
+.pilot-corp {
+    font-size: 0.85rem;
+    color: var(--neon-green);
+    text-shadow: 0 0 4px rgba(63, 185, 80, 0.3);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.pilot-alliance {
+    font-size: 0.7rem;
+    color: rgba(63, 185, 80, 0.6);
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.pilot-card-footer {
+    border-top: 1px solid rgba(63, 185, 80, 0.2);
+    padding: 8px 16px;
+    font-size: 0.65rem;
+    letter-spacing: 2px;
+    color: #ff6b6b;
+    background: rgba(0, 0, 0, 0.4);
+}
+
+/* ============================= */
+/*  SHIP / FIT / REPLAY / ATTACKERS SHARED PANEL */
+/* ============================= */
+
+.ship-panel,
+.fit-panel,
+.replay-panel,
+.attackers-panel {
+    background: rgba(10, 12, 16, 0.88);
+    border: 1px solid rgba(63, 185, 80, 0.35);
+    box-shadow:
+        0 0 18px rgba(63, 185, 80, 0.12),
+        inset 0 0 25px rgba(0, 0, 0, 0.5);
+    font-family: var(--mono-font);
+    backdrop-filter: blur(3px);
+}
+
+.ship-panel-header,
+.attackers-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: rgba(63, 185, 80, 0.1);
+    border-bottom: 1px solid rgba(63, 185, 80, 0.25);
+    padding: 8px 14px;
+    font-size: 0.65rem;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--neon-green);
+    text-shadow: var(--phosphor-glow);
+}
+
+.ship-panel-status {
+    color: rgba(63, 185, 80, 0.55);
+    font-size: 0.6rem;
+}
+
+/* ============================= */
+/*  SHIP PANEL                   */
+/* ============================= */
+
+.ship-render-wrap {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    background: #000;
+    overflow: hidden;
+    border-bottom: 1px solid rgba(63, 185, 80, 0.2);
+}
+
+.ship-render-wrap img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    filter: grayscale(0.2) contrast(1.1) brightness(0.85);
 }
 
 .ship-render-overlay {
     position: absolute;
     inset: 0;
-    background: repeating-linear-gradient(0deg, rgba(63,185,80,0.03) 0px, transparent 2px);
-    z-index: 2;
+    background: repeating-linear-gradient(
+        0deg,
+        rgba(63, 185, 80, 0.04) 0 1px,
+        transparent 1px 3px
+    );
     pointer-events: none;
 }
 
-.ship-info-block {
-    padding: 25px;
+.ship-name-block {
+    padding: 16px;
     text-align: center;
-    border-top: 1px solid var(--border-color);
 }
 
-.ship-name-display {
-    font-size: 1.8rem;
-    font-weight: 800;
-    color: #fff;
-    text-shadow: 0 0 10px var(--neon-green);
-    text-transform: uppercase;
-    letter-spacing: 3px;
-}
-
-.ship-value-display {
-    font-family: var(--mono);
+.ship-name {
+    font-size: 1.4rem;
     color: var(--neon-green);
-    opacity: 0.8;
+    text-shadow: var(--phosphor-glow);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+}
+
+.ship-value {
+    margin-top: 4px;
+    font-size: 0.85rem;
+    color: rgba(63, 185, 80, 0.65);
+}
+
+/* ============================= */
+/*  FIT PANEL (placeholder v1)   */
+/* ============================= */
+
+.fit-panel { padding: 16px; }
+
+.fit-pending {
+    color: rgba(63, 185, 80, 0.5);
+    font-size: 0.8rem;
+    padding: 20px 8px;
+    text-align: center;
+    letter-spacing: 1px;
+}
+
+/* ============================= */
+/*  REPLAY PANEL (placeholder)   */
+/* ============================= */
+
+.replay-panel { padding: 14px; }
+
+.replay-slot {
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    background: rgba(0, 0, 0, 0.7);
+    border: 1px solid rgba(63, 185, 80, 0.2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
     margin-top: 8px;
 }
 
-/* PILOT CARD STYLES */
-.pilot-main {
-    padding: 20px;
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
-}
-
-.pilot-portrait {
+.replay-slot img,
+.replay-slot video {
     width: 100%;
-    aspect-ratio: 1;
-    border: 1px solid var(--border-color);
-    background: #000;
+    height: 100%;
+    object-fit: cover;
 }
 
-.pilot-portrait img { width: 100%; height: 100%; object-fit: cover; }
-
-.pilot-name { font-size: 1.2rem; font-weight: bold; color: var(--neon-green); }
-
-.pilot-corp-row { display: flex; align-items: center; gap: 10px; margin-top: 5px; }
-
-.mini-crest { width: 32px; height: 32px; border: 1px solid rgba(255,255,255,0.1); }
-
-.panel-footer {
-    padding: 8px 15px;
-    font-family: var(--mono);
-    font-size: 0.65rem;
-    color: #ff4d4d;
-    background: rgba(255, 77, 77, 0.05);
+.replay-pending {
+    color: rgba(63, 185, 80, 0.4);
+    font-size: 0.75rem;
+    letter-spacing: 1.5px;
 }
 
-/* ATTACKER LISTING */
+/* ============================= */
+/*  ATTACKERS PANEL              */
+/* ============================= */
+
+.attacker-count {
+    color: rgba(63, 185, 80, 0.7);
+    font-size: 0.8rem;
+    font-weight: 700;
+    padding-right: 6px;
+}
+
+.attacker-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
 .attacker-row {
     display: grid;
-    grid-template-columns: 40px 40px 1fr 80px;
+    grid-template-columns: 40px 40px 1fr auto;
     align-items: center;
-    gap: 12px;
-    padding: 10px 15px;
+    gap: 10px;
+    padding: 10px 14px;
     border-bottom: 1px solid rgba(63, 185, 80, 0.1);
 }
 
-.attacker-portrait img, .attacker-ship img {
-    width: 40px; height: 40px; border: 1px solid var(--border-color);
+.attacker-row:last-child { border-bottom: none; }
+
+.attacker-row.final-blow {
+    background: rgba(255, 107, 107, 0.08);
 }
 
-.attacker-name { font-size: 0.8rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.attacker-damage { font-family: var(--mono); text-align: right; color: var(--neon-green); }
+.attacker-portrait,
+.attacker-ship {
+    width: 40px;
+    height: 40px;
+    border: 1px solid rgba(63, 185, 80, 0.3);
+    background: #000;
+    overflow: hidden;
+}
+
+.attacker-portrait img,
+.attacker-ship img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: grayscale(0.4) brightness(0.9);
+}
+
+.attacker-info { min-width: 0; }
+
+.attacker-name {
+    font-size: 0.8rem;
+    color: var(--neon-green);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.attacker-corp {
+    font-size: 0.65rem;
+    color: rgba(63, 185, 80, 0.55);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.attacker-damage {
+    font-family: var(--mono-font);
+    font-size: 0.75rem;
+    color: rgba(63, 185, 80, 0.75);
+    text-align: right;
+}
+
+.attacker-expand {
+    width: 100%;
+    padding: 10px;
+    background: rgba(63, 185, 80, 0.08);
+    border: none;
+    border-top: 1px solid rgba(63, 185, 80, 0.2);
+    color: var(--neon-green);
+    font-family: var(--mono-font);
+    font-size: 0.7rem;
+    letter-spacing: 2px;
+    cursor: pointer;
+    text-shadow: var(--phosphor-glow);
+}
+
+.attacker-expand:hover {
+    background: rgba(63, 185, 80, 0.15);
+}
+
+/* ============================= */
+/*  RESPONSIVE COLLAPSE          */
+/* ============================= */
+
+@media (max-width: 1100px) {
+    .kill-grid {
+        grid-template-columns: 1fr;
+        max-width: 700px;
+    }
+}

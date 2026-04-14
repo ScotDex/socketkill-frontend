@@ -20,7 +20,7 @@ async function loadKill() {
 function render(data) {
     document.title = `${data.victim.name} lost a ${data.victim.ship} | Socket.Kill`;
 
-    // Body background
+    // Body background — ship render dimmed with gradient overlay
     document.body.style.backgroundImage = `
         linear-gradient(rgba(13,17,23,0.82), rgba(13,17,23,0.92)),
         url('${EVE_IMG}/types/${data.victim.shipTypeID}/render?size=1024')`;
@@ -37,6 +37,7 @@ function render(data) {
     // Ship panel
     setText('ship-name', data.victim.ship);
     setImg('ship-render-img', `${EVE_IMG}/types/${data.victim.shipTypeID}/render?size=512`);
+    if (data.totalValue) setText('ship-value', `${data.totalValue} ISK`);
 
     // Attackers
     setText('attacker-count', data.attackerCount);
@@ -74,12 +75,33 @@ function renderAttackers(attackers) {
             list.innerHTML = renderRows(sorted);
             expandBtn.hidden = true;
         };
+    } else {
+        expandBtn.hidden = true;
     }
 }
 
-function setText(id, v) { const el = document.getElementById(id); if (el) el.textContent = v; }
-function setImg(id, src) { const el = document.getElementById(id); if (el) el.src = src; }
-function showError(msg) { document.querySelector('main').innerHTML = `<p style="color:#ff6b6b;padding:40px;">${msg}</p>`; }
-function escapeHtml(s) { return String(s ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c])); }
+function setText(id, v) {
+    const el = document.getElementById(id);
+    if (el) el.textContent = v;
+}
+
+function setImg(id, src) {
+    const el = document.getElementById(id);
+    if (el) el.src = src;
+}
+
+function showError(msg) {
+    document.querySelector('main').innerHTML = `<p style="color:#ff6b6b;padding:40px;text-align:center;font-family:var(--mono-font);">${msg}</p>`;
+}
+
+function escapeHtml(s) {
+    return String(s ?? '').replace(/[&<>"']/g, c => ({
+        '&': '&amp;',
+        '<': '&lt;',
+        '>': '&gt;',
+        '"': '&quot;',
+        "'": '&#39;'
+    }[c]));
+}
 
 loadKill();
