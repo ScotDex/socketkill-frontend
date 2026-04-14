@@ -2,6 +2,18 @@ const API_BASE = 'https://ws.socketkill.com';
 const EVE_IMG = 'https://images.evetech.net';
 const VISIBLE_ATTACKERS = 5;
 
+
+const FIT_GROUP_ORDER = [
+    { key: 'high',      label: 'HIGH SLOTS' },
+    { key: 'mid',       label: 'MID SLOTS' },
+    { key: 'low',       label: 'LOW SLOTS' },
+    { key: 'rig',       label: 'RIG SLOTS' },
+    { key: 'subsystem', label: 'SUBSYSTEMS' },
+    { key: 'drone',     label: 'DRONE BAY' },
+    { key: 'fighter',   label: 'FIGHTER BAY' },
+    { key: 'cargo',     label: 'CARGO BAY' },
+];
+
 async function loadKill() {
     const params = new URLSearchParams(window.location.search);
     const killID = params.get('id');
@@ -33,6 +45,8 @@ function render(data) {
     if (data.victim.corporationID) {
         setImg('pilot-crest-img', `${EVE_IMG}/corporations/${data.victim.corporationID}/logo?size=64`);
     }
+
+    renderFit(data.items);
 
     // Ship panel
     setText('ship-name', data.victim.ship);
@@ -93,6 +107,68 @@ function renderAttackers(attackers) {
     } else {
         expandBtn.hidden = true;
     }
+}
+
+function renderFit(items) {
+    const container = document.getElementById('fit-groups');
+    if (!container) return;
+
+    if (!items || items.status !== 'resolved') {
+        container.innerHTML = `<div class="fit-pending">&gt; ITEM ANALYSIS PENDING</div>`;
+        return;
+    }
+
+    const groups = items.groups || {};
+    const hasAnyItems = Object.values(groups).some(arr => arr && arr.length > 0);
+
+    if (!hasAnyItems) {
+        container.innerHTML = `<div class="fit-pending">&gt; NO RECOVERABLE WRECKAGE</div>`;
+        return;
+    }
+
+    container.innerHTML = FIT_GROUP_ORDER
+        .filter(g => groups[g.key] || g.key !== 'subsystem' && g.key !== 'fighter')
+        .map(g => renderGroup(g, groups[g.key] || []))
+        .join('');
+}
+
+function renderGroup({ key, label }, items) {
+    // Hide subsystem/fighter groups if empty (they're T3/capital specific)
+    if ((key === 'subsystem' || key === 'fighter') && items.length === 0) return '';
+
+    const count = items.reduce((sum, i) => sum + i.quantity, 0);
+
+    const rows = items.length === 0
+        ? `<div class="fit-group-empty">&gt; NONE</div>`
+        : items.map(renderItemRow).join('');
+
+    return `
+        <div class="fit-group">
+            <div class="fit-group-header">
+                <span>&gt; ${label}</span>
+                ${count > 0 ? `<span class="fit-group-count">${count}</span>` : ''}
+            </div>
+            ${rows}
+        </div>
+    `;
+}
+
+function renderItemRow(item) {
+    const state = item.destroyed > 0 && item.dropped > 0 ? 'mixed'
+                : item.dropped > 0 ? 'dropped'
+                : 'destroyed';
+
+    const qtyDisplay = item.quantity > 1 ? `×${item.quantity.toLocaleString()}` : '';
+
+    return `
+        <div class="fit-row ${state}">
+            <div class="fit-icon">
+                <img src="https://api.socketkill.com/render/market/${item.typeID}" alt="" loading="lazy">
+            </div>
+            <div class="fit-name" title="${escapeHtml(item.name)}">${escapeHtml(item.name)}</div>
+            <div class="fit-qty">${qtyDisplay}</div>
+        </div>
+    `;
 }
 
 function setText(id, v) {
