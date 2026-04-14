@@ -55,6 +55,11 @@
     letter-spacing: 2px;
     color: var(--neon-green);
     text-transform: uppercase;
+    animation: header-flicker 4s infinite;
+}
+
+.panel-header {
+    animation: header-flicker 4s infinite;
 }
 
 /* CENTER PANEL: SHIP CONSTRAINTS */
