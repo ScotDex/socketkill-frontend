@@ -4,14 +4,14 @@ const VISIBLE_ATTACKERS = 5;
 
 
 const FIT_GROUP_ORDER = [
-    { key: 'high',      label: 'HIGH SLOTS' },
-    { key: 'mid',       label: 'MID SLOTS' },
-    { key: 'low',       label: 'LOW SLOTS' },
-    { key: 'rig',       label: 'RIG SLOTS' },
+    { key: 'high', label: 'HIGH SLOTS' },
+    { key: 'mid', label: 'MID SLOTS' },
+    { key: 'low', label: 'LOW SLOTS' },
+    { key: 'rig', label: 'RIG SLOTS' },
     { key: 'subsystem', label: 'SUBSYSTEMS' },
-    { key: 'drone',     label: 'DRONE BAY' },
-    { key: 'fighter',   label: 'FIGHTER BAY' },
-    { key: 'cargo',     label: 'CARGO BAY' },
+    { key: 'drone', label: 'DRONE BAY' },
+    { key: 'fighter', label: 'FIGHTER BAY' },
+    { key: 'cargo', label: 'CARGO BAY' },
 ];
 
 async function loadKill() {
@@ -71,6 +71,39 @@ function render(data) {
             secElem.className = `location-value ${className}`;
         }
     }
+
+
+    // OG tag update experiment
+    const ship = data.victim.ship;
+    const pilot = data.victim.name;
+    const value = data.totalValue || 'Unknown value';
+    const system = data.system.name;
+    const region = data.system.region;
+    const attackers = data.attackerCount;
+
+    const title = `${pilot} lost a ${ship} (${value})`;
+    const description = `${system}, ${region} — ${attackers} attackers`;
+    const image = `https://images.evetech.net/types/${data.victim.shipTypeID}/render?size=512`;
+
+    document.title = title;
+
+    const updates = {
+        'meta[property="og:title"]': { attr: 'content', value: title },
+        'meta[property="og:description"]': { attr: 'content', value: description },
+        'meta[property="og:image"]': { attr: 'content', value: image },
+        'meta[property="og:url"]': { attr: 'content', value: window.location.href },
+        'meta[name="twitter:title"]': { attr: 'content', value: title },
+        'meta[name="twitter:description"]': { attr: 'content', value: description },
+        'meta[name="twitter:image"]': { attr: 'content', value: image },
+        'meta[property="twitter:url"]': { attr: 'content', value: window.location.href },
+    };
+
+    for (const [selector, { attr, value }] of Object.entries(updates)) {
+        const el = document.querySelector(selector);
+        if (el) el.setAttribute(attr, value);
+    }
+
+    console.log('[OG] Tags updated:', { title, description, image });
 }
 
 function renderAttackers(attackers) {
@@ -155,8 +188,8 @@ function renderGroup({ key, label }, items) {
 
 function renderItemRow(item) {
     const state = item.destroyed > 0 && item.dropped > 0 ? 'mixed'
-                : item.dropped > 0 ? 'dropped'
-                : 'destroyed';
+        : item.dropped > 0 ? 'dropped'
+            : 'destroyed';
 
     const qtyDisplay = item.quantity > 1 ? `×${item.quantity.toLocaleString()}` : '';
 
@@ -196,8 +229,8 @@ function escapeHtml(s) {
 }
 
 function classifySecurity(sec) {
-    if (sec >= 0.5)  return { label: `HIGHSEC (${sec.toFixed(1)})`, className: 'sec-highsec' };
-    if (sec > 0.0)   return { label: `LOWSEC (${sec.toFixed(1)})`,  className: 'sec-lowsec' };
+    if (sec >= 0.5) return { label: `HIGHSEC (${sec.toFixed(1)})`, className: 'sec-highsec' };
+    if (sec > 0.0) return { label: `LOWSEC (${sec.toFixed(1)})`, className: 'sec-lowsec' };
     if (sec > -0.99) return { label: `NULLSEC (${sec.toFixed(2)})`, className: 'sec-nullsec' };
     return { label: 'UNKNOWN', className: '' };
 }
