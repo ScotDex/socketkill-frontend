@@ -26,65 +26,68 @@
     <link rel="icon" type="image/png" href="https://edge.socketkill.com/favicon.png">
     <link rel="stylesheet" href="/style.css">
     <link rel="stylesheet" href="/kill/base.css">
-
-    <script defer src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "9a7b8334fd974f46a3b570cbc18d90b1"}'></script>
+<script defer src="https://static.cloudflareinsights.com/beacon.min.js"
+    data-cf-beacon='{"token": "9a7b8334fd974f46a3b570cbc18d90b1"}'></script>
 </head>
+
 <body>
 
-<main class="kill-grid">
+    <main class="kill-grid">
 
-    <!-- LEFT: Pilot ID Card -->
-    <section class="zone-pilot" aria-label="Pilot Identification">
+        <!-- LEFT: Pilot ID Card -->
+        <section class="zone-pilot" aria-label="Pilot Identification">
+            <div class="pilot-card">
+                <div class="pilot-card-header">
+                    <span>PILOT IDENTIFICATION</span>
+                    <span class="pilot-card-status">RECORD ARCHIVED</span>
+                </div>
+                <div class="pilot-row">
+                    <div class="pilot-portrait"><img id="pilot-portrait-img" src="" alt=""></div>
+                    <div id="pilot-name" class="pilot-name">—</div>
+                </div>
+                <div class="pilot-row">
+                    <div class="pilot-crest"><img id="pilot-crest-img" src="" alt=""></div>
+                    <div class="pilot-corp-block">
+                        <div id="pilot-corp" class="pilot-corp">—</div>
+                        <div id="pilot-alliance" class="pilot-alliance">UNAFFILIATED</div>
+                    </div>
+                </div>
+                <div class="pilot-card-footer">&gt; STATUS: KIA</div>
+            </div>
+        
+
         <div class="pilot-card">
             <div class="pilot-card-header">
-                <span>PILOT IDENTIFICATION</span>
-                <span class="pilot-card-status">RECORD ARCHIVED</span>
+                <span>LOCATION DATA</span>
+                <span class="pilot-card-status">SCAN COMPLETE</span>
             </div>
-            <div class="pilot-row">
-                <div class="pilot-portrait"><img id="pilot-portrait-img" src="" alt=""></div>
-                <div id="pilot-name" class="pilot-name">—</div>
+            <div class="location-row">
+                <span class="location-label">SYSTEM</span>
+                <span class="location-value" id="location-system">—</span>
             </div>
-            <div class="pilot-row">
-                <div class="pilot-crest"><img id="pilot-crest-img" src="" alt=""></div>
-                <div class="pilot-corp-block">
-                    <div id="pilot-corp" class="pilot-corp">—</div>
-                    <div id="pilot-alliance" class="pilot-alliance">UNAFFILIATED</div>
-                </div>
+            <div class="location-row">
+                <span class="location-label">REGION</span>
+                <span class="location-value" id="location-region">—</span>
             </div>
-            <div class="pilot-card-footer">&gt; STATUS: KIA</div>
+            <div class="location-row">
+                <span class="location-label">SECURITY</span>
+                <span class="location-value" id="location-security">—</span>
+            </div>
+            <div class="location-row">
+                <span class="location-label">TIMESTAMP</span>
+                <span class="location-value" id="location-time">—</span>
+            </div>
+            <div class="pilot-card-footer location-footer">
+                &gt; COORDINATES LOGGED
+            </div>
         </div>
-    </section>
 
-    <div class="pilot-card">
-    <div class="pilot-card-header">
-        <span>LOCATION DATA</span>
-        <span class="pilot-card-status">SCAN COMPLETE</span>
-    </div>
-    <div class="location-row">
-        <span class="location-label">SYSTEM</span>
-        <span class="location-value" id="location-system">—</span>
-    </div>
-    <div class="location-row">
-        <span class="location-label">REGION</span>
-        <span class="location-value" id="location-region">—</span>
-    </div>
-    <div class="location-row">
-        <span class="location-label">SECURITY</span>
-        <span class="location-value" id="location-security">—</span>
-    </div>
-    <div class="location-row">
-        <span class="location-label">TIMESTAMP</span>
-        <span class="location-value" id="location-time">—</span>
-    </div>
-    <div class="pilot-card-footer location-footer">
-        &gt; COORDINATES LOGGED
-    </div>
-</div>
+        </section>
 
-    <!-- CENTER: Vessel Destruction -->
-    <section class="zone-ship" aria-label="Vessel Destruction">
-        <div class="ship-panel">
-            <div class="ship-panel-header">
+        <!-- CENTER: Vessel Destruction -->
+        <section class="zone-ship" aria-label="Vessel Destruction">
+            <div class="ship-panel">
+                <div class="ship-panel-header">
                 <span>VESSEL DESTROYED</span>
                 <span class="ship-panel-status">WRECKAGE SCANNED</span>
             </div>
