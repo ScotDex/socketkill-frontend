@@ -42,6 +42,21 @@ function render(data) {
     // Attackers
     setText('attacker-count', data.attackerCount);
     renderAttackers(data.attackers || []);
+
+    // Location data card
+    if (data.system) {
+        setText('location-system', data.system.name || '—');
+        setText('location-region', data.system.region || '—');
+        setText('location-time', formatTime(data.killmailTime));
+
+        const secValue = data.system.security;
+        const secElem = document.getElementById('location-security');
+        if (secElem && typeof secValue === 'number') {
+            const { label, className } = classifySecurity(secValue);
+            secElem.textContent = label;
+            secElem.className = `location-value ${className}`;
+        }
+    }
 }
 
 function renderAttackers(attackers) {
@@ -102,6 +117,24 @@ function escapeHtml(s) {
         '"': '&quot;',
         "'": '&#39;'
     }[c]));
+}
+
+function classifySecurity(sec) {
+    if (sec >= 0.5)  return { label: `HIGHSEC (${sec.toFixed(1)})`, className: 'sec-highsec' };
+    if (sec > 0.0)   return { label: `LOWSEC (${sec.toFixed(1)})`,  className: 'sec-lowsec' };
+    if (sec > -0.99) return { label: `NULLSEC (${sec.toFixed(2)})`, className: 'sec-nullsec' };
+    return { label: 'UNKNOWN', className: '' };
+}
+
+function formatTime(iso) {
+    if (!iso) return '—';
+    const d = new Date(iso);
+    const yyyy = d.getUTCFullYear();
+    const mm = String(d.getUTCMonth() + 1).padStart(2, '0');
+    const dd = String(d.getUTCDate()).padStart(2, '0');
+    const hh = String(d.getUTCHours()).padStart(2, '0');
+    const mi = String(d.getUTCMinutes()).padStart(2, '0');
+    return `${yyyy}.${mm}.${dd} ${hh}:${mi} UTC`;
 }
 
 loadKill();
