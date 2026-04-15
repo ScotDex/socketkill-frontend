@@ -429,7 +429,7 @@ body {
 
 .attacker-name {
     font-size: 0.8rem;
-    color: var(--neon-green);
+    color: #ffffff;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
@@ -496,7 +496,7 @@ body {
 
 .location-value {
     font-size: 0.8rem;
-    color: #ff6b6b;
+    color: #ffffff;
     text-shadow: 0 0 4px rgba(63, 185, 80, 0.3);
     text-align: right;
     overflow: hidden;
