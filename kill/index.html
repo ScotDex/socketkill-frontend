@@ -4,14 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-        <script>
-        const params = new URLSearchParams(window.location.search);
-        const id = params.get('id');
-        const date = params.get('date');
-        if (id && date) {
-            window.location.replace(`/kill/${date}/${id}`);
-        }
-    </script>
 
 <!-- HTML Meta Tags -->
 <title>Killmail // Socket.Kill</title>
@@ -19,17 +11,20 @@
 <meta name="author" content="Dexomus Viliana">
 
 <title>__OG_TITLE__</title>
+<meta name="description" content="__OG_DESC__">
+
+<meta property="og:type" content="website">
+<meta property="og:url" content="__OG_URL__">
 <meta property="og:title" content="__OG_TITLE__">
 <meta property="og:description" content="__OG_DESC__">
 <meta property="og:image" content="__OG_IMAGE__">
-<meta property="og:url" content="__OG_URL__">
 
-<meta name="twitter:card" ...>
-<meta property="twitter:domain" ...>
-<meta property="twitter:url" ...>
-<meta name="twitter:title" ...>
-<meta name="twitter:description" ...>
-<meta name="twitter:image" ...>
+<meta name="twitter:card" content="summary_large_image">
+<meta property="twitter:domain" content="socketkill.com">
+<meta property="twitter:url" content="__OG_URL__">
+<meta name="twitter:title" content="__OG_TITLE__">
+<meta name="twitter:description" content="__OG_DESC__">
+<meta name="twitter:image" content="__OG_IMAGE__">
 
 <!-- Meta Tags Generated via https://www.opengraph.xyz -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
