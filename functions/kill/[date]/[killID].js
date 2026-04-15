@@ -52,10 +52,6 @@ export async function onRequest(context) {
 </head>
 <body>
     <p>Loading kill page...</p>
-    <script>
-        // Redirect to the existing static kill page with query params
-        window.location.replace('/kill/?id=${id}&date=${date}');
-    </script>
 </body>
 </html>`;
 
