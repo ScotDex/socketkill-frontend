@@ -16,107 +16,34 @@ const FIT_GROUP_ORDER = [
 ];
 
 async function loadKill() {
-    
+    typeTitle('socket-title', 'Socket.Kill', 100);
+
+    // Check for server-embedded data first (Pages Function flow)
+    const embedded = document.body.dataset.kill;
+    if (embedded) {
+        try {
+            const data = JSON.parse(embedded);
+            return render(data);
+        } catch (err) {
+            console.warn('[KILL] Embedded data parse failed, falling back to API:', err);
+        }
+    }
+
+    // Fallback: API fetch (legacy query-string URL flow)
     const params = new URLSearchParams(window.location.search);
     const killID = params.get('id');
     const date = params.get('date');
-    if (!killID || !date) return showError('Missing id or date parameter.');
+
+    if (!killID || !date) return showError('Missing killID or date in URL.');
 
     try {
         const res = await fetch(`${API_BASE}/api/kill/${date}/${killID}`);
         if (!res.ok) throw new Error(`HTTP ${res.status}`);
-        render(await res.json());
+        const data = await res.json();
+        render(data);
     } catch (err) {
         showError(`Failed to load kill: ${err.message}`);
     }
-}
-
-function render(data) {
-    document.title = `${data.victim.name} lost a ${data.victim.ship} | Socket.Kill`;
-
-    // Body background — ship render dimmed with gradient overlay
-    document.body.style.backgroundImage = `
-        linear-gradient(rgba(13,17,23,0.82), rgba(13,17,23,0.92)),
-        url('${EVE_IMG}/types/${data.victim.shipTypeID}/render?size=1024')`;
-
-    // Pilot card
-    // Pilot card
-    setText('pilot-name', data.victim.name);
-    setText('pilot-corp', data.victim.corp);
-    setText('pilot-alliance', data.victim.alliance || 'UNAFFILIATED');
-
-    setImg('pilot-portrait-img', `${EVE_IMG}/characters/${data.victim.characterID}/portrait?size=128`);
-
-    if (data.victim.corporationID) {
-        setImg('pilot-crest-img', `${EVE_IMG}/corporations/${data.victim.corporationID}/logo?size=64`);
-    }
-
-    if (data.victim.allianceID) {
-        setImg('pilot-alliance-img', `${EVE_IMG}/alliances/${data.victim.allianceID}/logo?size=64`);
-    }
-
-    renderFit(data.items);
-
-    // Ship panel
-    setText('ship-name', data.victim.ship);
-    setImg('ship-render-img', `${EVE_IMG}/types/${data.victim.shipTypeID}/render?size=512`);
-    if (data.totalValue) setText('ship-value', `${data.totalValue} ISK`);
-
-    // Attackers
-    setText('attacker-count', data.attackerCount);
-    renderAttackers(data.attackers || []);
-
-    // Location data card
-    if (data.system) {
-        setText('location-system', data.system.name || '—');
-        setText('location-region', data.system.region || '—');
-        setText('location-time', formatTime(data.killmailTime));
-
-        const secValue = data.system.security;
-        const secElem = document.getElementById('location-security');
-        if (secElem && typeof secValue === 'number') {
-            const { label, className } = classifySecurity(secValue);
-            secElem.textContent = label;
-            secElem.className = `location-value ${className}`;
-        }
-    }
-
-    setText('value-total', data.totalValue || '—');
-    setText('value-dropped', data.droppedValue || '—');
-    setText('value-destroyed', data.destroyedValue || '—');
-
-
-    // OG tag update experiment
-    const ship = data.victim.ship;
-    const pilot = data.victim.name;
-    const value = data.totalValue || 'Unknown value';
-    const system = data.system.name;
-    const region = data.system.region;
-    const attackers = data.attackerCount;
-
-    const title = `${pilot} lost a ${ship} (${value})`;
-    const description = `${system}, ${region} — ${attackers} attackers`;
-    const image = `https://images.evetech.net/types/${data.victim.shipTypeID}/render?size=512`;
-
-    document.title = title;
-
-    const updates = {
-        'meta[property="og:title"]': { attr: 'content', value: title },
-        'meta[property="og:description"]': { attr: 'content', value: description },
-        'meta[property="og:image"]': { attr: 'content', value: image },
-        'meta[property="og:url"]': { attr: 'content', value: window.location.href },
-        'meta[name="twitter:title"]': { attr: 'content', value: title },
-        'meta[name="twitter:description"]': { attr: 'content', value: description },
-        'meta[name="twitter:image"]': { attr: 'content', value: image },
-        'meta[property="twitter:url"]': { attr: 'content', value: window.location.href },
-    };
-
-    for (const [selector, { attr, value }] of Object.entries(updates)) {
-        const el = document.querySelector(selector);
-        if (el) el.setAttribute(attr, value);
-    }
-
-    console.log('[OG] Tags updated:', { title, description, image });
 }
 
 function renderAttackers(attackers) {
