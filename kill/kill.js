@@ -15,6 +15,7 @@ const FIT_GROUP_ORDER = [
 ];
 
 async function loadKill() {
+    typeTitle('socket-title', 'Socket.Kill', 100)
     const params = new URLSearchParams(window.location.search);
     const killID = params.get('id');
     const date = params.get('date');
@@ -143,7 +144,9 @@ function renderAttackers(attackers) {
     }
 }
 
-const typeTitle = (elementId, text, speed = 150) => {
+let isTyping = false;
+
+function typeTitle(elementId, text, speed = 100) {
     if (isTyping) return;
     isTyping = true;
     const element = document.getElementById(elementId);
@@ -160,10 +163,11 @@ const typeTitle = (elementId, text, speed = 150) => {
             setTimeout(type, speed);
         } else {
             element.style.borderRight = "none";
+            isTyping = false;
         }
     }
     type();
-};
+}
 
 function renderFit(items) {
     const container = document.getElementById('fit-groups');
