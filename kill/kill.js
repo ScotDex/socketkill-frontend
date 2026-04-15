@@ -31,6 +31,7 @@ async function loadKill() {
 
 function render(data) {
     document.title = `${data.victim.name} lost a ${data.victim.ship} | Socket.Kill`;
+    typeTitle('socket-title', 'Socket.Kill', 100);
 
     // Body background — ship render dimmed with gradient overlay
     document.body.style.backgroundImage = `
