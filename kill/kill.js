@@ -1,6 +1,7 @@
 const API_BASE = 'https://ws.socketkill.com';
 const EVE_IMG = 'https://images.evetech.net';
 const VISIBLE_ATTACKERS = 5;
+const VISIBLE_FIT_ITEMS = 10;
 
 
 const FIT_GROUP_ORDER = [
@@ -193,25 +194,58 @@ function renderFit(items) {
         .filter(g => groups[g.key] || g.key !== 'subsystem' && g.key !== 'fighter')
         .map(g => renderGroup(g, groups[g.key] || []))
         .join('');
+
+    // Wire up expand buttons after rendering
+    container.querySelectorAll('.fit-expand').forEach(btn => {
+        btn.addEventListener('click', () => {
+            const group = btn.closest('.fit-group');
+            const hidden = group.querySelector('.fit-hidden');
+            const hiddenHtml = hidden.dataset.hiddenHtml;
+
+            const decoded = hiddenHtml
+                .replace(/&amp;/g, '&')
+                .replace(/&lt;/g, '<')
+                .replace(/&gt;/g, '>')
+                .replace(/&quot;/g, '"')
+                .replace(/&#39;/g, "'");
+
+            hidden.outerHTML = decoded;
+            btn.remove();
+        });
+    });
 }
 
 function renderGroup({ key, label }, items) {
-    // Hide subsystem/fighter groups if empty (they're T3/capital specific)
     if ((key === 'subsystem' || key === 'fighter') && items.length === 0) return '';
 
     const count = items.reduce((sum, i) => sum + i.quantity, 0);
 
-    const rows = items.length === 0
-        ? `<div class="fit-group-empty">&gt; NONE</div>`
-        : items.map(renderItemRow).join('');
+    let body;
+    if (items.length === 0) {
+        body = `<div class="fit-group-empty">&gt; NONE</div>`;
+    } else if (items.length <= VISIBLE_FIT_ITEMS) {
+        body = items.map(renderItemRow).join('');
+    } else {
+        const visible = items.slice(0, VISIBLE_FIT_ITEMS).map(renderItemRow).join('');
+        const hiddenCount = items.length - VISIBLE_FIT_ITEMS;
+        const hiddenItemsHtml = items.slice(VISIBLE_FIT_ITEMS).map(renderItemRow).join('');
+
+        body = `
+            ${visible}
+            <div class="fit-hidden" data-hidden-html="${escapeHtml(hiddenItemsHtml)}"></div>
+            <button class="fit-expand" data-group="${key}">
+                SHOW <span>${hiddenCount}</span> MORE
+            </button>
+        `;
+    }
 
     return `
-        <div class="fit-group">
+        <div class="fit-group" data-group="${key}">
             <div class="fit-group-header">
                 <span>&gt; ${label}</span>
                 ${count > 0 ? `<span class="fit-group-count">${count}</span>` : ''}
             </div>
-            ${rows}
+            ${body}
         </div>
     `;
 }

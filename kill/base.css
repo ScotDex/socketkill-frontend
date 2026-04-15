@@ -622,6 +622,25 @@ body {
     padding-left: 8px;
 }
 
+.fit-expand {
+    width: 100%;
+    margin-top: 6px;
+    padding: 8px;
+    background: rgba(63, 185, 80, 0.06);
+    border: none;
+    border-top: 1px solid rgba(63, 185, 80, 0.15);
+    color: var(--neon-green);
+    font-family: var(--mono-font);
+    font-size: 0.65rem;
+    letter-spacing: 2px;
+    cursor: pointer;
+    text-shadow: var(--phosphor-glow);
+}
+
+.fit-expand:hover {
+    background: rgba(63, 185, 80, 0.12);
+}
+
 
 /* ============================= */
 /*  RESPONSIVE COLLAPSE          */
