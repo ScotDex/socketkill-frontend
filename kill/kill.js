@@ -73,6 +73,10 @@ function render(data) {
         }
     }
 
+    setText('value-total', data.totalValue || '—');
+    setText('value-dropped', data.droppedValue || '—');
+    setText('value-destroyed', data.destroyedValue || '—');
+
 
     // OG tag update experiment
     const ship = data.victim.ship;
