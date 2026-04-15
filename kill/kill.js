@@ -15,7 +15,7 @@ const FIT_GROUP_ORDER = [
 ];
 
 async function loadKill() {
-    typeTitle('socket-title', 'Socket.Kill', 100)
+    
     const params = new URLSearchParams(window.location.search);
     const killID = params.get('id');
     const date = params.get('date');
@@ -32,7 +32,6 @@ async function loadKill() {
 
 function render(data) {
     document.title = `${data.victim.name} lost a ${data.victim.ship} | Socket.Kill`;
-    typeTitle('socket-title', 'Socket.Kill', 100);
 
     // Body background — ship render dimmed with gradient overlay
     document.body.style.backgroundImage = `
@@ -272,5 +271,5 @@ function formatTime(iso) {
     const mi = String(d.getUTCMinutes()).padStart(2, '0');
     return `${yyyy}.${mm}.${dd} ${hh}:${mi} UTC`;
 }
-
+typeTitle('socket-title', 'Socket.Kill', 100)
 loadKill();
