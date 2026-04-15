@@ -311,7 +311,7 @@ body {
 
 .ship-name {
     font-size: 1.4rem;
-    color: var(--neon-green);
+    color: #ffffff;
     text-shadow: var(--phosphor-glow);
     letter-spacing: 2px;
     text-transform: uppercase;
@@ -609,7 +609,7 @@ body {
 }
 
 .fit-name {
-    color: var(--neon-green);
+    color: #ffffff;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
