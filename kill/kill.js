@@ -46,6 +46,65 @@ async function loadKill() {
     }
 }
 
+function render(data) {
+    // Pilot card
+    setText('pilot-name', data.victim.name);
+    setText('pilot-corp', data.victim.corp);
+    setText('pilot-alliance', data.victim.alliance || 'UNAFFILIATED');
+
+    if (data.victim.characterID) {
+        setImg('pilot-portrait-img', `${EVE_IMG}/characters/${data.victim.characterID}/portrait?size=128`);
+    }
+    if (data.victim.corporationID) {
+        setImg('pilot-crest-img', `${EVE_IMG}/corporations/${data.victim.corporationID}/logo?size=64`);
+    }
+    if (data.victim.allianceID) {
+        setImg('pilot-alliance-img', `${EVE_IMG}/alliances/${data.victim.allianceID}/logo?size=64`);
+    }
+
+    // Location card
+    setText('location-system', data.system?.name || '—');
+    setText('location-region', data.system?.region || '—');
+    setText('location-time', formatTime(data.killmailTime));
+
+    if (data.system?.security !== undefined) {
+        const sec = classifySecurity(data.system.security);
+        const el = document.getElementById('location-security');
+        if (el) {
+            el.textContent = sec.label;
+            el.className = `location-value ${sec.className}`;
+        }
+    }
+
+    // Cost analysis card
+    setText('value-total', data.totalValue || '—');
+    setText('value-dropped', data.droppedValue || '—');
+    setText('value-destroyed', data.destroyedValue || '—');
+
+    // Ship panel
+    setText('ship-name', data.victim.ship);
+    setText('ship-value', data.totalValue || '—');
+    if (data.victim.shipTypeID) {
+        setImg('ship-render-img', `${EVE_IMG}/types/${data.victim.shipTypeID}/render?size=512`);
+    }
+
+    // Body background ship render
+    if (data.victim.shipTypeID) {
+        document.body.style.backgroundImage = `linear-gradient(rgba(10, 12, 16, 0.85), rgba(10, 12, 16, 0.95)), url(${EVE_IMG}/types/${data.victim.shipTypeID}/render?size=512)`;
+    }
+
+    // Attacker count
+    setText('attacker-count', data.attackerCount || data.attackers?.length || 0);
+
+    // Attackers list
+    if (data.attackers) {
+        renderAttackers(data.attackers);
+    }
+
+    // Fit display
+    renderFit(data.items);
+}
+
 function renderAttackers(attackers) {
     const sorted = [...attackers].sort((a, b) => b.damage - a.damage);
     const list = document.getElementById('attacker-list');
