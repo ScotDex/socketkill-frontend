@@ -198,6 +198,7 @@ body {
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
+    font-family: 'Exo 2', sans-serif; font-weight: 700; font-size: 1.1rem;
 }
 
 .pilot-corp-block {
@@ -214,6 +215,7 @@ body {
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
+    font-family: 'Exo 2', sans-serif; font-weight: 600;
 }
 
 .pilot-alliance {
@@ -224,6 +226,7 @@ body {
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
+    font-family: 'Exo 2', sans-serif; font-weight: 400;
 }
 
 .pilot-card-footer {
@@ -312,6 +315,7 @@ body {
     text-shadow: var(--phosphor-glow);
     letter-spacing: 2px;
     text-transform: uppercase;
+    font-family: 'Exo 2', sans-serif; font-weight: 800; 
 }
 
 .ship-value {
@@ -429,6 +433,7 @@ body {
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
+    font-family: 'Exo 2', sans-serif; font-weight: 600;
 }
 
 .attacker-corp {
@@ -437,6 +442,7 @@ body {
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
+    font-family: 'Exo 2', sans-serif; font-weight: 400;
 }
 
 .attacker-damage {
@@ -607,6 +613,7 @@ body {
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
+    font-family: 'Exo 2', sans-serif; font-weight: 500;
 }
 
 .fit-qty {
