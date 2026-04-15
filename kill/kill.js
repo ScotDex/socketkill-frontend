@@ -40,12 +40,19 @@ function render(data) {
         url('${EVE_IMG}/types/${data.victim.shipTypeID}/render?size=1024')`;
 
     // Pilot card
+    // Pilot card
     setText('pilot-name', data.victim.name);
     setText('pilot-corp', data.victim.corp);
     setText('pilot-alliance', data.victim.alliance || 'UNAFFILIATED');
+
     setImg('pilot-portrait-img', `${EVE_IMG}/characters/${data.victim.characterID}/portrait?size=128`);
+
     if (data.victim.corporationID) {
         setImg('pilot-crest-img', `${EVE_IMG}/corporations/${data.victim.corporationID}/logo?size=64`);
+    }
+
+    if (data.victim.allianceID) {
+        setImg('pilot-alliance-img', `${EVE_IMG}/alliances/${data.victim.allianceID}/logo?size=64`);
     }
 
     renderFit(data.items);
