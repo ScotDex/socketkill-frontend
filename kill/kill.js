@@ -8,7 +8,7 @@ const FIT_GROUP_ORDER = [
     { key: 'high', label: 'HIGH SLOTS' },
     { key: 'mid', label: 'MID SLOTS' },
     { key: 'low', label: 'LOW SLOTS' },
-    { key: 'rig', label: 'RIG SLOTS' },
+    { key: 'rig', label: 'RIGS' },
     { key: 'subsystem', label: 'SUBSYSTEMS' },
     { key: 'drone', label: 'DRONE BAY' },
     { key: 'fighter', label: 'FIGHTER BAY' },

@@ -18,11 +18,9 @@ export async function onRequest(context) {
         const data = await apiRes.json();
 
         const title = `${data.victim.name} lost a ${data.victim.ship}${data.totalValue ? ` (${data.totalValue} ISK)` : ''}`;
-        const description = `${data.system.name}, ${data.system.region} — ${data.attackerCount} ${data.attackerCount === 1 ? 'attacker' : 'attackers'}`;
-        const image = `https://images.evetech.net/types/${data.victim.shipTypeID}/render?size=512`;
+        const description = `${data.victim.name} lost their ${data.victim.ship} in ${data.system.name}. Final blow by ${data.finalBlow.name}. Total Loss: ${data.totalValue}`;
+        const image = `https://images.evetech.net/types/${data.victim.shipTypeID}/render?size=256`;
         const canonicalUrl = `https://socketkill.com/kill/${date}/${id}`;
-
-        // Embed kill data in body attribute so kill.js can read it without an API call
         const embeddedData = JSON.stringify(data).replace(/'/g, "&#39;").replace(/</g, "\\u003c");
 
         const html = `<!DOCTYPE html>
@@ -79,17 +77,17 @@ export async function onRequest(context) {
                 </div>
                 <div class="pilot-row">
                     <div class="pilot-portrait"><img id="pilot-portrait-img" src="" alt=""></div>
-                    <div id="pilot-name" class="pilot-name">—</div>
+                    <div id="pilot-name" class="pilot-name"></div>
                 </div>
                 <div class="pilot-row">
                     <div class="pilot-crest"><img id="pilot-crest-img" src="" alt=""></div>
-                    <div id="pilot-corp" class="pilot-corp">—</div>
+                    <div id="pilot-corp" class="pilot-corp"></div>
                 </div>
                 <div class="pilot-row">
                     <div class="pilot-crest pilot-crest-alliance">
                         <img id="pilot-alliance-img" src="" alt="">
                     </div>
-                    <div id="pilot-alliance" class="pilot-alliance">UNAFFILIATED</div>
+                    <div id="pilot-alliance" class="pilot-alliance">UNASSOCIATED</div>
                 </div>
                 <div class="pilot-card-footer">&gt; STATUS: KIA</div>
             </div>
@@ -108,11 +106,11 @@ export async function onRequest(context) {
                     <span class="location-value" id="location-region">—</span>
                 </div>
                 <div class="location-row">
-                    <span class="location-label">SECURITY</span>
+                    <span class="location-label">SEC.STATUS</span>
                     <span class="location-value" id="location-security">—</span>
                 </div>
                 <div class="location-row">
-                    <span class="location-label">TIMESTAMP</span>
+                    <span class="location-label">TIME</span>
                     <span class="location-value" id="location-time">—</span>
                 </div>
                 <div class="pilot-card-footer location-footer">
@@ -122,11 +120,11 @@ export async function onRequest(context) {
 
             <div class="pilot-card">
                 <div class="pilot-card-header">
-                    <span>COST ANALYSIS</span>
+                    <span>COST INFO</span>
                     <span class="pilot-card-status">SCAN COMPLETE</span>
                 </div>
                 <div class="location-row">
-                    <span class="location-label">VALUE</span>
+                    <span class="location-label">TOTAL VALUE</span>
                     <span class="location-value" id="value-total">—</span>
                 </div>
                 <div class="location-row">
@@ -174,7 +172,7 @@ export async function onRequest(context) {
 
             <div class="attackers-panel">
                 <div class="attackers-header">
-                    <span class="section-header">&gt; HOSTILE SIGNATURES</span>
+                    <span class="section-header">&gt; HOSTILES</span>
                     <span class="attacker-count" id="attacker-count">0</span>
                 </div>
                 <ul class="attacker-list" id="attacker-list"></ul>
