@@ -1,6 +1,12 @@
-/* ============================= */
-/*  BETA BADGE                   */
-/* ============================= */
+:root {
+    /* The EVE/Alien Phosphor Palette */
+    --neon-green: #3fb950;       /* Standard green */
+    --faded-green: #2d5a35;      /* Decorative borders */
+    --warning-red: #ff4b4b;      /* KIA / Destroyed */
+    --data-cyan: #00f2ff;        /* Interface / HUD elements */
+    --phosphor-bg: rgba(6, 10, 8, 0.95);
+    --crt-glow: 0 0 8px rgba(63, 185, 80, 0.4);
+}
 
 .beta-badge {
     position: fixed;
@@ -115,13 +121,9 @@ body {
 /* ============================= */
 
 .pilot-card {
-    background: rgba(10, 12, 16, 0.92);
-    border: 1px solid var(--neon-green);
-    box-shadow:
-        0 0 20px rgba(63, 185, 80, 0.25),
-        inset 0 0 30px rgba(0, 0, 0, 0.6);
-    font-family: var(--mono-font);
-    backdrop-filter: blur(3px);
+    background: #060a08; /* Darker, more solid background */
+    border: 1px solid rgba(63, 185, 80, 0.2); /* Faded green border */
+    border-left: 4px solid var(--neon-green); /* Heavy left accent "spine" */
 }
 
 .pilot-card-header {
@@ -155,20 +157,13 @@ body {
 }
 
 .pilot-portrait {
-    position: relative;
-    width: 72px;
-    height: 72px;
-    flex-shrink: 0;
-    border: 1px solid rgba(63, 185, 80, 0.4);
-    background: #000;
-    overflow: hidden;
+    border: 1px solid #ffffff33; /* White border at 20% opacity */
+    box-shadow: inset 0 0 10px #000;
 }
 
 .pilot-portrait img {
-    width: 100%;
-    height: 100%;
-    display: block;
-    filter: grayscale(0.4) contrast(1.1) brightness(0.9);
+    /* More "Security Footage" look */
+    filter: grayscale(1) contrast(1.2) brightness(0.8);
 }
 
 .pilot-crest {
@@ -190,8 +185,9 @@ body {
 }
 
 .pilot-name {
-    font-size: 1rem;
-    color: var(--neon-green);
+    font-size: 1.25rem;
+    text-shadow: 0 0 12px rgba(255, 255, 255, 0.4);
+    color: #ffffff;
     text-shadow: var(--phosphor-glow);
     font-weight: 600;
     letter-spacing: 1px;
@@ -210,7 +206,7 @@ body {
 
 .pilot-corp {
     font-size: 0.85rem;
-    color: var(--neon-green);
+    color: rgba(63, 185, 80, 0.85); /* Slightly less intense than neon */
     text-shadow: 0 0 4px rgba(63, 185, 80, 0.3);
     overflow: hidden;
     text-overflow: ellipsis;
@@ -226,7 +222,7 @@ body {
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
-    font-family: 'Exo 2', sans-serif; font-weight: 400;
+    font-family: 'Exo 2', sans-serif; font-weight: 600;
 }
 
 .pilot-card-footer {
@@ -234,7 +230,7 @@ body {
     padding: 8px 16px;
     font-size: 0.65rem;
     letter-spacing: 2px;
-    color: #ff6b6b;
+    color: #ff0000;
     background: rgba(0, 0, 0, 0.4);
 }
 
