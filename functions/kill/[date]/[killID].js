@@ -19,7 +19,7 @@ export async function onRequest(context) {
 
         const title = `${data.victim.name} lost a ${data.victim.ship}${data.totalValue ? ` (${data.totalValue} ISK)` : ''}`;
         const description = `${data.victim.alliance ? `${data.victim.name} (${data.victim.alliance})` : data.victim.name} lost their ${data.victim.ship} in ${data.system.name} (${data.system.region})${data.finalBlow ? `. Final Blow by ${data.finalBlow.name}${data.finalBlow.alliance || data.finalBlow.corp ? ` (${data.finalBlow.alliance || data.finalBlow.corp})` : ''} in their ${data.finalBlow.ship}${data.attackerCount > 1 ? ` along with ${data.attackerCount - 1} other ${data.attackerCount - 1 === 1 ? 'pilot' : 'pilots'}` : ' solo'}` : ''}${data.totalValue ? `. Total Value: ${data.totalValue} ISK` : ''}`;
-        const image = `https://images.evetech.net/types/${data.victim.shipTypeID}/render?size=256`;
+        const image = `https://images.evetech.net/types/${data.victim.shipTypeID}/render?size=128`;
         const canonicalUrl = `https://socketkill.com/kill/${date}/${id}`;
         const embeddedData = JSON.stringify(data).replace(/'/g, "&#39;").replace(/</g, "\\u003c");
 
@@ -28,7 +28,7 @@ export async function onRequest(context) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>${esc(title)} | Socket.Kill</title>
+    <title>${esc(title)} | Socketkill.com</title>
     <meta name="description" content="${esc(description)}">
     <meta name="author" content="Dexomus Viliana">
 
