@@ -37,7 +37,7 @@ export async function onRequest(context) {
     <meta property="og:description" content="${esc(description)}">
     <meta property="og:image" content="${image}">
     <meta property="og:url" content="${canonicalUrl}">
-    <meta property="og:site_name" content="Socket.Kill">
+    <meta property="og:site_name" content="Socketkill.com">
 
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="${esc(title)}">
