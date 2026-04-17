@@ -52,8 +52,8 @@ export async function onRequest(context) {
     <link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@400;600;700;800&family=Share+Tech+Mono&display=swap" rel="stylesheet">
 
     <link rel="icon" type="image/png" href="https://edge.socketkill.com/favicon.png">
-    <link rel="stylesheet" href="https://socketkill.com/style.css">
-    <link rel="stylesheet" href="https://socketkill.com/kill/base.css">
+    <link rel="stylesheet" href="/style.css">
+    <link rel="stylesheet" href="/kill/base.css">
 
     <!-- Cloudflare Web Analytics --><script defer src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "9a7b8334fd974f46a3b570cbc18d90b1"}'></script><!-- End Cloudflare Web Analytics -->
 </head>
