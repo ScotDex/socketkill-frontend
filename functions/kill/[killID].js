@@ -2,6 +2,10 @@ export async function onRequest(context) {
     const { params } = context;
     const { killID } = params;
 
+    if (killID.includes('.')) {
+        return context.next();
+    }
+
     const id = parseInt(killID);
     if (!Number.isFinite(id) || id <= 0) {
         return new Response('Invalid killID', { status: 400 });
