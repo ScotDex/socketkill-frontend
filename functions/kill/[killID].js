@@ -71,7 +71,7 @@ export async function onRequest(context) {
         <section class="zone-pilot" aria-label="Pilot Identification">
             <div class="pilot-card">
                 <div class="pilot-card-header">
-                    <span>PILOT IDENTIFICATION</span>
+                    <span>PILOT ID</span>
                     <span class="pilot-card-status">RECORD ARCHIVED</span>
                 </div>
                 <div class="pilot-row">
@@ -119,7 +119,7 @@ export async function onRequest(context) {
 
             <div class="pilot-card">
                 <div class="pilot-card-header">
-                    <span>COST INFO</span>
+                    <span>VALUE ANALYSIS</span>
                     <span class="pilot-card-status">SCAN COMPLETE</span>
                 </div>
                 <div class="location-row">
