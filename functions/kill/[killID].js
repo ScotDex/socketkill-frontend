@@ -1,26 +1,23 @@
 export async function onRequest(context) {
     const { params } = context;
-    const { date, killID } = params;
+    const { killID } = params;
 
-    if (!/^\d{4}-\d{2}-\d{2}$/.test(date)) {
-        return new Response('Invalid date', { status: 400 });
-    }
     const id = parseInt(killID);
     if (!Number.isFinite(id) || id <= 0) {
         return new Response('Invalid killID', { status: 400 });
     }
 
     try {
-        const apiRes = await fetch(`https://ws.socketkill.com/api/kill/${date}/${id}`);
+        const apiRes = await fetch(`https://ws.socketkill.com/api/kill/${id}`);
         if (!apiRes.ok) {
             return new Response('Kill not found', { status: 404 });
         }
         const data = await apiRes.json();
 
         const title = `${data.victim.name} lost a ${data.victim.ship}${data.totalValue ? ` (${data.totalValue} ISK)` : ''}`;
-        const description = `${data.victim.alliance ? `${data.victim.name} (${data.victim.alliance})` : data.victim.name} lost their ${data.victim.ship} in ${data.system.name} (${data.system.region})${data.finalBlow ? `. Final Blow by ${data.finalBlow.name}${data.finalBlow.alliance || data.finalBlow.corp ? ` (${data.finalBlow.alliance || data.finalBlow.corp})` : ''} in their ${data.finalBlow.ship}${data.attackerCount > 1 ? ` along with ${data.attackerCount - 1} other ${data.attackerCount - 1 === 1 ? 'pilot' : 'pilots'}` : ' solo'}` : ''}${data.totalValue ? `. Total Value: ${data.totalValue} ISK` : ''}`;
+        const description = buildDescription(data);
         const image = `https://images.evetech.net/types/${data.victim.shipTypeID}/render?size=512`;
-        const canonicalUrl = `https://socketkill.com/kill/${date}/${id}`;
+        const canonicalUrl = `https://socketkill.com/kill/${id}`;
         const embeddedData = JSON.stringify(data).replace(/'/g, "&#39;").replace(/</g, "\\u003c");
 
         const html = `<!DOCTYPE html>
@@ -199,10 +196,4 @@ export async function onRequest(context) {
     } catch (err) {
         return new Response(`Error: ${err.message}`, { status: 500 });
     }
-}
-
-function esc(s) {
-    return String(s ?? '').replace(/[&<>"']/g, c => ({
-        '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
-    }[c]));
 }
