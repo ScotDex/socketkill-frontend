@@ -7,6 +7,12 @@ export async function onRequest(context) {
         return new Response('Invalid killID', { status: 400 });
     }
 
+    function esc(s) {
+    return String(s ?? '').replace(/[&<>"']/g, c => ({
+        '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
+    }[c]));
+}
+
     try {
         const apiRes = await fetch(`https://ws.socketkill.com/api/kill/${id}`);
         if (!apiRes.ok) {
