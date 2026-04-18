@@ -256,6 +256,7 @@ function renderItemRow(item) {
                 <img src="https://api.socketkill.com/render/market/${item.typeID}" alt="" loading="lazy">
             </div>
             <div class="fit-name" title="${escapeHtml(item.name)}">${escapeHtml(item.name)}</div>
+            <div class="fit-value">${item.formattedValue || ''}</div>
             <div class="fit-qty">${qtyDisplay}</div>
         </div>
     `;
