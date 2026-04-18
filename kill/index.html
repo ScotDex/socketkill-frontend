@@ -32,6 +32,18 @@
     <link rel="stylesheet" href="/style.css">
     <link rel="stylesheet" href="/kill/base.css">
     <script src="https://cdn.tailwindcss.com"></script>
+
+    <script>
+        // This is the clean way to fetch your modular config file 
+        // and merge it into the Tailwind engine at runtime.
+        fetch('tailwind.config.js')
+            .then(response => response.text())
+            .then(text => {
+                // Extracts the object from your file and applies it
+                const config = eval(text.replace('module.exports =', ''));
+                tailwind.config = config;
+            });
+    </script>
     <!-- Cloudflare Web Analytics --><script defer src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "9a7b8334fd974f46a3b570cbc18d90b1"}'></script><!-- End Cloudflare Web Analytics -->
 </head>
 
