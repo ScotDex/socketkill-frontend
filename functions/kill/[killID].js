@@ -94,11 +94,11 @@ export async function onRequest(context) {
         </div>
     </header>
 
-    <main class="grid grid-cols-1 md:grid-cols-12 gap-6 p-4 max-w-7xl mx-auto">
+    <main class="kill-grid">
 
         <section class="zone-pilot" aria-label="Pilot Identification">
-            <div class="bg-eve-dark border border-eve-border rounded-sm overflow-hidden mb-4 shadow-lg">
-                <div class="bg-black/40 px-3 py-2 border-b border-eve-border flex justify-between items-center text-[10px] tracking-widest text-gray-400 font-exo uppercase">
+            <div class="pilot-card">
+                <div class="pilot-card-header">
                     <span>PILOT ID</span>
                     <span class="pilot-card-status">RECORD ARCHIVED</span>
                 </div>
