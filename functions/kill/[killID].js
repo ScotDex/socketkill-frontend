@@ -94,122 +94,94 @@ export async function onRequest(context) {
         </div>
     </header>
 
-    <main class="kill-grid">
-
-        <section class="zone-pilot" aria-label="Pilot Identification">
-            <div class="pilot-card">
-                <div class="pilot-card-header">
-                    <span>PILOT ID</span>
-                    <span class="pilot-card-status">RECORD ARCHIVED</span>
-                </div>
-                <div class="pilot-row">
-                    <div class="pilot-portrait"><img id="pilot-portrait-img" src="" alt=""></div>
-                    <div id="pilot-name" class="pilot-name"></div>
-                </div>
-                <div class="pilot-row">
-                    <div class="pilot-crest"><img id="pilot-crest-img" src="" alt=""></div>
-                    <div id="pilot-corp" class="pilot-corp"></div>
-                </div>
-                <div class="pilot-row">
-                    <div class="pilot-crest pilot-crest-alliance">
-                        <img id="pilot-alliance-img" src="" alt="">
-                    </div>
-                    <div id="pilot-alliance" class="pilot-alliance">UNASSOCIATED</div>
-                </div>
-                <div class="pilot-card-footer">&gt; STATUS: KIA</div>
+<main class="grid grid-cols-1 md:grid-cols-12 gap-4 p-4 max-w-7xl mx-auto">
+    <section class="md:col-span-3 flex flex-col gap-4">
+        <div class="bg-eve-dark border border-eve-border rounded-sm overflow-hidden">
+            <div class="bg-black/40 px-3 py-2 border-b border-eve-border flex justify-between items-center text-[10px] tracking-widest text-gray-400 font-exo uppercase">
+                <span>PILOT ID</span>
+                <span class="text-eve-accent">RECORD ARCHIVED</span>
             </div>
-
-            <div class="pilot-card">
-                <div class="pilot-card-header">
-                    <span>LOCATION DATA</span>
-                    <span class="pilot-card-status">SCAN COMPLETE</span>
+            <div class="p-3 space-y-3">
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 bg-gray-800 rounded"><img id="pilot-portrait-img" class="w-full h-full object-cover"></div>
+                    <div id="pilot-name" class="font-exo font-bold text-white text-sm"></div>
                 </div>
-                <div class="location-row">
-                    <span class="location-label">SYSTEM</span>
-                    <span class="location-value" id="location-system">—</span>
+                <div class="flex items-center gap-3">
+                    <div class="w-8 h-8"><img id="pilot-crest-img" class="w-full h-full object-contain"></div>
+                    <div id="pilot-corp" class="text-xs text-gray-300"></div>
                 </div>
-                <div class="location-row">
-                    <span class="location-label">REGION</span>
-                    <span class="location-value" id="location-region">—</span>
-                </div>
-                <div class="location-row">
-                    <span class="location-label">SEC.STATUS</span>
-                    <span class="location-value" id="location-security">—</span>
-                </div>
-                <div class="location-row">
-                    <span class="location-label">TIME</span>
-                    <span class="location-value" id="location-time">—</span>
-                </div>
-                <div class="pilot-card-footer location-footer">
-                    &gt; COORDINATES LOGGED
+                <div class="flex items-center gap-3">
+                    <div class="w-8 h-8"><img id="pilot-alliance-img" class="w-full h-full object-contain"></div>
+                    <div id="pilot-alliance" class="text-xs text-gray-400">UNASSOCIATED</div>
                 </div>
             </div>
+            <div class="bg-black/20 px-3 py-1 text-[10px] text-eve-accent tracking-tighter border-t border-eve-border">&gt; STATUS: KIA</div>
+        </div>
 
-            <div class="pilot-card">
-                <div class="pilot-card-header">
-                    <span>VALUE ANALYSIS</span>
-                    <span class="pilot-card-status">SCAN COMPLETE</span>
-                </div>
-                <div class="location-row">
-                    <span class="location-label">TOTAL VALUE</span>
-                    <span class="location-value" id="value-total">—</span>
-                </div>
-                <div class="location-row">
-                    <span class="location-label">DROPPED</span>
-                    <span class="location-value value-dropped" id="value-dropped">—</span>
-                </div>
-                <div class="location-row">
-                    <span class="location-label">DESTROYED</span>
-                    <span class="location-value value-destroyed" id="value-destroyed">—</span>
-                </div>
+        <div class="bg-eve-dark border border-eve-border rounded-sm overflow-hidden">
+            <div class="bg-black/40 px-3 py-2 border-b border-eve-border flex justify-between items-center text-[10px] tracking-widest text-gray-400 font-exo uppercase">
+                <span>LOCATION DATA</span>
+                <span class="text-eve-accent">SCAN COMPLETE</span>
             </div>
-        </section>
-
-        <section class="zone-ship" aria-label="Wreckage">
-            <div class="fit-panel">
-                <div class="section-header">&gt; WRECKAGE RECOVERED</div>
-                <div class="fit-groups" id="fit-groups">
-                    <div class="fit-pending">&gt; ITEM ANALYSIS PENDING</div>
-                </div>
+            <div class="p-3 space-y-2 text-xs font-mono">
+                <div class="flex justify-between"><span class="text-gray-500">SYSTEM</span><span id="location-system" class="text-white">—</span></div>
+                <div class="flex justify-between"><span class="text-gray-500">REGION</span><span id="location-region" class="text-white">—</span></div>
+                <div class="flex justify-between"><span class="text-gray-500">SEC.STATUS</span><span id="location-security" class="text-white">—</span></div>
+                <div class="flex justify-between"><span class="text-gray-500">TIME</span><span id="location-time" class="text-white">—</span></div>
             </div>
-        </section>
+            <div class="bg-black/20 px-3 py-1 text-[10px] text-eve-accent border-t border-eve-border">&gt; COORDINATES LOGGED</div>
+        </div>
 
-        <section class="zone-intel" aria-label="Combat Intel">
-            <div class="ship-panel">
-                <div class="ship-panel-header">
-                    <span>VESSEL DESTROYED</span>
-                    <span class="ship-panel-status">WRECKAGE SCANNED</span>
-                </div>
-                <div class="ship-render-wrap">
-                    <img id="ship-render-img" src="" alt="">
-                    <div class="ship-render-overlay"></div>
-                </div>
-                <div class="ship-name-block">
-                    <div class="ship-name" id="ship-name">—</div>
-                    <div class="ship-value" id="ship-value">—</div>
-                </div>
+        <div class="bg-eve-dark border border-eve-border rounded-sm overflow-hidden">
+            <div class="bg-black/40 px-3 py-2 border-b border-eve-border flex justify-between items-center text-[10px] tracking-widest text-gray-400 font-exo uppercase">
+                <span>VALUE ANALYSIS</span>
+                <span class="text-eve-accent">SCAN COMPLETE</span>
             </div>
-
-            <div class="replay-panel">
-                <div class="section-header">&gt; RECOVERED FOOTAGE</div>
-                <div class="replay-slot" id="replay-slot">
-                    <div class="replay-pending">&gt; AWAITING FOOTAGE</div>
-                </div>
+            <div class="p-3 space-y-2 text-xs font-mono">
+                <div class="flex justify-between"><span class="text-gray-500">TOTAL VALUE</span><span id="value-total" class="text-white">—</span></div>
+                <div class="flex justify-between"><span class="text-gray-500">DROPPED</span><span id="value-dropped" class="text-green-400">—</span></div>
+                <div class="flex justify-between"><span class="text-gray-500">DESTROYED</span><span id="value-destroyed" class="text-red-400">—</span></div>
             </div>
+        </div>
+    </section>
 
-            <div class="attackers-panel">
-                <div class="attackers-header">
-                    <span class="section-header">&gt; HOSTILES</span>
-                    <span class="attacker-count" id="attacker-count">0</span>
-                </div>
-                <ul class="attacker-list" id="attacker-list"></ul>
-                <button class="attacker-expand" id="attacker-expand" hidden>
-                    SHOW <span id="attacker-expand-count">0</span> MORE
-                </button>
+    <section class="md:col-span-6 bg-eve-dark border border-eve-border rounded-sm p-4">
+        <div class="text-[10px] tracking-widest text-gray-500 mb-4">&gt; WRECKAGE RECOVERED</div>
+        <div id="fit-groups" class="space-y-4">
+            <div class="text-sm text-gray-500 italic">&gt; ITEM ANALYSIS PENDING</div>
+        </div>
+    </section>
+
+    <section class="md:col-span-3 flex flex-col gap-4">
+        <div class="bg-eve-dark border border-eve-border rounded-sm overflow-hidden">
+            <div class="bg-black/40 px-3 py-2 border-b border-eve-border flex justify-between items-center text-[10px] tracking-widest text-gray-400 font-exo uppercase">
+                <span>VESSEL DESTROYED</span>
+                <span class="text-eve-accent">WRECKAGE SCANNED</span>
             </div>
-        </section>
+            <div class="relative"><img id="ship-render-img" class="w-full h-auto"></div>
+            <div class="p-3 border-t border-eve-border">
+                <div id="ship-name" class="font-bold text-white">—</div>
+                <div id="ship-value" class="text-xs text-eve-accent">—</div>
+            </div>
+        </div>
 
-    </main>
+        <div class="bg-eve-dark border border-eve-border rounded-sm p-3">
+            <div class="text-[10px] tracking-widest text-gray-500 mb-2">&gt; RECOVERED FOOTAGE</div>
+            <div id="replay-slot" class="text-sm text-gray-500">&gt; AWAITING FOOTAGE</div>
+        </div>
+
+        <div class="bg-eve-dark border border-eve-border rounded-sm p-3">
+            <div class="flex justify-between mb-2">
+                <span class="text-[10px] tracking-widest text-gray-500">&gt; HOSTILES</span>
+                <span id="attacker-count" class="text-xs text-eve-accent">0</span>
+            </div>
+            <ul id="attacker-list" class="space-y-2"></ul>
+            <button id="attacker-expand" class="w-full mt-2 py-1 text-[10px] border border-eve-border hover:bg-white/5" hidden>
+                SHOW <span id="attacker-expand-count">0</span> MORE
+            </button>
+        </div>
+    </section>
+</main>
 
     <script src="/kill/kill.js"></script>
 </body>
