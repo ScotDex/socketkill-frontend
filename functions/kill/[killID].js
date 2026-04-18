@@ -12,10 +12,10 @@ export async function onRequest(context) {
     }
 
     function esc(s) {
-    return String(s ?? '').replace(/[&<>"']/g, c => ({
-        '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
-    }[c]));
-}
+        return String(s ?? '').replace(/[&<>"']/g, c => ({
+            '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
+        }[c]));
+    }
 
     try {
         const apiRes = await fetch(`https://ws.socketkill.com/api/kill/${id}`);
@@ -54,6 +54,19 @@ export async function onRequest(context) {
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@400;600;700;800&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+        <script src="https://cdn.tailwindcss.com"></script>
+
+    <script>
+        // This is the clean way to fetch your modular config file 
+        // and merge it into the Tailwind engine at runtime.
+        fetch('tailwind.config.js')
+            .then(response => response.text())
+            .then(text => {
+                // Extracts the object from your file and applies it
+                const config = eval(text.replace('module.exports =', ''));
+                tailwind.config = config;
+            });
+    </script>
 
     <link rel="icon" type="image/png" href="https://edge.socketkill.com/favicon.png">
     <link rel="stylesheet" href="/style.css">
