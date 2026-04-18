@@ -31,8 +31,7 @@
     <link rel="icon" type="image/png" href="https://edge.socketkill.com/favicon.png">
     <link rel="stylesheet" href="/style.css">
     <link rel="stylesheet" href="/kill/base.css">
-<script defer src="https://static.cloudflareinsights.com/beacon.min.js"
-    data-cf-beacon='{"token": "9a7b8334fd974f46a3b570cbc18d90b1"}'></script>
+    <!-- Cloudflare Web Analytics --><script defer src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "9a7b8334fd974f46a3b570cbc18d90b1"}'></script><!-- End Cloudflare Web Analytics -->
 </head>
 
 <body>
@@ -42,7 +41,7 @@
         BETA — EARLY ACCESS
     </div>
     <header class="site-header">
-        <div class="header-left">
+        <div class="header-main">
             <h5 class="site-title m-0">
                 <span id="socket-title" class="typewriter" aria-label="Socket.Kill"></span>
             </h5>
@@ -60,12 +59,12 @@
 
             <div class="pilot-row">
                 <div class="pilot-portrait"><img id="pilot-portrait-img" src="" alt=""></div>
-                <div id="pilot-name" class="pilot-name">—</div>
+                <div id="pilot-name" class="pilot-name"></div>
             </div>
 
             <div class="pilot-row">
                 <div class="pilot-crest"><img id="pilot-crest-img" src="" alt=""></div>
-                <div id="pilot-corp" class="pilot-corp">—</div>
+                <div id="pilot-corp" class="pilot-corp"></div>
             </div>
 
             <div class="pilot-row">
@@ -93,7 +92,7 @@
                 <span class="location-value" id="location-region">—</span>
             </div>
             <div class="location-row">
-                <span class="location-label">SECURITY</span>
+                <span class="location-label">SEC.STATUS</span>
                 <span class="location-value" id="location-security">—</span>
             </div>
             <div class="location-row">
@@ -107,7 +106,7 @@
         
         <div class="pilot-card">
             <div class="pilot-card-header">
-                <span>COST ANALYSIS</span>
+                <span>VALUE ANALYSIS</span>
                 <span class="pilot-card-status">SCAN COMPLETE</span>
             </div>
             <div class="location-row">
@@ -140,7 +139,7 @@
         
             <div class="ship-panel">
                 <div class="ship-panel-header">
-                    <span>VESSEL DESTROYED</span>
+                    <span>SHIP DESTROYED</span>
                     <span class="ship-panel-status">WRECKAGE SCANNED</span>
                 </div>
                 <div class="ship-render-wrap">
@@ -162,7 +161,7 @@
         
             <div class="attackers-panel">
                 <div class="attackers-header">
-                    <span class="section-header">&gt; HOSTILE SIGNATURES</span>
+                    <span class="section-header">&gt; HOSTILES</span>
                     <span class="attacker-count" id="attacker-count">0</span>
                 </div>
                 <ul class="attacker-list" id="attacker-list"></ul>

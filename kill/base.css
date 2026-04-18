@@ -1,6 +1,16 @@
-/* ============================= */
-/*  BETA BADGE                   */
-/* ============================= */
+:root {
+    /* The EVE/Alien Phosphor Palette */
+    --neon-green: #3fb950;
+    /* Standard green */
+    --faded-green: #2d5a35;
+    /* Decorative borders */
+    --warning-red: #ff4b4b;
+    /* KIA / Destroyed */
+    --data-cyan: #00f2ff;
+    /* Interface / HUD elements */
+    --phosphor-bg: rgba(6, 10, 8, 0.95);
+    --crt-glow: 0 0 8px rgba(63, 185, 80, 0.4);
+}
 
 .beta-badge {
     position: fixed;
@@ -55,16 +65,6 @@
 }
 
 
-
-
-
-
-
-
-/* ============================= */
-/*  BASE LAYOUT                  */
-/* ============================= */
-
 body {
     background-color: var(--dark-bg);
     background-size: cover;
@@ -115,13 +115,12 @@ body {
 /* ============================= */
 
 .pilot-card {
-    background: rgba(10, 12, 16, 0.92);
-    border: 1px solid var(--neon-green);
-    box-shadow:
-        0 0 20px rgba(63, 185, 80, 0.25),
-        inset 0 0 30px rgba(0, 0, 0, 0.6);
-    font-family: var(--mono-font);
-    backdrop-filter: blur(3px);
+    background: #060a08;
+    /* Darker, more solid background */
+    border: 1px solid rgba(63, 185, 80, 0.2);
+    /* Faded green border */
+    border-left: 4px solid var(--neon-green);
+    /* Heavy left accent "spine" */
 }
 
 .pilot-card-header {
@@ -155,20 +154,14 @@ body {
 }
 
 .pilot-portrait {
-    position: relative;
-    width: 72px;
-    height: 72px;
-    flex-shrink: 0;
-    border: 1px solid rgba(63, 185, 80, 0.4);
-    background: #000;
-    overflow: hidden;
+    border: 1px solid #ffffff33;
+    /* White border at 20% opacity */
+    box-shadow: inset 0 0 10px #000;
 }
 
 .pilot-portrait img {
-    width: 100%;
-    height: 100%;
-    display: block;
-    filter: grayscale(0.4) contrast(1.1) brightness(0.9);
+    /* More "Security Footage" look */
+    filter: grayscale(1) contrast(1.2) brightness(0.8);
 }
 
 .pilot-crest {
@@ -190,8 +183,9 @@ body {
 }
 
 .pilot-name {
-    font-size: 1rem;
-    color: var(--neon-green);
+    font-size: 1.25rem;
+    text-shadow: 0 0 12px rgba(255, 255, 255, 0.4);
+    color: #ffffff;
     text-shadow: var(--phosphor-glow);
     font-weight: 600;
     letter-spacing: 1px;
@@ -212,7 +206,8 @@ body {
 
 .pilot-corp {
     font-size: 0.85rem;
-    color: var(--neon-green);
+    color: rgba(63, 185, 80, 0.85);
+    /* Slightly less intense than neon */
     text-shadow: 0 0 4px rgba(63, 185, 80, 0.3);
     overflow: hidden;
     text-overflow: ellipsis;
@@ -222,7 +217,7 @@ body {
 }
 
 .pilot-alliance {
-    font-size: 0.7rem;
+    font-size: 0.85rem;
     color: rgba(63, 185, 80, 0.6);
     letter-spacing: 1px;
     text-transform: uppercase;
@@ -230,7 +225,7 @@ body {
     text-overflow: ellipsis;
     white-space: nowrap;
     font-family: 'Exo 2', sans-serif;
-    font-weight: 400;
+    font-weight: 600;
 }
 
 .pilot-card-footer {
@@ -238,7 +233,7 @@ body {
     padding: 8px 16px;
     font-size: 0.65rem;
     letter-spacing: 2px;
-    color: #ff6b6b;
+    color: #ff0000;
     background: rgba(0, 0, 0, 0.4);
 }
 
@@ -329,9 +324,58 @@ body {
     color: rgba(63, 185, 80, 0.65);
 }
 
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.pilot-card,
+.ship-panel,
+.attackers-panel {
+    animation: fadeInUp 0.4s ease forwards;
+    opacity: 0;
+}
+
+/* Stagger the cards */
+.pilot-card:nth-child(1) {
+    animation-delay: 0.1s;
+}
+
+.pilot-card:nth-child(2) {
+    animation-delay: 0.2s;
+}
+
+.pilot-card:nth-child(3) {
+    animation-delay: 0.3s;
+}
+
 /* ============================= */
 /*  FIT PANEL (placeholder v1)   */
 /* ============================= */
+
+.site-header {
+    display: flex;
+    justify-content: center;
+    /* Centers children horizontally */
+    align-items: center;
+    /* Centers children vertically */
+    width: 100%;
+    padding: 2rem 0;
+    /* Give it some breathing room */
+}
+
+.header-main {
+    /* You can rename this to .header-main for clarity */
+    display: flex;
+    justify-content: center;
+}
 
 .fit-panel {
     padding: 16px;
@@ -343,6 +387,64 @@ body {
     padding: 20px 8px;
     text-align: center;
     letter-spacing: 1px;
+}
+
+.site-header {
+    display: flex;
+    align-items: center;
+    padding: 1.5rem 2rem;
+    background: linear-gradient(to bottom, rgba(20, 24, 31, 0.95), transparent);
+    border-bottom: 1px solid rgba(0, 255, 255, 0.1);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    backdrop-filter: blur(4px);
+}
+
+.site-title {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 1.8rem;
+    /* Scaled up from h5 default */
+    letter-spacing: 2px;
+    color: #e0e0e0;
+    text-transform: uppercase;
+    text-shadow: 0 0 10px rgba(0, 255, 255, 0.3);
+    margin: 0;
+    display: flex;
+    align-items: center;
+}
+
+/* The Cursor Animation */
+.typewriter::after {
+    content: '_';
+    animation: blink 1s step-end infinite;
+    color: #00f2ff;
+    margin-left: 4px;
+}
+
+@keyframes blink {
+    50% {
+        opacity: 0;
+    }
+}
+
+.char-flash {
+    animation: digital-bloom 0.3s ease-out;
+    display: inline-block;
+}
+
+@keyframes digital-bloom {
+    0% {
+        color: #fff;
+        text-shadow: 0 0 20px #fff, 0 0 30px #00f2ff;
+        transform: scale(1.1);
+    }
+
+    100% {
+        color: inherit;
+        text-shadow: 0 0 10px rgba(0, 255, 255, 0.3);
+        transform: scale(1);
+    }
 }
 
 /* ============================= */
