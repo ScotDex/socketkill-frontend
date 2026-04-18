@@ -54,19 +54,24 @@ export async function onRequest(context) {
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@400;600;700;800&family=Share+Tech+Mono&display=swap" rel="stylesheet">
-        <script src="https://cdn.tailwindcss.com"></script>
-
-    <script>
-        // This is the clean way to fetch your modular config file 
-        // and merge it into the Tailwind engine at runtime.
-        fetch('tailwind.config.js')
-            .then(response => response.text())
-            .then(text => {
-                // Extracts the object from your file and applies it
-                const config = eval(text.replace('module.exports =', ''));
-                tailwind.config = config;
-            });
-    </script>
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+  tailwind.config = {
+    theme: {
+      extend: {
+        colors: {
+          'eve-dark': '#0a0b0e',
+          'eve-border': 'rgba(255, 255, 255, 0.1)',
+          'eve-accent': '#00d4ff',
+        },
+        fontFamily: {
+          'mono': ['Share Tech Mono', 'monospace'],
+          'exo': ['Exo 2', 'sans-serif'],
+        },
+      },
+    },
+  }
+</script>
 
     <link rel="icon" type="image/png" href="https://edge.socketkill.com/favicon.png">
     <link rel="stylesheet" href="/style.css">
