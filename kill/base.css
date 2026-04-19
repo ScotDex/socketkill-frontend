@@ -64,26 +64,6 @@
     }
 }
 
-.pilot-card,
-.ship-panel,
-.attackers-panel {
-    animation: fadeInUp 0.4s ease forwards;
-    opacity: 0;
-}
-
-/* Stagger the cards */
-.pilot-card:nth-child(1) {
-    animation-delay: 0.1s;
-}
-
-.pilot-card:nth-child(2) {
-    animation-delay: 0.2s;
-}
-
-.pilot-card:nth-child(3) {
-    animation-delay: 0.3s;
-}
-
 /* ============================= */
 /*  FIT PANEL (placeholder v1)   */
 /* ============================= */
@@ -415,42 +395,6 @@
     background: rgba(63, 185, 80, 0.12);
 }
 
-.pilot-crest-alliance {
-    background: rgba(63, 185, 80, 0.04);
-    border-color: rgba(63, 185, 80, 0.2);
-}
-
-.pilot-crest-alliance img:not([src]),
-.pilot-crest-alliance img[src=""] {
-    display: none;
-}
-
-.pilot-crest-alliance::before {
-    content: "—";
-    font-family: var(--mono-font);
-    color: rgba(63, 185, 80, 0.3);
-    font-size: 1.2rem;
-    position: absolute;
-    inset: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    z-index: 0;
-}
-
-.pilot-crest-alliance img {
-    position: relative;
-    z-index: 1;
-}
-
-.pilot-alliance {
-    font-size: 0.85rem;
-    color: var(--neon-green);
-    text-shadow: 0 0 4px rgba(63, 185, 80, 0.3);
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-}
 
 
 /* ============================= */
