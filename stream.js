@@ -374,6 +374,9 @@ socket.on('raw-kill', (kill) => {
         <div class="corp-square-container me-3">
             <img src="${kill.corpImageUrl}" alt="Corporation Logo" class="corp-logo-square" loading="lazy">
         </div>
+        <div class="corp-square-container me-3">
+            <img src="${kill.allianceImageUrl}" alt="Alliance Logo" class="corp-logo-square" loading="lazy">
+        </div>
         <div class="text-end" style="width: 100px;">
             <!-- <div class="${val >= 1000000000 ? 'isk-billion' : 'isk-million'} fw-bold">${formatIskValue(val)}</div> -->
             <div class="${val >= 1000000000 ? 'isk-billion' : 'isk-million'} fw-bold isk-value"></div>
