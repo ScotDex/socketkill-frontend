@@ -1,0 +1,37 @@
+/* Add this to your style.css */
+.fit-row {
+    @apply grid grid-cols-[24px_1fr_auto_auto] items-center gap-2 p-1.5 text-xs border-l-2 border-transparent;
+}
+
+.fit-icon {
+    @apply w-6 h-6 bg-black/40 border border-eve-border flex items-center justify-center;
+}
+
+.fit-name {
+    @apply text-white truncate font-exo font-medium;
+}
+
+.fit-value {
+    @apply text-eve-accent text-xs text-right;
+}
+
+.fit-qty {
+    @apply text-gray-400 font-bold ml-2;
+}
+
+.attacker-row {
+    @apply grid grid-cols-[40px_40px_1fr_auto] items-center gap-2 p-2 border-b border-eve-border;
+}
+
+.attacker-portrait,
+.attacker-ship {
+    @apply w-10 h-10 border border-eve-border bg-black;
+}
+
+.attacker-name {
+    @apply text-sm text-white font-exo;
+}
+
+.attacker-corp {
+    @apply text-[10px] text-gray-400;
+}
