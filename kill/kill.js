@@ -216,7 +216,15 @@ function renderGroup({ key, label }, items) {
                 <span>&gt; ${label}</span>
                 ${count > 0 ? `<span class="text-[10px] text-gray-600">${count}</span>` : ''}
             </div>
-            ${items.length === 0 ? '<div class="text-[10px] text-gray-700 italic ml-2">&gt; NONE</div>' : items.slice(0, VISIBLE_FIT_ITEMS).map(renderItemRow).join('')}
+            ${items.length === 0 ? '<div class="text-[10px] text-gray-700 italic ml-2">&gt; NONE</div>' : `
+                <div class="grid grid-cols-[32px_1fr_auto_auto] items-center gap-3 px-1.5 py-1 text-[9px] tracking-widest text-gray-600 uppercase">
+                    <span></span>
+                    <span>ITEM</span>
+                    <span></span>
+                    <span class="text-right">VALUE</span>
+                </div>
+                ${items.slice(0, VISIBLE_FIT_ITEMS).map(renderItemRow).join('')}
+            `}
             ${items.length > VISIBLE_FIT_ITEMS ? `
                 <button class="w-full mt-2 py-1 text-[10px] text-eve-accent border border-eve-border hover:bg-white/5 transition-colors">
                     SHOW ${items.length - VISIBLE_FIT_ITEMS} MORE
@@ -237,8 +245,8 @@ function renderItemRow(item) {
                 <img src="https://api.socketkill.com/render/market/${item.typeID}" alt="" class="w-full h-full object-cover opacity-90" loading="lazy">
             </div>
             <div class="text-white truncate font-exo font-medium" title="${escapeHtml(item.name)}">${escapeHtml(item.name)}</div>
-            <div class="text-eve-accent text-right font-mono">${item.formattedValue || ''}</div>
             <div class="text-gray-400 font-bold ml-2">${item.quantity > 1 ? `×${item.quantity.toLocaleString()}` : ''}</div>
+            <div class="text-eve-accent text-right font-mono">${item.formattedValue || ''}</div>
         </div>
     `;
 }
