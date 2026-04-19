@@ -73,10 +73,10 @@ export async function onRequest(context) {
   }
 </script>
 
-    <link rel="icon" type="image/png" href="https://edge.socketkill.com/favicon.png">
-   <link rel="stylesheet" href="/style.css">  
-   <link rel="stylesheet" href="/kill/components.css">
-   <link rel="stylesheet" href="/kill/base.css"> 
+<link rel="icon" type="image/png" href="https://edge.socketkill.com/favicon.png">
+<link rel="stylesheet" href="/style.css">  
+<link rel="stylesheet" href="/kill/components.css">
+<link rel="stylesheet" href="/kill/base.css"> 
 
     <!-- Cloudflare Web Analytics --><script defer src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "9a7b8334fd974f46a3b570cbc18d90b1"}'></script><!-- End Cloudflare Web Analytics -->
 
@@ -163,7 +163,7 @@ export async function onRequest(context) {
     <section class="fade-card md:col-span-3 flex flex-col gap-4">
         <div class="bg-eve-dark border border-eve-border rounded-sm overflow-hidden">
             <div class="bg-black/40 px-3 py-2 border-b border-eve-border flex justify-between items-center text-[10px] tracking-widest text-gray-400 font-exo uppercase">
-                <span>VESSEL DESTROYED</span>
+                <span>TARGET DESTROYED</span>
                 <span class="text-eve-accent">WRECKAGE SCANNED</span>
             </div>
             <div class="relative"><img id="ship-render-img" class="w-full h-auto"></div>
