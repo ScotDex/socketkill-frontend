@@ -100,7 +100,7 @@ export async function onRequest(context) {
         <div class="fade-card bg-eve-dark border border-eve-border rounded-sm overflow-hidden">
             <div class="bg-black/40 px-3 py-2 border-b border-eve-border flex justify-between items-center text-[10px] tracking-widest text-gray-400 font-exo uppercase">
                 <span>PILOT ID</span>
-                <span class="text-eve-accent">RECORD ARCHIVED</span>
+                <span class="text-eve-accent">RECORD UPLOADED</span>
             </div>
             <div class="p-3 space-y-3">
                 <div class="flex items-center gap-3">
@@ -113,16 +113,15 @@ export async function onRequest(context) {
                 </div>
                 <div class="flex items-center gap-3">
                     <div class="w-8 h-8"><img id="pilot-alliance-img" class="w-full h-full object-contain"></div>
-                    <div id="pilot-alliance" class="text-xs text-gray-400">UNASSOCIATED</div>
+                    <div id="pilot-alliance" class="text-xs text-gray-400">NO ALLIANCE</div>
                 </div>
             </div>
-            <div class="bg-black/20 px-3 py-1 text-[10px] text-eve-accent tracking-tighter border-t border-eve-border">&gt; STATUS: KIA</div>
+            <div class="bg-black/20 px-3 py-1 text-[10px] text-eve-accent tracking-tighter border-t border-eve-border">&gt; STATUS: DEAD</div>
         </div>
 
         <div class="fade-card bg-eve-dark border border-eve-border rounded-sm overflow-hidden">
             <div class="bg-black/40 px-3 py-2 border-b border-eve-border flex justify-between items-center text-[10px] tracking-widest text-gray-400 font-exo uppercase">
                 <span>LOCATION DATA</span>
-                <span class="text-eve-accent">SCAN COMPLETE</span>
             </div>
             <div class="p-3 space-y-2 text-xs font-mono">
                 <div class="flex justify-between"><span class="text-gray-500">SYSTEM</span><span id="location-system" class="text-white">—</span></div>
@@ -136,7 +135,6 @@ export async function onRequest(context) {
         <div class="fade-card bg-eve-dark border border-eve-border rounded-sm overflow-hidden">
             <div class="bg-black/40 px-3 py-2 border-b border-eve-border flex justify-between items-center text-[10px] tracking-widest text-gray-400 font-exo uppercase">
                 <span>VALUE ANALYSIS</span>
-                <span class="text-eve-accent">SCAN COMPLETE</span>
             </div>
             <div class="p-3 space-y-2 text-xs font-mono">
                 <div class="flex justify-between"><span class="text-gray-500">TOTAL VALUE</span><span id="value-total" class="text-white">—</span></div>
@@ -149,7 +147,7 @@ export async function onRequest(context) {
     <section class="fade-card md:col-span-6 bg-eve-dark border border-eve-border rounded-sm p-4">
         <div class="text-[10px] tracking-widest text-gray-500 mb-4">&gt; WRECKAGE RECOVERED</div>
         <div id="fit-groups" class="space-y-4">
-            <div class="text-sm text-gray-500 italic">&gt; ITEM ANALYSIS PENDING</div>
+            <div class="text-sm text-gray-500 italic">&gt; NO DATA</div>
         </div>
     </section>
 
@@ -168,12 +166,12 @@ export async function onRequest(context) {
 
         <div class="fade-card bg-eve-dark border border-eve-border rounded-sm p-3">
             <div class="text-[10px] tracking-widest text-gray-500 mb-2">&gt; RECOVERED FOOTAGE</div>
-            <div id="replay-slot" class="text-sm text-gray-500">&gt; AWAITING FOOTAGE</div>
+            <div id="replay-slot" class="text-sm text-gray-500">&gt; EXPLOSION REPLAY</div>
         </div>
 
         <div class="fade-card bg-eve-dark border border-eve-border rounded-sm p-3">
             <div class="flex justify-between mb-2">
-                <span class="text-[10px] tracking-widest text-gray-500">&gt; HOSTILES</span>
+                <span class="text-[10px] tracking-widest text-gray-500">&gt; ATTACKERS</span>
                 <span id="attacker-count" class="text-xs text-eve-accent">0</span>
             </div>
             <ul id="attacker-list" class="space-y-2"></ul>
