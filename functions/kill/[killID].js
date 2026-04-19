@@ -97,7 +97,7 @@ export async function onRequest(context) {
 
 <main class="grid grid-cols-1 md:grid-cols-12 gap-4 p-4 max-w-7xl mx-auto">
     <section class="md:col-span-3 flex flex-col gap-4">
-        <div class="bg-eve-dark border border-eve-border rounded-sm overflow-hidden">
+        <div class="fade-card bg-eve-dark border border-eve-border rounded-sm overflow-hidden">
             <div class="bg-black/40 px-3 py-2 border-b border-eve-border flex justify-between items-center text-[10px] tracking-widest text-gray-400 font-exo uppercase">
                 <span>PILOT ID</span>
                 <span class="text-eve-accent">RECORD ARCHIVED</span>
@@ -119,7 +119,7 @@ export async function onRequest(context) {
             <div class="bg-black/20 px-3 py-1 text-[10px] text-eve-accent tracking-tighter border-t border-eve-border">&gt; STATUS: KIA</div>
         </div>
 
-        <div class="bg-eve-dark border border-eve-border rounded-sm overflow-hidden">
+        <div class="fade-card bg-eve-dark border border-eve-border rounded-sm overflow-hidden">
             <div class="bg-black/40 px-3 py-2 border-b border-eve-border flex justify-between items-center text-[10px] tracking-widest text-gray-400 font-exo uppercase">
                 <span>LOCATION DATA</span>
                 <span class="text-eve-accent">SCAN COMPLETE</span>
@@ -133,7 +133,7 @@ export async function onRequest(context) {
             <div class="bg-black/20 px-3 py-1 text-[10px] text-eve-accent border-t border-eve-border">&gt; COORDINATES LOGGED</div>
         </div>
 
-        <div class="bg-eve-dark border border-eve-border rounded-sm overflow-hidden">
+        <div class="fade-card bg-eve-dark border border-eve-border rounded-sm overflow-hidden">
             <div class="bg-black/40 px-3 py-2 border-b border-eve-border flex justify-between items-center text-[10px] tracking-widest text-gray-400 font-exo uppercase">
                 <span>VALUE ANALYSIS</span>
                 <span class="text-eve-accent">SCAN COMPLETE</span>
@@ -146,14 +146,14 @@ export async function onRequest(context) {
         </div>
     </section>
 
-    <section class="md:col-span-6 bg-eve-dark border border-eve-border rounded-sm p-4">
+    <section class="fade-card md:col-span-6 bg-eve-dark border border-eve-border rounded-sm p-4">
         <div class="text-[10px] tracking-widest text-gray-500 mb-4">&gt; WRECKAGE RECOVERED</div>
         <div id="fit-groups" class="space-y-4">
             <div class="text-sm text-gray-500 italic">&gt; ITEM ANALYSIS PENDING</div>
         </div>
     </section>
 
-    <section class="md:col-span-3 flex flex-col gap-4">
+    <section class="fade-card md:col-span-3 flex flex-col gap-4">
         <div class="bg-eve-dark border border-eve-border rounded-sm overflow-hidden">
             <div class="bg-black/40 px-3 py-2 border-b border-eve-border flex justify-between items-center text-[10px] tracking-widest text-gray-400 font-exo uppercase">
                 <span>VESSEL DESTROYED</span>
@@ -166,12 +166,12 @@ export async function onRequest(context) {
             </div>
         </div>
 
-        <div class="bg-eve-dark border border-eve-border rounded-sm p-3">
+        <div class="fade-card bg-eve-dark border border-eve-border rounded-sm p-3">
             <div class="text-[10px] tracking-widest text-gray-500 mb-2">&gt; RECOVERED FOOTAGE</div>
             <div id="replay-slot" class="text-sm text-gray-500">&gt; AWAITING FOOTAGE</div>
         </div>
 
-        <div class="bg-eve-dark border border-eve-border rounded-sm p-3">
+        <div class="fade-card bg-eve-dark border border-eve-border rounded-sm p-3">
             <div class="flex justify-between mb-2">
                 <span class="text-[10px] tracking-widest text-gray-500">&gt; HOSTILES</span>
                 <span id="attacker-count" class="text-xs text-eve-accent">0</span>
