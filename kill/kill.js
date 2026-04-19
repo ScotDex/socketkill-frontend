@@ -278,11 +278,23 @@ function escapeHtml(s) {
     }[c]));
 }
 
-function classifySecurity(sec) {
+function classifySecurity(system) {
+    if (!system || system.security == null) return { label: 'UNKNOWN', className: '' };
+
+    // Wormhole space: system IDs 31000000+
+    if (system.id >= 31000000 && system.id < 32000000) {
+        return { label: 'WORMHOLE', className: 'sec-wspace' };
+    }
+
+    // Pochven: region "Pochven" (regionID 10000070)
+    if (system.regionID === 10000070 || system.region === 'Pochven') {
+        return { label: 'POCHVEN', className: 'sec-pochven' };
+    }
+
+    const sec = system.security;
     if (sec >= 0.5) return { label: `HIGHSEC (${sec.toFixed(1)})`, className: 'sec-highsec' };
     if (sec > 0.0) return { label: `LOWSEC (${sec.toFixed(1)})`, className: 'sec-lowsec' };
-    if (sec > -0.99) return { label: `NULLSEC (${sec.toFixed(2)})`, className: 'sec-nullsec' };
-    return { label: 'UNKNOWN', className: '' };
+    return { label: `NULLSEC (${sec.toFixed(1)})`, className: 'sec-nullsec' };
 }
 
 function formatTime(iso) {
