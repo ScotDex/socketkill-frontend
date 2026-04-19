@@ -41,7 +41,7 @@
     position: fixed;
     top: 14px;
     right: 14px;
-    z-index: 100;
+    z-index: 9999;
     display: flex;
     align-items: center;
     gap: 8px;
@@ -89,23 +89,15 @@
     }
 }
 
-/* ============================= */
-/*  FIT PANEL (placeholder v1)   */
-/* ============================= */
-
 .site-header {
     display: flex;
     justify-content: center;
-    /* Centers children horizontally */
     align-items: center;
-    /* Centers children vertically */
     width: 100%;
     padding: 2rem 0;
-    /* Give it some breathing room */
 }
 
 .header-main {
-    /* You can rename this to .header-main for clarity */
     display: flex;
     justify-content: center;
 }
@@ -126,7 +118,6 @@
 .site-title {
     font-family: 'Share Tech Mono', monospace;
     font-size: 1.8rem;
-    /* Scaled up from h5 default */
     letter-spacing: 2px;
     color: #e0e0e0;
     text-transform: uppercase;
@@ -136,7 +127,6 @@
     align-items: center;
 }
 
-/* The Cursor Animation */
 .typewriter::after {
     content: '_';
     animation: blink 1s step-end infinite;
@@ -169,8 +159,6 @@
     }
 }
 
-
-/* Security status colour coding */
 .sec-highsec {
     color: #3fb950;
 }
@@ -190,11 +178,6 @@
 .sec-pochven {
     color: #9b59b6;
 }
-
-
-/* ============================= */
-/*  RESPONSIVE COLLAPSE          */
-/* ============================= */
 
 @media (max-width: 1100px) {
     .kill-grid {
