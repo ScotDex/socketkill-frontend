@@ -76,7 +76,7 @@ export async function onRequest(context) {
     <link rel="icon" type="image/png" href="https://edge.socketkill.com/favicon.png">
    <link rel="stylesheet" href="/style.css"> 
    <link rel="stylesheet" href="/kill/components.css">
-   <link rel="stylesheet" href="/kill/base.css">
+   <!-- <link rel="stylesheet" href="/kill/base.css"> -->
 
     <!-- Cloudflare Web Analytics --><script defer src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "9a7b8334fd974f46a3b570cbc18d90b1"}'></script><!-- End Cloudflare Web Analytics -->
 </head>

@@ -111,33 +111,30 @@ function renderAttackers(attackers) {
     const expandBtn = document.getElementById('attacker-expand');
 
     const renderRows = (arr) => arr.map(a => `
-        <li class="attacker-row${a.finalBlow ? ' final-blow' : ''}">
-            <div class="attacker-portrait">
-                ${a.characterID ? `<img src="${EVE_IMG}/characters/${a.characterID}/portrait?size=64" alt="">` : ''}
+        <li class="grid grid-cols-[40px_40px_1fr_auto] items-center gap-2 p-2 border-b border-white/5 ${a.finalBlow ? 'bg-red-900/10' : ''}">
+            <div class="w-10 h-10 bg-black border border-eve-border overflow-hidden">
+                ${a.characterID ? `<img src="${EVE_IMG}/characters/${a.characterID}/portrait?size=64" class="w-full h-full object-cover" alt="">` : ''}
             </div>
-            <div class="attacker-ship">
-                ${a.shipTypeID ? `<img src="${EVE_IMG}/types/${a.shipTypeID}/render?size=64" alt="">` : ''}
+            <div class="w-10 h-10 bg-black border border-eve-border overflow-hidden">
+                ${a.shipTypeID ? `<img src="${EVE_IMG}/types/${a.shipTypeID}/render?size=64" class="w-full h-full object-cover" alt="">` : ''}
             </div>
-            <div class="attacker-info">
-                <div class="attacker-name">${escapeHtml(a.name)}</div>
-                <div class="attacker-corp">${escapeHtml(a.corp)}</div>
+            <div class="min-w-0">
+                <div class="text-sm text-white font-exo truncate">${escapeHtml(a.name)}</div>
+                <div class="text-[10px] text-gray-400 truncate">${escapeHtml(a.corp)}</div>
             </div>
-            <div class="attacker-damage">${a.damage.toLocaleString()}</div>
+            <div class="font-mono text-xs text-gray-300 text-right">${a.damage.toLocaleString()}</div>
         </li>
     `).join('');
 
     list.innerHTML = renderRows(sorted.slice(0, VISIBLE_ATTACKERS));
 
-    const remaining = sorted.length - VISIBLE_ATTACKERS;
-    if (remaining > 0) {
+    if (sorted.length > VISIBLE_ATTACKERS) {
         expandBtn.hidden = false;
-        document.getElementById('attacker-expand-count').textContent = remaining;
+        document.getElementById('attacker-expand-count').textContent = sorted.length - VISIBLE_ATTACKERS;
         expandBtn.onclick = () => {
             list.innerHTML = renderRows(sorted);
             expandBtn.hidden = true;
         };
-    } else {
-        expandBtn.hidden = true;
     }
 }
 
@@ -213,32 +210,18 @@ function renderGroup({ key, label }, items) {
 
     const count = items.reduce((sum, i) => sum + i.quantity, 0);
 
-    let body;
-    if (items.length === 0) {
-        body = `<div class="fit-group-empty">&gt; NONE</div>`;
-    } else if (items.length <= VISIBLE_FIT_ITEMS) {
-        body = items.map(renderItemRow).join('');
-    } else {
-        const visible = items.slice(0, VISIBLE_FIT_ITEMS).map(renderItemRow).join('');
-        const hiddenCount = items.length - VISIBLE_FIT_ITEMS;
-        const hiddenItemsHtml = items.slice(VISIBLE_FIT_ITEMS).map(renderItemRow).join('');
-
-        body = `
-            ${visible}
-            <div class="fit-hidden" data-hidden-html="${escapeHtml(hiddenItemsHtml)}"></div>
-            <button class="fit-expand" data-group="${key}">
-                SHOW <span>${hiddenCount}</span> MORE
-            </button>
-        `;
-    }
-
     return `
-        <div class="fit-group" data-group="${key}">
-            <div class="fit-group-header">
+        <div class="fit-group mb-4" data-group="${key}">
+            <div class="flex justify-between items-center text-[10px] tracking-widest text-gray-500 uppercase mb-2 border-b border-white/5 pb-1">
                 <span>&gt; ${label}</span>
-                ${count > 0 ? `<span class="fit-group-count">${count}</span>` : ''}
+                ${count > 0 ? `<span class="text-[10px] text-gray-600">${count}</span>` : ''}
             </div>
-            ${body}
+            ${items.length === 0 ? '<div class="text-[10px] text-gray-700 italic ml-2">&gt; NONE</div>' : items.slice(0, VISIBLE_FIT_ITEMS).map(renderItemRow).join('')}
+            ${items.length > VISIBLE_FIT_ITEMS ? `
+                <button class="w-full mt-2 py-1 text-[10px] text-eve-accent border border-eve-border hover:bg-white/5 transition-colors">
+                    SHOW ${items.length - VISIBLE_FIT_ITEMS} MORE
+                </button>
+            ` : ''}
         </div>
     `;
 }
