@@ -108,12 +108,12 @@ export async function onRequest(context) {
                     <div id="pilot-name" class="font-exo font-bold text-white text-sm"></div>
                 </div>
                 <div class="flex items-center gap-3">
-                    <div class="w-8 h-8"><img id="pilot-crest-img" class="w-full h-full object-contain"></div>
-                    <div id="pilot-corp" class="text-xs text-gray-300"></div>
+                    <div class="w-10 h-10"><img id="pilot-crest-img" class="w-full h-full object-contain"></div>
+                    <div id="pilot-corp" class="font-exo font-bold text-white text-sm"></div>
                 </div>
                 <div class="flex items-center gap-3">
-                    <div class="w-8 h-8"><img id="pilot-alliance-img" class="w-full h-full object-contain"></div>
-                    <div id="pilot-alliance" class="text-xs text-gray-400">NO ALLIANCE</div>
+                    <div class="w-10 h-10"><img id="pilot-alliance-img" class="w-full h-full object-contain"></div>
+                    <div id="pilot-alliance" class="font-exo font-bold text-white text-sm">NO ALLIANCE</div>
                 </div>
             </div>
             <div class="bg-black/20 px-3 py-1 text-[10px] text-eve-accent tracking-tighter border-t border-eve-border">&gt; STATUS: DEAD</div>
