@@ -41,7 +41,8 @@
     position: fixed;
     top: 14px;
     right: 14px;
-    z-index: 9999;
+    z-index: 99999 !important;
+    isolation: isolate;
     display: flex;
     align-items: center;
     gap: 8px;
