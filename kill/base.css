@@ -65,51 +65,6 @@
 }
 
 
-body {
-    background-color: var(--dark-bg);
-    background-size: cover;
-    background-position: center;
-    background-attachment: fixed;
-    min-height: 100vh;
-    margin: 0;
-    padding: 0;
-    font-family: 'Exo 2', sans-serif;
-    color: #c9d1d9;
-}
-
-.kill-grid {
-    display: grid;
-    grid-template-columns: 340px 1fr 380px;
-    gap: 24px;
-    max-width: 1600px;
-    margin: 0 auto;
-    padding: 40px 30px;
-    min-height: 100vh;
-    align-items: start;
-}
-
-.zone-pilot,
-.zone-ship,
-.zone-intel {
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-}
-
-/* ============================= */
-/*  SHARED SECTION CHROME        */
-/* ============================= */
-
-.section-header {
-    font-family: var(--mono-font);
-    font-size: 0.75rem;
-    color: var(--neon-green);
-    letter-spacing: 2px;
-    text-transform: uppercase;
-    margin-bottom: 8px;
-    text-shadow: var(--phosphor-glow);
-}
-
 /* ============================= */
 /*  PILOT IDENTIFICATION CARD    */
 /* ============================= */
