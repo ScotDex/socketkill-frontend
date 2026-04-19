@@ -48,7 +48,10 @@ async function loadKill() {
 
 function render(data) {
     // Pilot card
-    setText('pilot-name', data.victim.name);
+    const el = document.getElementById('pilot-name');
+    el.innerHTML = data.victim.characterID
+        ? `<a href="https://zkillboard.com/character/${data.victim.characterID}/" target="_blank" rel="noopener noreferrer">${escapeHtml(data.victim.name)}</a>`
+        : escapeHtml(data.victim.name);
     setText('pilot-corp', data.victim.corp);
     setText('pilot-alliance', data.victim.alliance || 'UNAFFILIATED');
 
@@ -168,7 +171,7 @@ function renderFit(items) {
     if (!container) return;
 
     if (!items || items.status !== 'resolved') {
-        container.innerHTML = `<div class="fit-pending">&gt; ITEM ANALYSIS PENDING</div>`;
+        container.innerHTML = `<div class="text-white truncate font-exo font-medium">&gt; NO LOOT</div>`;
         return;
     }
 
@@ -176,7 +179,7 @@ function renderFit(items) {
     const hasAnyItems = Object.values(groups).some(arr => arr && arr.length > 0);
 
     if (!hasAnyItems) {
-        container.innerHTML = `<div class="fit-pending">&gt; NO RECOVERABLE WRECKAGE</div>`;
+        container.innerHTML = `<div class="text-white truncate font-exo font-medium">&gt; NO RECOVERABLE WRECKAGE</div>`;
         return;
     }
 
