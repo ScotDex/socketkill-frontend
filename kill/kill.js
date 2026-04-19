@@ -231,16 +231,14 @@ function renderItemRow(item) {
         : item.dropped > 0 ? 'bg-green-500/10 border-l-green-500'
             : 'bg-red-500/10 border-l-red-500';
 
-    const qtyDisplay = item.quantity > 1 ? `×${item.quantity.toLocaleString()}` : '';
-
     return `
-        <div class="grid grid-cols-[32px_1fr_auto_auto] items-center gap-3 p-2 border-b border-white/5 text-xs font-mono ${state} border-l-4">
+        <div class="grid grid-cols-[32px_1fr_auto_auto] items-center gap-3 p-1.5 border-b border-white/5 text-xs font-mono border-l-4 ${state}">
             <div class="w-8 h-8 bg-black border border-eve-border flex items-center justify-center">
                 <img src="https://api.socketkill.com/render/market/${item.typeID}" alt="" class="w-full h-full object-cover opacity-90" loading="lazy">
             </div>
             <div class="text-white truncate font-exo font-medium" title="${escapeHtml(item.name)}">${escapeHtml(item.name)}</div>
             <div class="text-eve-accent text-right font-mono">${item.formattedValue || ''}</div>
-            <div class="text-gray-400 font-bold ml-2">${qtyDisplay}</div>
+            <div class="text-gray-400 font-bold ml-2">${item.quantity > 1 ? `×${item.quantity.toLocaleString()}` : ''}</div>
         </div>
     `;
 }
