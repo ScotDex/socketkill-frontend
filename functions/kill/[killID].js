@@ -80,21 +80,7 @@ export async function onRequest(context) {
 
     <!-- Cloudflare Web Analytics --><script defer src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "9a7b8334fd974f46a3b570cbc18d90b1"}'></script><!-- End Cloudflare Web Analytics -->
 
-    <script>
-    document.getElementById('share-btn')?.addEventListener('click', () => {
-        if (navigator.share) {
-            navigator.share({
-                title: document.title,
-                text: 'Check out this killmail on Socket.Kill',
-                url: window.location.href
-            });
-        } else {
-            // Fallback for browsers that don't support it
-            navigator.clipboard.writeText(window.location.href);
-            alert('Link copied to clipboard!');
-        }
-    });
-</script>
+
 </head>
 <body data-kill='${embeddedData}'>
 
@@ -206,6 +192,21 @@ export async function onRequest(context) {
 </main>
 
     <script src="/kill/kill.js"></script>
+        <script>
+    document.getElementById('share-btn')?.addEventListener('click', () => {
+        if (navigator.share) {
+            navigator.share({
+                title: document.title,
+                text: 'Check out this killmail on Socket.Kill',
+                url: window.location.href
+            });
+        } else {
+            // Fallback for browsers that don't support it
+            navigator.clipboard.writeText(window.location.href);
+            alert('Link copied to clipboard!');
+        }
+    });
+</script>
 </body>
 </html>`;
 
