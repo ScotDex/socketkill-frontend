@@ -70,8 +70,8 @@ function render(data) {
     setText('location-region', data.system?.region || '—');
     setText('location-time', formatTime(data.killmailTime));
 
-    if (data.system?.security !== undefined) {
-        const sec = classifySecurity(data.system.security);
+    if (data.system) {
+        const sec = classifySecurity(data.system);
         const el = document.getElementById('location-security');
         if (el) {
             el.textContent = sec.label;
