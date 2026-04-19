@@ -64,42 +64,7 @@
     }
 }
 
-/* ============================= */
-/*  SHIP / FIT / REPLAY / ATTACKERS SHARED PANEL */
-/* ============================= */
 
-.ship-panel,
-.fit-panel,
-.replay-panel,
-.attackers-panel {
-    background: rgba(10, 12, 16, 0.88);
-    border: 1px solid rgba(63, 185, 80, 0.35);
-    box-shadow:
-        0 0 18px rgba(63, 185, 80, 0.12),
-        inset 0 0 25px rgba(0, 0, 0, 0.5);
-    font-family: var(--mono-font);
-    backdrop-filter: blur(3px);
-}
-
-.ship-panel-header,
-.attackers-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    background: rgba(63, 185, 80, 0.1);
-    border-bottom: 1px solid rgba(63, 185, 80, 0.25);
-    padding: 8px 14px;
-    font-size: 0.65rem;
-    letter-spacing: 2px;
-    text-transform: uppercase;
-    color: var(--neon-green);
-    text-shadow: var(--phosphor-glow);
-}
-
-.ship-panel-status {
-    color: rgba(63, 185, 80, 0.55);
-    font-size: 0.6rem;
-}
 
 /* ============================= */
 /*  SHIP PANEL                   */
