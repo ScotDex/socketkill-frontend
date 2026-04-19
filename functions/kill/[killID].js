@@ -79,6 +79,22 @@ export async function onRequest(context) {
    <link rel="stylesheet" href="/kill/base.css"> 
 
     <!-- Cloudflare Web Analytics --><script defer src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "9a7b8334fd974f46a3b570cbc18d90b1"}'></script><!-- End Cloudflare Web Analytics -->
+
+    <script>
+    document.getElementById('share-btn')?.addEventListener('click', () => {
+        if (navigator.share) {
+            navigator.share({
+                title: document.title,
+                text: 'Check out this killmail on Socket.Kill',
+                url: window.location.href
+            });
+        } else {
+            // Fallback for browsers that don't support it
+            navigator.clipboard.writeText(window.location.href);
+            alert('Link copied to clipboard!');
+        }
+    });
+</script>
 </head>
 <body data-kill='${embeddedData}'>
 
@@ -140,6 +156,13 @@ export async function onRequest(context) {
                 <div class="flex justify-between"><span class="text-gray-500">TOTAL VALUE</span><span id="value-total" class="text-white">—</span></div>
                 <div class="flex justify-between"><span class="text-gray-500">DROPPED</span><span id="value-dropped" class="text-green-400">—</span></div>
                 <div class="flex justify-between"><span class="text-gray-500">DESTROYED</span><span id="value-destroyed" class="text-red-400">—</span></div>
+            </div>
+        </div>
+
+        <div class="fade-card bg-eve-dark border border-eve-border rounded-sm p-3">
+            <div class="flex justify-between items-center mb-2">
+                <span class="text-[10px] tracking-widest text-gray-500">&gt; ACTIONS</span>
+                <button id="share-btn" class="text-[9px] text-eve-accent border border-eve-border px-2 py-0.5">SHARE</button>
             </div>
         </div>
     </section>
