@@ -74,7 +74,7 @@ export async function onRequest(context) {
 </script>
 
     <link rel="icon" type="image/png" href="https://edge.socketkill.com/favicon.png">
-   <!-- <link rel="stylesheet" href="/style.css">  -->
+   <link rel="stylesheet" href="/style.css">  
    <link rel="stylesheet" href="/kill/components.css">
    <!-- <link rel="stylesheet" href="/kill/base.css"> -->
 
