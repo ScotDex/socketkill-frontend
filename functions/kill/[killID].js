@@ -119,16 +119,15 @@ export async function onRequest(context) {
             </div>
         </div>
 
-        <div class="fade-card bg-eve-dark border border-eve-border rounded-sm p-3">
-            <div class="flex justify-between items-center mb-2">
-                <span class="text-[10px] tracking-widest text-gray-500">&gt; ACTIONS</span>
-                <div class="flex gap-2">
-                <a href="https://eveship.fit/?fit=killmail:${id}/${data.killmailHash}"
-                target="_blank"
-                rel="noopener noreferrer"
-                class="text-[9px] text-eve-accent border border-eve-border px-2 py-0.5 hover:bg-white/5">VIEW FIT</a>
-                <button id="share-btn" class="text-[9px] text-eve-accent border border-eve-border px-2 py-0.5">SHARE</button>
+                <div class="fade-card bg-eve-dark border border-eve-border rounded-sm p-3">
+            <div class="flex justify-between mb-2">
+                <span class="text-[10px] tracking-widest text-gray-500">&gt; ATTACKERS</span>
+                <span id="attacker-count" class="text-xs text-eve-accent">0</span>
             </div>
+            <ul id="attacker-list" class="space-y-2"></ul>
+            <button id="attacker-expand" class="w-full mt-2 py-1 text-[10px] border border-eve-border hover:bg-white/5" hidden>
+                SHOW <span id="attacker-expand-count">0</span> MORE
+            </button>
         </div>
         </div>
     </section>
@@ -151,6 +150,17 @@ export async function onRequest(context) {
                 <div id="ship-name" class="font-bold text-white">—</div>
                 <div id="ship-value" class="text-xs text-eve-accent">—</div>
             </div>
+                <div class="fade-card bg-eve-dark border border-eve-border rounded-sm p-3">
+            <div class="flex justify-between items-center mb-2">
+                <span class="text-[10px] tracking-widest text-gray-500">&gt; ACTIONS</span>
+                <div class="flex gap-2">
+                <a href="https://eveship.fit/?fit=killmail:${id}/${data.killmailHash}"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="text-[9px] text-eve-accent border border-eve-border px-2 py-0.5 hover:bg-white/5">VIEW FIT</a>
+                <button id="share-btn" class="text-[9px] text-eve-accent border border-eve-border px-2 py-0.5">SHARE</button>
+            </div>
+        </div>
         </div>
                 <div class="fade-card bg-eve-dark border border-eve-border rounded-sm overflow-hidden">
             <div class="bg-black/40 px-3 py-2 border-b border-eve-border flex justify-between items-center text-[10px] tracking-widest text-gray-400 font-exo uppercase">
@@ -173,16 +183,7 @@ export async function onRequest(context) {
             </div>
             <div class="bg-black/20 px-3 py-1 text-[10px] text-eve-accent tracking-tighter border-t border-eve-border">&gt; STATUS: DEAD</div>
         </div>
-        <div class="fade-card bg-eve-dark border border-eve-border rounded-sm p-3">
-            <div class="flex justify-between mb-2">
-                <span class="text-[10px] tracking-widest text-gray-500">&gt; ATTACKERS</span>
-                <span id="attacker-count" class="text-xs text-eve-accent">0</span>
-            </div>
-            <ul id="attacker-list" class="space-y-2"></ul>
-            <button id="attacker-expand" class="w-full mt-2 py-1 text-[10px] border border-eve-border hover:bg-white/5" hidden>
-                SHOW <span id="attacker-expand-count">0</span> MORE
-            </button>
-        </div>
+
     </section>
 </main>
 
