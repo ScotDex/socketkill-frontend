@@ -50,9 +50,6 @@ export async function onRequest(context) {
     <meta name="twitter:title" content="${esc(title)}">
     <meta name="twitter:description" content="${esc(description)}">
     <meta name="twitter:image" content="${image}">
-
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@400;600;700;800&family=Share+Tech+Mono&display=swap" rel="stylesheet">
 <script src="https://cdn.tailwindcss.com"></script>
 <script>
@@ -74,7 +71,7 @@ export async function onRequest(context) {
 </script>
 
 <link rel="icon" type="image/png" href="https://edge.socketkill.com/favicon.png">
-<link rel="stylesheet" href="/style.css">  
+<!-- <link rel="stylesheet" href="/style.css"> -->
 <link rel="stylesheet" href="/kill/components.css">
 
     <!-- Cloudflare Web Analytics --><script defer src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "9a7b8334fd974f46a3b570cbc18d90b1"}'></script><!-- End Cloudflare Web Analytics -->
@@ -171,7 +168,7 @@ export async function onRequest(context) {
                 <span>TARGET DESTROYED</span>
                 <span class="text-eve-accent">WRECKAGE SCANNED</span>
             </div>
-            <div class="relative"><img id="ship-render-img" class="w-full h-auto"></div>
+            <div class="relative"><img id="ship-render-img" class="w-full h-auto [image-rendering:-webkit-optimize-contrast]"></div>
             <div class="p-3 border-t border-eve-border">
                 <div id="ship-name" class="font-bold text-white">—</div>
                 <div id="ship-value" class="text-xs text-eve-accent">—</div>
