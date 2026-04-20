@@ -93,7 +93,7 @@ function render(data) {
 
     // Body background ship render
     if (data.victim.shipTypeID) {
-        document.body.style.backgroundImage = `linear-gradient(rgba(10, 12, 16, 0.85), rgba(10, 12, 16, 0.95)), url(${EVE_IMG}/types/${data.victim.shipTypeID}/render?size=512)`;
+        document.body.style.backgroundImage = `linear-gradient(rgba(10, 12, 16, 0.85), rgba(10, 12, 16, 0.95)), url(${EVE_IMG}/types/${data.victim.shipTypeID}/render?size=1024)`;
     }
 
     // Attacker count
