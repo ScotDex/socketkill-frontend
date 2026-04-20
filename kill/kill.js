@@ -88,7 +88,7 @@ function render(data) {
     setText('ship-name', data.victim.ship);
     setText('ship-value', data.totalValue || '—');
     if (data.victim.shipTypeID) {
-        setImg('ship-render-img', `${EVE_IMG}/types/${data.victim.shipTypeID}/render?size=512`);
+        setImg('ship-render-img', `${EVE_IMG}/types/${data.victim.shipTypeID}/render?size=1024`);
     }
 
     // Body background ship render
