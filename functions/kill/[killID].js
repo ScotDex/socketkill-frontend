@@ -50,7 +50,6 @@ export async function onRequest(context) {
     <meta name="twitter:title" content="${esc(title)}">
     <meta name="twitter:description" content="${esc(description)}">
     <meta name="twitter:image" content="${image}">
-    <link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@400;600;700;800&family=Share+Tech+Mono&display=swap" rel="stylesheet">
 <script src="https://cdn.tailwindcss.com"></script>
 <script>
   tailwind.config = {
@@ -71,7 +70,6 @@ export async function onRequest(context) {
 </script>
 
 <link rel="icon" type="image/png" href="https://edge.socketkill.com/favicon.png">
-<!-- <link rel="stylesheet" href="/style.css"> -->
 <link rel="stylesheet" href="/kill/components.css">
 
     <!-- Cloudflare Web Analytics --><script defer src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "9a7b8334fd974f46a3b570cbc18d90b1"}'></script><!-- End Cloudflare Web Analytics -->
