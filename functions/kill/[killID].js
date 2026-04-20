@@ -148,8 +148,14 @@ export async function onRequest(context) {
         <div class="fade-card bg-eve-dark border border-eve-border rounded-sm p-3">
             <div class="flex justify-between items-center mb-2">
                 <span class="text-[10px] tracking-widest text-gray-500">&gt; ACTIONS</span>
+                <div class="flex gap-2">
+                <a href="https://eveship.fit/?fit=killmail:${id}/${data.killmailHash}"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="text-[9px] text-eve-accent border border-eve-border px-2 py-0.5 hover:bg-white/5">VIEW FIT</a>
                 <button id="share-btn" class="text-[9px] text-eve-accent border border-eve-border px-2 py-0.5">SHARE</button>
             </div>
+        </div>
         </div>
     </section>
 
