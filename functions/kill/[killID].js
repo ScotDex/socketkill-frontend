@@ -111,7 +111,7 @@ export async function onRequest(context) {
     <section class="md:col-span-3 flex flex-col gap-4">
 
 
-        <div class="fade-card bg-gray-900/40 backdrop-blur-md border border-white/10 rounded-sm overflow-hidden">
+        <div class="fade-card bg-eve-dark border border-eve-border rounded-sm overflow-hidden">
             <div class="bg-black/40 px-3 py-2 border-b border-eve-border flex justify-between items-center text-[10px] tracking-widest text-gray-400 font-exo uppercase">
                 <span>LOCATION DATA</span>
             </div>

@@ -222,4 +222,5 @@ body {
 .fade-card {
     animation: fadeIn 0.4s ease-out forwards;
     opacity: 0;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
 }
