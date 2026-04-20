@@ -38,6 +38,7 @@ export async function onRequest(context) {
     <title>${esc(title)} | Socketkill.com</title>
     <meta name="description" content="${esc(description)}">
     <meta name="author" content="Dexomus Viliana">
+    <meta name="keywords" content="eve online, eve, pvp, socket.kill, eve tool, pvp tracker, gatekeeper, killmails, kill, mail, third, party, tools">
 
     <meta property="og:type" content="article">
     <meta property="og:title" content="${esc(title)}">
@@ -69,6 +70,21 @@ export async function onRequest(context) {
   }
 </script>
 
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Event",
+  "name": "${esc(title)}",
+  "description": "${esc(description)}",
+  "location": {
+    "@type": "Place",
+    "name": "${data.system.name}"
+  },
+  "eventStatus": "https://schema.org/EventCancelled",
+  "startDate": "${data.time}"
+}
+</script>
+
 <link rel="icon" type="image/png" href="https://edge.socketkill.com/favicon.png">
 <link rel="stylesheet" href="/kill/components.css">
 
@@ -85,9 +101,9 @@ export async function onRequest(context) {
 
     <header class="site-header">
         <div class="header-left">
-            <h5 class="site-title m-0">
+            <h1 class="site-title m-0">
                 <span id="socket-title" class="typewriter" aria-label="Socket.Kill"></span>
-            </h5>
+            </h1>
         </div>
     </header>
 
