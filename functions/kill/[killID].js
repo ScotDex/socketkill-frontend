@@ -99,7 +99,7 @@ export async function onRequest(context) {
             <div class="bg-black/40 px-3 py-2 border-b border-eve-border flex justify-between items-center text-[10px] tracking-widest text-gray-400 font-exo uppercase">
                 <span>LOCATION DATA</span>
             </div>
-            <div class="p-3 space-y-2 text-xs font-mono">
+            <div class="p-3 space-y-2 text-sm font-mono">
                 <div class="flex justify-between"><span class="text-gray-500">SYSTEM</span><span id="location-system" class="text-white">—</span></div>
                 <div class="flex justify-between"><span class="text-gray-500">REGION</span><span id="location-region" class="text-white">—</span></div>
                 <div class="flex justify-between"><span class="text-gray-500">SEC.STATUS</span><span id="location-security" class="text-white">—</span></div>
@@ -112,7 +112,7 @@ export async function onRequest(context) {
             <div class="bg-black/40 px-3 py-2 border-b border-eve-border flex justify-between items-center text-[10px] tracking-widest text-gray-400 font-exo uppercase">
                 <span>VALUE ANALYSIS</span>
             </div>
-            <div class="p-3 space-y-2 text-xs font-mono">
+            <div class="p-3 space-y-2 text-sm font-mono">
                 <div class="flex justify-between"><span class="text-gray-500">TOTAL VALUE</span><span id="value-total" class="text-white">—</span></div>
                 <div class="flex justify-between"><span class="text-gray-500">DROPPED</span><span id="value-dropped" class="text-green-400">—</span></div>
                 <div class="flex justify-between"><span class="text-gray-500">DESTROYED</span><span id="value-destroyed" class="text-red-400">—</span></div>
@@ -122,7 +122,7 @@ export async function onRequest(context) {
                 <div class="fade-card bg-eve-dark border border-eve-border rounded-sm p-3">
             <div class="flex justify-between mb-2">
                 <span class="text-[10px] tracking-widest text-gray-500">&gt; ATTACKERS</span>
-                <span id="attacker-count" class="text-xs text-eve-accent">0</span>
+                <span id="attacker-count" class="text-sm text-eve-accent">0</span>
             </div>
             <ul id="attacker-list" class="space-y-2"></ul>
             <button id="attacker-expand" class="w-full mt-2 py-1 text-[10px] border border-eve-border hover:bg-white/5" hidden>
@@ -173,7 +173,7 @@ export async function onRequest(context) {
         <div class="relative"><img id="ship-render-img" class="w-full h-auto"></div>
         <div class="p-3 border-t border-eve-border">
             <div id="ship-name" class="font-bold text-white">—</div>
-            <div id="ship-value" class="text-xs text-eve-accent">—</div>
+            <div id="ship-value" class="text-sm text-eve-accent">—</div>
         </div>
     </div>
 
