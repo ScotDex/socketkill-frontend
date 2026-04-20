@@ -93,27 +93,7 @@ export async function onRequest(context) {
 
 <main class="grid grid-cols-1 md:grid-cols-12 gap-4 p-4 max-w-7xl mx-auto">
     <section class="md:col-span-3 flex flex-col gap-4">
-        <div class="fade-card bg-eve-dark border border-eve-border rounded-sm overflow-hidden">
-            <div class="bg-black/40 px-3 py-2 border-b border-eve-border flex justify-between items-center text-[10px] tracking-widest text-gray-400 font-exo uppercase">
-                <span>PILOT ID</span>
-                <span class="text-eve-accent">RECORD UPLOADED</span>
-            </div>
-            <div class="p-3 space-y-3">
-                <div class="flex items-center gap-3">
-                    <div class="w-10 h-10 bg-gray-800 rounded"><img id="pilot-portrait-img" class="w-full h-full object-cover"></div>
-                    <div id="pilot-name" class="font-exo font-bold text-white text-sm"></div>
-                </div>
-                <div class="flex items-center gap-3">
-                    <div class="w-10 h-10"><img id="pilot-crest-img" class="w-full h-full object-contain"></div>
-                    <div id="pilot-corp" class="font-exo font-bold text-white text-sm"></div>
-                </div>
-                <div class="flex items-center gap-3">
-                    <div class="w-10 h-10"><img id="pilot-alliance-img" class="w-full h-full object-contain"></div>
-                    <div id="pilot-alliance" class="font-exo font-bold text-white text-sm">NO ALLIANCE</div>
-                </div>
-            </div>
-            <div class="bg-black/20 px-3 py-1 text-[10px] text-eve-accent tracking-tighter border-t border-eve-border">&gt; STATUS: DEAD</div>
-        </div>
+
 
         <div class="fade-card bg-eve-dark border border-eve-border rounded-sm overflow-hidden">
             <div class="bg-black/40 px-3 py-2 border-b border-eve-border flex justify-between items-center text-[10px] tracking-widest text-gray-400 font-exo uppercase">
@@ -172,12 +152,27 @@ export async function onRequest(context) {
                 <div id="ship-value" class="text-xs text-eve-accent">—</div>
             </div>
         </div>
-
-        <div class="fade-card bg-eve-dark border border-eve-border rounded-sm p-3">
-            <div class="text-[10px] tracking-widest text-gray-500 mb-2">&gt; RECOVERED FOOTAGE</div>
-            <div id="replay-slot" class="text-sm text-gray-500">&gt; EXPLOSION REPLAY</div>
+                <div class="fade-card bg-eve-dark border border-eve-border rounded-sm overflow-hidden">
+            <div class="bg-black/40 px-3 py-2 border-b border-eve-border flex justify-between items-center text-[10px] tracking-widest text-gray-400 font-exo uppercase">
+                <span>PILOT ID</span>
+                <span class="text-eve-accent">RECORD UPLOADED</span>
+            </div>
+            <div class="p-3 space-y-3">
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 bg-gray-800 rounded"><img id="pilot-portrait-img" class="w-full h-full object-cover"></div>
+                    <div id="pilot-name" class="font-exo font-bold text-white text-sm"></div>
+                </div>
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10"><img id="pilot-crest-img" class="w-full h-full object-contain"></div>
+                    <div id="pilot-corp" class="font-exo font-bold text-white text-sm"></div>
+                </div>
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10"><img id="pilot-alliance-img" class="w-full h-full object-contain"></div>
+                    <div id="pilot-alliance" class="font-exo font-bold text-white text-sm">NO ALLIANCE</div>
+                </div>
+            </div>
+            <div class="bg-black/20 px-3 py-1 text-[10px] text-eve-accent tracking-tighter border-t border-eve-border">&gt; STATUS: DEAD</div>
         </div>
-
         <div class="fade-card bg-eve-dark border border-eve-border rounded-sm p-3">
             <div class="flex justify-between mb-2">
                 <span class="text-[10px] tracking-widest text-gray-500">&gt; ATTACKERS</span>
