@@ -139,52 +139,59 @@ export async function onRequest(context) {
         </div>
     </section>
 
-    <section class="fade-card md:col-span-3 flex flex-col gap-4">
-        <div class="bg-eve-dark border border-eve-border rounded-sm overflow-hidden">
-            <div class="bg-black/40 px-3 py-2 border-b border-eve-border flex justify-between items-center text-[10px] tracking-widest text-gray-400 font-exo uppercase">
-                <span>TARGET DESTROYED</span>
-                <span class="text-eve-accent">WRECKAGE SCANNED</span>
-            </div>
-            <div class="relative"><img id="ship-render-img" class="w-full h-auto [image-rendering:-webkit-optimize-contrast]"></div>
-            <div class="p-3 border-t border-eve-border">
-                <div id="ship-name" class="font-bold text-white">—</div>
-                <div id="ship-value" class="text-xs text-eve-accent">—</div>
-            </div>
-                <div class="fade-card bg-eve-dark border border-eve-border rounded-sm p-3">
-            <div class="flex justify-between items-center mb-2">
-                <span class="text-[10px] tracking-widest text-gray-500">&gt; ACTIONS</span>
-                <div class="flex gap-2">
-                <a href="https://eveship.fit/?fit=killmail:${id}/${data.killmailHash}"
-                target="_blank"
-                rel="noopener noreferrer"
-                class="text-[9px] text-eve-accent border border-eve-border px-2 py-0.5 hover:bg-white/5">VIEW FIT</a>
-                <button id="share-btn" class="text-[9px] text-eve-accent border border-eve-border px-2 py-0.5">SHARE</button>
-            </div>
-        </div>
-        </div>
-                <div class="fade-card bg-eve-dark border border-eve-border rounded-sm overflow-hidden">
-            <div class="bg-black/40 px-3 py-2 border-b border-eve-border flex justify-between items-center text-[10px] tracking-widest text-gray-400 font-exo uppercase">
-                <span>PILOT ID</span>
-                <span class="text-eve-accent">RECORD UPLOADED</span>
-            </div>
-            <div class="p-3 space-y-3">
-                <div class="flex items-center gap-3">
-                    <div class="w-10 h-10 bg-gray-800 rounded"><img id="pilot-portrait-img" class="w-full h-full object-cover"></div>
-                    <div id="pilot-name" class="font-exo font-bold text-white text-sm"></div>
-                </div>
-                <div class="flex items-center gap-3">
-                    <div class="w-10 h-10"><img id="pilot-crest-img" class="w-full h-full object-contain"></div>
-                    <div id="pilot-corp" class="font-exo font-bold text-white text-sm"></div>
-                </div>
-                <div class="flex items-center gap-3">
-                    <div class="w-10 h-10"><img id="pilot-alliance-img" class="w-full h-full object-contain"></div>
-                    <div id="pilot-alliance" class="font-exo font-bold text-white text-sm">NO ALLIANCE</div>
-                </div>
-            </div>
-            <div class="bg-black/20 px-3 py-1 text-[10px] text-eve-accent tracking-tighter border-t border-eve-border">&gt; STATUS: DEAD</div>
-        </div>
+<section class="md:col-span-3 flex flex-col gap-4">
 
-    </section>
+    <!-- PILOT CARD (top) -->
+    <div class="fade-card bg-eve-dark border border-eve-border rounded-sm overflow-hidden">
+        <div class="bg-black/40 px-3 py-2 border-b border-eve-border flex justify-between items-center text-[10px] tracking-widest text-gray-400 font-exo uppercase">
+            <span>PILOT ID</span>
+            <span class="text-eve-accent">RECORD UPLOADED</span>
+        </div>
+        <div class="p-3 space-y-3">
+            <div class="flex items-center gap-3">
+                <div class="w-10 h-10 bg-gray-800 rounded"><img id="pilot-portrait-img" class="w-full h-full object-cover"></div>
+                <div id="pilot-name" class="font-exo font-bold text-white text-sm"></div>
+            </div>
+            <div class="flex items-center gap-3">
+                <div class="w-10 h-10"><img id="pilot-crest-img" class="w-full h-full object-contain"></div>
+                <div id="pilot-corp" class="font-exo font-bold text-white text-sm"></div>
+            </div>
+            <div class="flex items-center gap-3">
+                <div class="w-10 h-10"><img id="pilot-alliance-img" class="w-full h-full object-contain"></div>
+                <div id="pilot-alliance" class="font-exo font-bold text-white text-sm">NO ALLIANCE</div>
+            </div>
+        </div>
+        <div class="bg-black/20 px-3 py-1 text-[10px] text-eve-accent tracking-tighter border-t border-eve-border">&gt; STATUS: DEAD</div>
+    </div>
+
+    <!-- SHIP CARD -->
+    <div class="fade-card bg-eve-dark border border-eve-border rounded-sm overflow-hidden">
+        <div class="bg-black/40 px-3 py-2 border-b border-eve-border flex justify-between items-center text-[10px] tracking-widest text-gray-400 font-exo uppercase">
+            <span>TARGET DESTROYED</span>
+            <span class="text-eve-accent">WRECKAGE SCANNED</span>
+        </div>
+        <div class="relative"><img id="ship-render-img" class="w-full h-auto"></div>
+        <div class="p-3 border-t border-eve-border">
+            <div id="ship-name" class="font-bold text-white">—</div>
+            <div id="ship-value" class="text-xs text-eve-accent">—</div>
+        </div>
+    </div>
+
+    <!-- ACTIONS CARD -->
+    <div class="fade-card bg-eve-dark border border-eve-border rounded-sm p-3">
+        <div class="flex justify-between items-center">
+            <span class="text-[10px] tracking-widest text-gray-500">&gt; ACTIONS</span>
+            <div class="flex gap-2">
+                <a href="https://eveship.fit/?fit=killmail:${id}/${data.killmailHash}"
+                   target="_blank"
+                   rel="noopener noreferrer"
+                   class="text-[9px] text-eve-accent border border-eve-border px-2 py-0.5 hover:bg-white/5">VIEW FIT</a>
+                <button id="share-btn" class="text-[9px] text-eve-accent border border-eve-border px-2 py-0.5 hover:bg-white/5">SHARE</button>
+            </div>
+        </div>
+    </div>
+
+</section>
 </main>
 
     <script src="/kill/kill.js"></script>
