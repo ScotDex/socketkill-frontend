@@ -194,18 +194,38 @@ export async function onRequest(context) {
     </div>
 
     <!-- ACTIONS CARD -->
-    <div class="fade-card bg-eve-dark border border-eve-border rounded-sm p-3">
-        <div class="flex justify-between items-center">
-            <span class="text-[10px] tracking-widest text-gray-500">&gt; ACTIONS</span>
-            <div class="flex gap-2">
-                <a href="https://eveship.fit/?fit=killmail:${id}/${data.killmailHash}"
-                   target="_blank"
-                   rel="noopener noreferrer"
-                   class="text-[9px] text-eve-accent border border-eve-border px-2 py-0.5 hover:bg-white/5">VIEW FIT</a>
-                <button id="share-btn" class="text-[9px] text-eve-accent border border-eve-border px-2 py-0.5 hover:bg-white/5">SHARE</button>
-            </div>
-        </div>
+<div class="fade-card bg-eve-dark border border-eve-border rounded-sm p-3">
+    <div class="flex justify-between items-center mb-3">
+        <span class="text-[10px] tracking-widest text-gray-500">&gt; ACTIONS</span>
+        <button id="share-btn" class="text-[9px] text-eve-accent border border-eve-border px-2 py-0.5 hover:bg-white/5 uppercase">Share</button>
     </div>
+    
+    <div class="grid grid-cols-2 gap-2">
+        <a href="https://eveship.fit/?fit=killmail:${id}/${data.killmailHash}"
+           target="_blank" rel="noopener noreferrer"
+           class="text-[9px] text-center text-eve-accent border border-eve-border px-2 py-1 hover:bg-white/5 transition-colors">
+           VIEW FIT
+        </a>
+        
+        <a href="https://zkillboard.com/kill/${id}/"
+           target="_blank" rel="noopener noreferrer"
+           class="text-[9px] text-center text-gray-400 border border-eve-border px-2 py-1 hover:text-white hover:border-white transition-colors">
+           ZKILLBOARD
+        </a>
+
+        <a href="https://eve-kill.net/kill/${id}/"
+           target="_blank" rel="noopener noreferrer"
+           class="text-[9px] text-center text-gray-400 border border-eve-border px-2 py-1 hover:text-white hover:border-white transition-colors">
+           EVE-KILL
+        </a>
+
+        <a href="https://ws.socketkill.com/api/kill/${id}"
+           target="_blank" rel="noopener noreferrer"
+           class="text-[9px] text-center text-gray-600 border border-eve-border px-2 py-1 hover:text-gray-400 transition-colors">
+           RAW DATA
+        </a>
+    </div>
+</div>
 
 </section>
 </main>
@@ -233,9 +253,10 @@ export async function onRequest(context) {
             <a href="/" class="hover:text-eve-accent transition-colors">&lt; BACK TO SOCKETKILL.COM</a>
         </div>
         <div class="space-x-4">
-            <a href="/about" class="hover:text-eve-accent">ABOUT</a>
-            <a href="https://github.com/yourhandle/socketkill" target="_blank" class="hover:text-eve-accent">GITHUB</a>
-            <a href="/api-docs" class="hover:text-eve-accent">API</a>
+            <a href="https://socketkill.com/about/" class="hover:text-eve-accent">ABOUT</a>
+            <a href="https://github.com/ScotDex/socketkill-frontend" target="_blank" class="hover:text-eve-accent">GITHUB</a>
+            <a href="https://api.socketkill.com/docs/" class="hover:text-eve-accent">API</a>
+            <a href="https://discord.gg/dpgmEm9REc" class="hover:text-eve-accent">DISCORD</a>
         </div>
         <div>
             &copy; 2026 SOCKETKILL.COM
