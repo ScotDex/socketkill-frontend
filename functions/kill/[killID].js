@@ -73,7 +73,7 @@ export async function onRequest(context) {
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
-  "@type": "Event",
+  "@type": "NewsArticle",
   "name": "${esc(title)}",
   "description": "${esc(description)}",
   "location": {
@@ -81,7 +81,7 @@ export async function onRequest(context) {
     "name": "${data.system.name}"
   },
   "eventStatus": "https://schema.org/EventCancelled",
-  "startDate": "${data.time}"
+  "startDate": "${data.killmailTime}"
 }
 </script>
 
@@ -256,7 +256,7 @@ export async function onRequest(context) {
             <a href="https://socketkill.com/about/" class="hover:text-eve-accent">ABOUT</a>
             <a href="https://github.com/ScotDex/socketkill-frontend" target="_blank" class="hover:text-eve-accent">GITHUB</a>
             <a href="https://api.socketkill.com/docs/" class="hover:text-eve-accent">API</a>
-            <a href="https://discord.gg/dpgmEm9REc" class="hover:text-eve-accent">DISCORD</a>
+            <a href="https://discord.gg/dpgmEm9REc" target="_blank" class="hover:text-eve-accent">DISCORD</a>
         </div>
         <div>
             &copy; 2026 SOCKETKILL.COM

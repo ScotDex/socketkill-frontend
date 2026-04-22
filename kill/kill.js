@@ -80,9 +80,9 @@ function render(data) {
     }
 
     // Cost analysis card
-    setText('value-total', data.totalValue || '—');
-    setText('value-dropped', data.droppedValue || '—');
-    setText('value-destroyed', data.destroyedValue || '—');
+    setText('value-total', data.totalValue ? `${data.totalValue} ISK` : '—');
+    setText('value-dropped', data.droppedValue ? `${data.droppedValue} ISK` : '—');
+    setText('value-destroyed', data.destroyedValue ? `${data.destroyedValue} ISK` : '—');
 
     // Ship panel
     setText('ship-name', data.victim.ship);
@@ -188,30 +188,22 @@ function renderFit(items) {
         .map(g => renderGroup(g, groups[g.key] || []))
         .join('');
 
-    // Wire up expand buttons after rendering
     container.querySelectorAll('.fit-expand').forEach(btn => {
         btn.addEventListener('click', () => {
-            const group = btn.closest('.fit-group');
-            const hidden = group.querySelector('.fit-hidden');
-            const hiddenHtml = hidden.dataset.hiddenHtml;
-
-            const decoded = hiddenHtml
-                .replace(/&amp;/g, '&')
-                .replace(/&lt;/g, '<')
-                .replace(/&gt;/g, '>')
-                .replace(/&quot;/g, '"')
-                .replace(/&#39;/g, "'");
-
-            hidden.outerHTML = decoded;
-            btn.remove();
+            const groupKey = btn.dataset.groupKey;
+            const groupDef = FIT_GROUP_ORDER.find(g => g.key === groupKey);
+            const groupEl = btn.closest('.fit-group');
+            groupEl.outerHTML = renderGroup(groupDef, groups[groupKey] || [], true);
         });
     });
 }
 
-function renderGroup({ key, label }, items) {
+function renderGroup({ key, label }, items, expanded = false) {
     if ((key === 'subsystem' || key === 'fighter') && items.length === 0) return '';
 
     const count = items.reduce((sum, i) => sum + i.quantity, 0);
+    const visibleItems = expanded ? items : items.slice(0, VISIBLE_FIT_ITEMS);
+    const showExpandButton = !expanded && items.length > VISIBLE_FIT_ITEMS;
 
     return `
         <div class="fit-group mb-4" data-group="${key}">
@@ -226,10 +218,10 @@ function renderGroup({ key, label }, items) {
                     <span></span>
                     <span class="text-right">VALUE</span>
                 </div>
-                ${items.slice(0, VISIBLE_FIT_ITEMS).map(renderItemRow).join('')}
+                ${visibleItems.map(renderItemRow).join('')}
             `}
-            ${items.length > VISIBLE_FIT_ITEMS ? `
-                <button class="w-full mt-2 py-1 text-[10px] text-eve-accent border border-eve-border hover:bg-white/5 transition-colors">
+            ${showExpandButton ? `
+                <button class="fit-expand w-full mt-2 py-1 text-[10px] text-eve-accent border border-eve-border hover:bg-white/5 transition-colors" data-group-key="${key}">
                     SHOW ${items.length - VISIBLE_FIT_ITEMS} MORE
                 </button>
             ` : ''}
