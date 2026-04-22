@@ -210,13 +210,13 @@ export async function onRequest(context) {
         <a href="https://zkillboard.com/kill/${id}/"
            target="_blank" rel="noopener noreferrer"
            class="text-[9px] text-center text-gray-400 border border-eve-border px-2 py-1 hover:text-white hover:border-white transition-colors">
-           ZKILLBOARD
+           VIEW ON ZKILLBOARD
         </a>
 
-        <a href="https://eve-kill.net/kill/${id}/"
+        <a href="https://eve-kill.com/kill/${id}/"
            target="_blank" rel="noopener noreferrer"
            class="text-[9px] text-center text-gray-400 border border-eve-border px-2 py-1 hover:text-white hover:border-white transition-colors">
-           EVE-KILL
+           VIEW ON EVE-KILL
         </a>
 
         <a href="https://ws.socketkill.com/api/kill/${id}"
