@@ -141,7 +141,7 @@ export async function onRequest(context) {
                 <span id="attacker-count" class="text-sm text-eve-accent">0</span>
             </div>
             <ul id="attacker-list" class="space-y-2"></ul>
-            <button id="attacker-expand" class="w-full mt-2 py-1 text-[10px] border border-eve-border hover:bg-white/5" hidden>
+            <button id="attacker-expand" class="w-full mt-2 py-1 text-[10px] border border-eve-border bg-black/60 text-eve-accent hover:bg-eve-accent hover:text-black transition-colors" hidden>
                 SHOW <span id="attacker-expand-count">0</span> MORE
             </button>
         </div>
@@ -226,6 +226,23 @@ export async function onRequest(context) {
         }
     });
 </script>
+
+<footer class="max-w-7xl mx-auto p-4 mt-8 border-t border-eve-border text-center">
+    <div class="flex flex-col md:flex-row justify-between items-center gap-4 text-[10px] tracking-widest text-gray-500 font-exo">
+        <div>
+            <a href="/" class="hover:text-eve-accent transition-colors">&lt; BACK TO SOCKETKILL.COM</a>
+        </div>
+        <div class="space-x-4">
+            <a href="/about" class="hover:text-eve-accent">ABOUT</a>
+            <a href="https://github.com/yourhandle/socketkill" target="_blank" class="hover:text-eve-accent">GITHUB</a>
+            <a href="/api-docs" class="hover:text-eve-accent">API</a>
+        </div>
+        <div>
+            &copy; 2026 SOCKETKILL.COM
+        </div>
+    </div>
+</footer>
+
 </body>
 </html>`;
 
