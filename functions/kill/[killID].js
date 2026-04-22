@@ -193,11 +193,44 @@ export async function onRequest(context) {
         </div>
     </div>
 
-    <!-- ACTIONS CARD -->
+ <!-- ACTIONS CARD -->
 <div class="fade-card bg-eve-dark border border-eve-border rounded-sm p-3">
     <div class="flex justify-between items-center mb-3">
         <span class="text-[10px] tracking-widest text-gray-500">&gt; ACTIONS</span>
-        <button id="share-btn" class="text-[9px] text-eve-accent border border-eve-border px-2 py-0.5 hover:bg-white/5 uppercase">Share</button>
+        <div class="flex gap-1">
+            <!-- X/Twitter -->
+            <a href="https://twitter.com/intent/tweet?text=${encodeURIComponent(esc(title))}&url=${encodeURIComponent(canonicalUrl)}"
+               target="_blank" rel="noopener noreferrer"
+               class="text-eve-accent border border-eve-border p-1 hover:bg-white/5 transition-colors"
+               aria-label="Share on X">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+                </svg>
+            </a>
+            
+            <!-- Copy Link -->
+            <button id="copy-link-btn"
+                    class="text-eve-accent border border-eve-border p-1 hover:bg-white/5 transition-colors"
+                    aria-label="Copy link">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/>
+                    <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/>
+                </svg>
+            </button>
+            
+            <!-- Native Share (mobile) -->
+            <button id="share-btn"
+                    class="text-eve-accent border border-eve-border p-1 hover:bg-white/5 transition-colors"
+                    aria-label="Share">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" xmlns="http://www.w3.org/2000/svg">
+                    <circle cx="18" cy="5" r="3"/>
+                    <circle cx="6" cy="12" r="3"/>
+                    <circle cx="18" cy="19" r="3"/>
+                    <line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/>
+                    <line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/>
+                </svg>
+            </button>
+        </div>
     </div>
     
     <div class="grid grid-cols-2 gap-2">
@@ -231,7 +264,11 @@ export async function onRequest(context) {
 </main>
 
     <script src="/kill/kill.js"></script>
-        <script>
+<script>
+    document.getElementById('copy-link-btn')?.addEventListener('click', () => {
+        navigator.clipboard.writeText(window.location.href);
+    });
+
     document.getElementById('share-btn')?.addEventListener('click', () => {
         if (navigator.share) {
             navigator.share({
@@ -240,9 +277,7 @@ export async function onRequest(context) {
                 url: window.location.href
             });
         } else {
-            // Fallback for browsers that don't support it
             navigator.clipboard.writeText(window.location.href);
-            alert('Link copied to clipboard!');
         }
     });
 </script>
