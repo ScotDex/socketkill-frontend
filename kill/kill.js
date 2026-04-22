@@ -86,7 +86,7 @@ function render(data) {
 
     // Ship panel
     setText('ship-name', data.victim.ship);
-    setText('ship-value', data.totalValue || '—');
+    setText('ship-value', data.totalValue ? `${data.totalValue} ISK` : '—');
     if (data.victim.shipTypeID) {
         setImg('ship-render-img', `${EVE_IMG}/types/${data.victim.shipTypeID}/render?size=1024`);
     }
@@ -241,7 +241,7 @@ function renderItemRow(item) {
             </div>
             <div class="text-white truncate font-exo font-medium" title="${escapeHtml(item.name)}">${escapeHtml(item.name)}</div>
             <div class="text-gray-400 font-bold ml-2">${item.quantity > 1 ? `×${item.quantity.toLocaleString()}` : ''}</div>
-            <div class="text-eve-accent text-right font-mono">${item.formattedValue || ''}</div>
+            <div class="text-eve-accent text-right font-mono">${item.formattedValue ? `${item.formattedValue} ISK` : '—'}</div>
         </div>
     `;
 }
