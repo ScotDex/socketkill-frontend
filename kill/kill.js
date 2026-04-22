@@ -125,7 +125,7 @@ function renderAttackers(attackers) {
                 <div class="text-sm text-white font-exo truncate">${escapeHtml(a.name)}</div>
                 <div class="text-[10px] text-gray-400 truncate">${escapeHtml(a.corp)}</div>
             </div>
-            <div class="font-mono text-xs text-gray-300 text-right">${a.damage.toLocaleString()}</div>
+            <div class="font-mono text-xs text-gray-300 text-right" title="${a.damage.toLocaleString()} damage">${a.damagePercent.toFixed(1)}%</div>
         </li>
     `).join('');
 

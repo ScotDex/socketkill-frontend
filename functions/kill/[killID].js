@@ -38,15 +38,12 @@ export async function onRequest(context) {
     <title>${esc(title)} | Socketkill.com</title>
     <meta name="description" content="${esc(description)}">
     <meta name="author" content="Dexomus Viliana">
-    <meta name="keywords" content="eve online, eve, pvp, socket.kill, eve tool, pvp tracker, gatekeeper, killmails, kill, mail, third, party, tools">
-
     <meta property="og:type" content="article">
     <meta property="og:title" content="${esc(title)}">
     <meta property="og:description" content="${esc(description)}">
     <meta property="og:image" content="${image}">
     <meta property="og:url" content="${canonicalUrl}">
     <meta property="og:site_name" content="Socketkill.com">
-
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="${esc(title)}">
     <meta name="twitter:description" content="${esc(description)}">
@@ -160,7 +157,7 @@ export async function onRequest(context) {
     <!-- PILOT CARD (top) -->
     <div class="fade-card bg-eve-dark border border-eve-border rounded-sm overflow-hidden">
         <div class="bg-black/40 px-3 py-2 border-b border-eve-border flex justify-between items-center text-[10px] tracking-widest text-gray-400 font-exo uppercase">
-            <span>PILOT ID</span>
+            <span>${data.victim.characherID ? 'PILOT ID ' : 'CORP ID'} </span>
             <span class="text-eve-accent">RECORD UPLOADED</span>
         </div>
         <div class="p-3 space-y-3">
@@ -207,29 +204,17 @@ export async function onRequest(context) {
                     <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
                 </svg>
             </a>
-            
+
             <!-- Copy Link -->
             <button id="copy-link-btn"
-                    class="text-eve-accent border border-eve-border p-1 hover:bg-white/5 transition-colors"
+                    class="text-eve-accent border border-eve-border p-1 hover:bg-white/5 transition-colors relative"
                     aria-label="Copy link">
                 <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" xmlns="http://www.w3.org/2000/svg">
                     <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/>
                     <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/>
                 </svg>
-            </button>
-            
-            <!-- Native Share (mobile) -->
-            <button id="share-btn"
-                    class="text-eve-accent border border-eve-border p-1 hover:bg-white/5 transition-colors"
-                    aria-label="Share">
-                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" xmlns="http://www.w3.org/2000/svg">
-                    <circle cx="18" cy="5" r="3"/>
-                    <circle cx="6" cy="12" r="3"/>
-                    <circle cx="18" cy="19" r="3"/>
-                    <line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/>
-                    <line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/>
-                </svg>
-            </button>
+                <span id="copy-confirm" class="absolute -top-7 left-1/2 -translate-x-1/2 text-[9px] text-eve-accent opacity-0 transition-opacity pointer-events-none whitespace-nowrap">COPIED</span>
+</button>
         </div>
     </div>
     
@@ -267,18 +252,9 @@ export async function onRequest(context) {
 <script>
     document.getElementById('copy-link-btn')?.addEventListener('click', () => {
         navigator.clipboard.writeText(window.location.href);
-    });
-
-    document.getElementById('share-btn')?.addEventListener('click', () => {
-        if (navigator.share) {
-            navigator.share({
-                title: document.title,
-                text: 'Check out this killmail on Socket.Kill',
-                url: window.location.href
-            });
-        } else {
-            navigator.clipboard.writeText(window.location.href);
-        }
+        const confirm = document.getElementById('copy-confirm');
+        confirm.style.opacity = '1';
+        setTimeout(() => { confirm.style.opacity = '0'; }, 1500);
     });
 </script>
 
