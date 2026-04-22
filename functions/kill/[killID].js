@@ -157,7 +157,7 @@ export async function onRequest(context) {
     <!-- PILOT CARD (top) -->
     <div class="fade-card bg-eve-dark border border-eve-border rounded-sm overflow-hidden">
         <div class="bg-black/40 px-3 py-2 border-b border-eve-border flex justify-between items-center text-[10px] tracking-widest text-gray-400 font-exo uppercase">
-            <span>${data.victim.characherID ? 'PILOT ID ' : 'CORP ID'} </span>
+            <span>${data.victim.characterID ? 'PILOT ID ' : 'CORP ID'} </span>
             <span class="text-eve-accent">RECORD UPLOADED</span>
         </div>
         <div class="p-3 space-y-3">
