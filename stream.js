@@ -228,7 +228,8 @@ regionSearch.addEventListener('input', (e) => {
     const rows = document.querySelectorAll('.kill-row');
     rows.forEach(row => {
         const locationText = row.querySelector('.location-label')?.textContent.toLowerCase() || "";
-        row.hidden = term !== "" && !locationText.includes(term);
+        const allianceText = (row.dataset.alliance || "").toLowerCase();
+        row.hidden = term !== "" && !locationText.includes(term) && !allianceText.includes(term);
     });
 
     const exactMatch = regionCache.some(r => r.toLowerCase() === term);
@@ -336,6 +337,7 @@ socket.on('raw-kill', (kill) => {
 
     const div = document.createElement('div');
     div.className = `kill-row justify-content-between ${val >= 10000000000 ? 'whale' : ''}`;
+    div.dataset.alliance = (kill.allianceName || '').toLowerCase();
     if (val >= 10000000000) {
         document.body.classList.add('signal-interference');
         setTimeout(() => document.body.classList.remove('signal-interference'), 400);
