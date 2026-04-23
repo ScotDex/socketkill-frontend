@@ -45,8 +45,6 @@ const formatIskValue = (value) => {
     return (num / 1000000).toFixed(2) + "M";
 };
 
-
-
 function typeBootSequence() {
     const bootLines = [
         '> INITIALIZING GRID MONITOR...',
@@ -154,6 +152,10 @@ const typeIskValue = (el, text) => {
     render();
 };
 
+// Suggestion item Tailwind class string — used for every dropdown entry
+const SUGGESTION_ITEM_CLASSES =
+    'suggestion-item px-[15px] py-1.5 font-mono text-[0.8rem] text-neon-green/70 cursor-pointer border-b border-neon-green/10 last:border-b-0 tracking-[1px]';
+
 function showSuggestions(term) {
     const dropdown = document.getElementById('region-suggestions');
     const matches = regionCache
@@ -167,13 +169,12 @@ function showSuggestions(term) {
     }
 
     dropdown.innerHTML = matches.map((region, idx) =>
-        `<div class="suggestion-item" data-region="${region}" data-idx="${idx}">${region}</div>`
+        `<div class="${SUGGESTION_ITEM_CLASSES}" data-region="${region}" data-idx="${idx}">${region}</div>`
     ).join('');
 
     dropdown.classList.add('active');
     selectedIndex = -1;
 
-    // Click handler for suggestions
     dropdown.querySelectorAll('.suggestion-item').forEach(item => {
         item.addEventListener('click', () => {
             regionSearch.value = item.dataset.region;
@@ -189,17 +190,14 @@ function selectSuggestion(direction) {
     const items = dropdown.querySelectorAll('.suggestion-item');
     if (items.length === 0) return;
 
-    // Remove previous selection
     items.forEach(item => item.classList.remove('selected'));
 
-    // Update index
     if (direction === 'down') {
         selectedIndex = (selectedIndex + 1) % items.length;
     } else if (direction === 'up') {
         selectedIndex = selectedIndex <= 0 ? items.length - 1 : selectedIndex - 1;
     }
 
-    // Apply new selection
     items[selectedIndex].classList.add('selected');
     items[selectedIndex].scrollIntoView({ block: 'nearest' });
 }
@@ -224,7 +222,6 @@ regionSearch.addEventListener('input', (e) => {
     filterLabel.innerText = term ? `// FILTERING: ${term.toUpperCase()}` : '';
     filterLabel.classList.toggle('active', term !== '');
 
-    // Filter kill rows
     const rows = document.querySelectorAll('.kill-row');
     rows.forEach(row => {
         const locationText = row.querySelector('.location-label')?.textContent.toLowerCase() || "";
@@ -237,12 +234,9 @@ regionSearch.addEventListener('input', (e) => {
         return;
     }
 
-
-    // Show suggestions
     showSuggestions(term);
 });
 
-// Keyboard navigation
 regionSearch.addEventListener('keydown', (e) => {
     const dropdown = document.getElementById('region-suggestions');
     if (!dropdown.classList.contains('active')) return;
@@ -262,14 +256,12 @@ regionSearch.addEventListener('keydown', (e) => {
     }
 });
 
-// Close dropdown when clicking outside
 document.addEventListener('click', (e) => {
-    if (!e.target.closest('.terminal-input-wrapper')) {
+    if (!e.target.closest('.terminal-input-wrapper') && !e.target.closest('#region-suggestions') && !e.target.closest('#regionSearch')) {
         document.getElementById('region-suggestions').classList.remove('active');
         selectedIndex = -1;
     }
 });
-
 
 socket.on('connect', () => {
     status.innerText = "● ONLINE";
@@ -335,7 +327,10 @@ socket.on('raw-kill', (kill) => {
     }
 
     const div = document.createElement('div');
-    div.className = `kill-row justify-content-between ${val >= 10000000000 ? 'whale' : ''}`;
+    // kill-row keeps semantic class (animation, hover descendant selectors, nth-child opacity fades, mobile override)
+    // whale is JS-conditional and the semantic class carries the inset shadow
+    div.className = `kill-row flex items-center justify-between border-b border-[#1c2128] px-[15px] py-2 min-h-[64px] bg-transparent ${val >= 10000000000 ? 'whale' : ''}`;
+
     if (val >= 10000000000) {
         document.body.classList.add('signal-interference');
         setTimeout(() => document.body.classList.remove('signal-interference'), 400);
@@ -343,47 +338,45 @@ socket.on('raw-kill', (kill) => {
 
     const now = new Date();
     const timestamp = `[${now.getUTCHours().toString().padStart(2, '0')}:${now.getUTCMinutes().toString().padStart(2, '0')}]`;
-    // Covering for NPC and Corp complications
     const victimDisplay = kill.victimName === kill.corpName
         ? kill.victimName
         : `${kill.victimName} of ${kill.corpName}`;
 
-
     div.innerHTML = `
-    <div class="d-flex align-items-center" style="flex: 1;">
-        <div class="ship-icon-container">
-            <img src="${kill.shipImageUrl}" alt="Ship Render" class="ship-render" loading="lazy">
+    <div class="flex items-center flex-1">
+        <div class="ship-icon w-16 h-16 mr-[15px] shrink-0 bg-black rounded border border-neon-green/30 overflow-hidden box-border">
+            <img src="${kill.shipImageUrl}" alt="Ship Render" loading="lazy">
         </div>
-        <a href="${kill.zkillUrl}" target="_blank" rel="noopener" class="kill-info-link">
-        <div class="kill-info">
-            <div><strong class="ship-name">
-                <span class="timestamp">${timestamp}</span>
-                ${victimDisplay} lost
-                <span class="article-target"></span><span class="type-target ship-name-container"></span>
-            </strong></div>
-            <div class="small">
-                <span class="location-label ${kill.isTriglavian ? 'triglavian' : ''}">${kill.locationLabel}</span>
+        <a href="${kill.zkillUrl}" target="_blank" rel="noopener" class="kill-info-link no-underline text-inherit cursor-pointer">
+            <div>
+                <div>
+                    <strong class="ship-name text-base font-semibold block">
+                        <span class="text-[0.75rem] font-mono text-neon-green/70 mr-1.5 font-normal">${timestamp}</span>
+                        ${victimDisplay} lost
+                        <span class="article-target mr-1 lowercase"></span><span class="type-target inline-block min-w-[12ch] align-bottom"></span>
+                    </strong>
+                </div>
+                <div class="text-[0.875em]">
+                    <span class="location-label text-sm font-light text-terminal-blue ${kill.isTriglavian ? 'triglavian' : ''}">${kill.locationLabel}</span>
+                </div>
             </div>
-        </div>
+        </a>
     </div>
-    </a>
-    <div class="kill-meta">
-        <span class="final-blow-label">${kill.attackerCount} attackers </span>
+    <div>
+        <span class="font-mono text-[0.7rem] text-white/25 tracking-[0.5px] mr-3">${kill.attackerCount} attackers</span>
     </div>
-    <div class="d-flex align-items-center">
-        <div class="corp-square-container me-3">
-            <img src="${kill.corpImageUrl}" alt="Corporation Logo" class="corp-logo-square" loading="lazy">
+    <div class="flex items-center">
+        <div class="corp-icon w-16 h-16 bg-black/40 border border-[#2d3748] flex items-center justify-center shrink-0 pl-[0.2rem] mr-4">
+            <img src="${kill.corpImageUrl}" alt="Corporation Logo" class="w-[60px] h-[60px] block" loading="lazy">
         </div>
-        <div class="corp-square-container me-3">
-            <img src="${kill.allianceImageUrl}" alt="Alliance Logo" class="corp-logo-square" loading="lazy">
+        <div class="corp-icon w-16 h-16 bg-black/40 border border-[#2d3748] flex items-center justify-center shrink-0 pl-[0.2rem] mr-4">
+            <img src="${kill.allianceImageUrl}" alt="Alliance Logo" class="w-[60px] h-[60px] block" loading="lazy">
         </div>
-        <div class="text-end" style="width: 100px;">
-            <!-- <div class="${val >= 1000000000 ? 'isk-billion' : 'isk-million'} fw-bold">${formatIskValue(val)}</div> -->
-            <div class="${val >= 1000000000 ? 'isk-billion' : 'isk-million'} fw-bold isk-value"></div>
+        <div class="flex flex-col justify-center items-center w-[100px]">
+            <div class="${val >= 1000000000 ? 'isk-billion' : 'isk-million'} isk-value"></div>
         </div>
     </div>
 `;
-
 
     if (regionSearch.value.toLowerCase().trim() !== "" &&
         !kill.locationLabel.toLowerCase().includes(regionSearch.value.toLowerCase().trim())) {
@@ -413,7 +406,6 @@ const updateNPCTicker = async () => {
         }
     } catch (err) {
         npcDisplay.innerText = "OFFLINE";
-        npcDisplay.classList.replace('text-warning', 'text-danger');
     }
 };
 
@@ -423,13 +415,11 @@ const initApp = () => {
     updateNPCTicker();
     setInterval(updateNPCTicker, 300000);
 
-    // Network dropdown
     document.getElementById('network-toggle').addEventListener('click', (e) => {
         e.stopPropagation();
         document.getElementById('network-dropdown').classList.toggle('active');
     });
 
-    // Close when clicking outside
     document.addEventListener('click', (e) => {
         if (!e.target.closest('#network-toggle') && !e.target.closest('#network-dropdown')) {
             document.getElementById('network-dropdown').classList.remove('active');

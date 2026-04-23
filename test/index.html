@@ -7,7 +7,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
-    <!-- Tailwind CDN (Play) + config. Runs JIT in-browser. -->
+    <!-- Tailwind CDN (Play) + config: design tokens registered as first-class utilities. -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
@@ -21,15 +21,15 @@
                     fontFamily: {
                         mono: ['"Share Tech Mono"', 'monospace'],
                         body: ['"Exo 2"', 'sans-serif'],
-                        triglavian: ['triglavian'],
+                        triglavian: ['Triglavian'],
                     },
                     maxWidth: {
                         'container': '1100px',
                     },
+                    boxShadow: {
+                        'phosphor': '0 0 2px rgba(63,185,80,0.6), 0 0 4px rgba(63,185,80,0.3), 0 0 1px rgba(255,255,255,0.2)',
+                    },
                 },
-            },
-            corePlugins: {
-                // Keep preflight on; it's what normalises the Bootstrap-era markup.
             },
         };
     </script>
@@ -63,34 +63,38 @@
     <link rel="canonical" href="https://socketkill.com/">
     <meta name="color-scheme" content="dark">
 </head>
-<body class="text-[#c9d1d9] font-body m-0 bg-fixed bg-center bg-cover bg-no-repeat antialiased">
+
+<body class="m-0 text-[#c9d1d9] font-body bg-fixed bg-center bg-cover bg-no-repeat antialiased">
 
     <div class="fog-overlay"></div>
 
     <div id="crt-screen" class="min-h-screen">
-        <div class="container-fluid max-w-container mx-auto py-3 px-3">
+        <div class="max-w-container mx-auto py-3 px-3 bg-transparent">
 
-            <header class="site-header grid grid-cols-[1fr_auto_1fr] items-center gap-4 border-b border-white/10 pb-2 mb-4">
+            <!-- HEADER -->
+            <header class="grid grid-cols-[1fr_auto_1fr] items-center gap-4 border-b border-white/10 pb-2 mb-4">
 
-                <div class="header-left min-w-0">
-                    <h5 class="site-title m-0 text-base font-semibold">
-                        <span id="socket-title" class="typewriter" aria-label="Socket.Kill"></span>
+                <div class="min-w-0">
+                    <h5 class="m-0 text-base font-semibold">
+                        <span id="socket-title"
+                              class="typewriter uppercase tracking-[2px] whitespace-nowrap inline-block overflow-visible min-h-[1.2em]"
+                              aria-label="Socket.Kill"></span>
                     </h5>
                 </div>
 
                 <div class="header-center flex items-center gap-1.5 whitespace-nowrap text-xs text-white/40 uppercase tracking-[1px]"
                      aria-label="Killmails processed">
-                    KILLMAILS PROCESSED
-                    <span id="kill-counter" class="text-white font-bold">0</span>
-                    <span class="header-divider">//</span>
-                    <span class="header-stat-label">TQ_STATUS</span>
+                    <span>KILLMAILS PROCESSED</span>
+                    <span id="kill-counter" class="text-white font-bold text-sm font-body">0</span>
+                    <span>//</span>
+                    <span>TQ_STATUS</span>
                     <span id="player-count-header" class="text-white font-bold">0</span>
-                    <span class="header-divider">//</span>
-                    <span class="header-stat-label">ISK_DESTROYED</span>
+                    <span>//</span>
+                    <span>ISK_DESTROYED</span>
                     <span id="isk-ticker-header" class="text-white font-bold">0.00T</span>
                 </div>
 
-                <div class="header-right flex justify-end min-w-0">
+                <div class="flex justify-end min-w-0">
                     <div id="status"
                          class="status-offline"
                          role="status"
@@ -102,30 +106,38 @@
 
             </header>
 
-            <div class="terminal-header flex items-center gap-2">
+            <!-- TERMINAL INPUT -->
+            <div class="terminal-header flex items-center gap-2 border border-neon-green/20 bg-[rgba(10,12,16,0.9)] px-[15px] py-1.5 rounded-t overflow-visible">
 
-                <div class="d-flex flex items-center flex-shrink-0 me-2 mr-2">
-                    <span class="terminal-chevron">&gt;</span>
-                    <span class="terminal-status-text">&gt; READY</span>
+                <div class="flex items-center shrink-0 mr-2">
+                    <span class="terminal-chevron text-[0.7rem] opacity-70 text-neon-green font-mono">&gt;</span>
+                    <span class="terminal-status-text text-[0.85rem] tracking-[1px] text-neon-green font-mono ml-1">&gt; READY</span>
                 </div>
 
-                <div class="terminal-input-wrapper flex-grow">
+                <div class="relative grow overflow-visible">
                     <input type="text"
                            id="regionSearch"
-                           class="terminal-input-field w-full"
+                           class="terminal-input-field w-full bg-transparent border-none outline-none text-neon-green font-mono text-[0.85rem] tracking-[1px] min-w-0"
                            placeholder="ENTER_LOCATION"
                            autocomplete="off">
-                    <div id="region-suggestions"></div>
+                    <div id="region-suggestions"
+                         class="absolute top-full left-0 right-0 bg-[rgba(10,12,16,0.98)] border border-t-0 border-neon-green/40 rounded-b max-h-60 overflow-y-auto z-[10000] shadow-[0_4px_12px_rgba(0,0,0,0.5)] mt-px">
+                    </div>
                 </div>
 
-                <span id="active-filter-label" class="filter-label"></span>
+                <span id="active-filter-label"
+                      class="filter-label text-[0.75rem] tracking-[2px] uppercase whitespace-nowrap"></span>
             </div>
 
-            <div id="empty-state">
-                <div class="boot-sequence"></div>
+            <!-- EMPTY STATE -->
+            <div id="empty-state"
+                 class="flex flex-col items-center justify-center h-[300px] text-neon-green font-mono">
+                <div class="boot-sequence w-[420px] whitespace-pre font-mono text-[0.85rem] tracking-[1px] leading-[1.8]"></div>
             </div>
 
-            <div id="feed"></div>
+            <!-- FEED -->
+            <div id="feed"
+                 class="relative overflow-hidden rounded-lg mt-5 border border-neon-green/20"></div>
 
         </div>
     </div>
@@ -134,44 +146,67 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" defer></script>
     <script src="stream.js" defer></script>
 
-    <footer class="legal-footer">
-        <div class="footer-content grid grid-cols-[1fr_auto_1fr] items-center gap-4">
+    <!-- FOOTER -->
+    <footer class="legal-footer fixed bottom-0 left-0 w-full bg-black/80 backdrop-blur-[4px] border-t border-neon-green/20 py-[3px] px-5 z-[9999] pointer-events-none">
+        <div class="grid grid-cols-[1fr_auto_1fr] items-center gap-4 pointer-events-auto text-[#444] text-[0.6rem] font-body uppercase tracking-[1px]">
 
             <!-- Left: Credits + Legal -->
-            <div class="footer-left">
-                <span class="tech-spec">
+            <div>
+                <span class="text-[0.6rem] text-white/20 font-mono tracking-[1px] uppercase">
                     [ CREDITS:
-                    <a href="https://github.com/zKillboard/zKillboard/wiki/API-(R2Z2)" target="_blank" rel="noopener" class="credit-link">R2 FROM ZKILL</a> //
-                    <a href="https://developers.eveonline.com/api-explorer" target="_blank" rel="noopener" class="credit-link">ESI</a> //
-                    <a href="https://www.flickr.com/photos/rixxjavix/" target="_blank" rel="noopener" class="credit-link">@RIXXJAVIX</a> ]
+                    <a href="https://github.com/zKillboard/zKillboard/wiki/API-(R2Z2)"
+                       target="_blank" rel="noopener"
+                       class="credit-link text-white/30 no-underline transition-colors hover:text-neon-green">R2 FROM ZKILL</a> //
+                    <a href="https://developers.eveonline.com/api-explorer"
+                       target="_blank" rel="noopener"
+                       class="credit-link text-white/30 no-underline transition-colors hover:text-neon-green">ESI</a> //
+                    <a href="https://www.flickr.com/photos/rixxjavix/"
+                       target="_blank" rel="noopener"
+                       class="credit-link text-white/30 no-underline transition-colors hover:text-neon-green">@RIXXJAVIX</a> ]
                 </span>
-                <span class="ccp-notice">EVE Online and the EVE logo are the registered trademarks of CCP hf. All rights reserved.</span>
+                <span class="ccp-notice text-[0.5rem] whitespace-nowrap opacity-[0.15] transition-all cursor-help">EVE Online and the EVE logo are the registered trademarks of CCP hf. All rights reserved.</span>
             </div>
 
             <!-- Center: Live Stats -->
-            <div class="footer-center">
-                <div class="footer-stat">
-                    <span class="footer-stat-label">GLOBAL_NPC_DEATHS</span>
-                    <span id="npc-count" class="footer-stat-value font-bold">...</span>
+            <div class="flex flex-col items-center gap-0.5 whitespace-nowrap min-w-[200px]">
+                <div class="flex gap-[0.4rem] items-center text-[0.6rem] font-mono w-full justify-center">
+                    <span class="text-white/30 uppercase tracking-[1px] opacity-90">GLOBAL_NPC_DEATHS</span>
+                    <span id="npc-count" class="inline-block min-w-[120px] text-left font-bold">...</span>
                 </div>
             </div>
 
             <!-- Right: Nav -->
-            <nav class="footer-nav" aria-label="Footer navigation">
-                <a href="https://socketkill.com/about/" rel="noopener" class="footer-link">ABOUT</a>
-                <a href="https://socketkill.com/map/" rel="noopener" class="footer-link">HEAT_MAP</a>
-                <span class="footer-network-wrapper">
-                    <span class="footer-link cursor-pointer" id="network-toggle">LINKS</span>
-                    <div id="network-dropdown">
-                        <a href="https://eveworkbench.com" target="_blank" rel="noopener" class="network-link">EVE_WORKBENCH</a>
-                        <a href="https://zkillboard.com/" target="_blank" rel="noopener" class="network-link">ZKILLBOARD</a>
-                        <a href="https://everookies.com/" target="_blank" rel="noopener" class="network-link">EVE_ROOKIES</a>
-                        <a href="https://wiki.eveuniversity.org/Main_Page" target="_blank" rel="noopener" class="network-link">EVE_UNI</a>
-                        <a href="https://eve-kill.com/" target="_blank" rel="noopener" class="network-link">EVE_KILL</a>
+            <nav class="flex items-center justify-end gap-5 flex-wrap" aria-label="Footer navigation">
+                <a href="https://socketkill.com/about/"
+                   rel="noopener"
+                   class="text-white/40 no-underline text-[0.6rem] font-mono uppercase tracking-[1px] transition-colors hover:text-neon-green hover:[text-shadow:0_0_5px_rgba(63,185,80,0.5)]">ABOUT</a>
+                <a href="https://socketkill.com/map/"
+                   rel="noopener"
+                   class="text-white/40 no-underline text-[0.6rem] font-mono uppercase tracking-[1px] transition-colors hover:text-neon-green hover:[text-shadow:0_0_5px_rgba(63,185,80,0.5)]">HEAT_MAP</a>
+
+                <span class="relative inline-flex items-center pointer-events-auto">
+                    <span id="network-toggle"
+                          class="cursor-pointer text-white/40 text-[0.6rem] font-mono uppercase tracking-[1px] transition-colors hover:text-neon-green">LINKS</span>
+                    <div id="network-dropdown"
+                         class="bg-[rgba(10,12,16,0.98)] border border-neon-green/40 py-1.5 min-w-[160px] z-[99999] pointer-events-auto">
+                        <a href="https://eveworkbench.com" target="_blank" rel="noopener"
+                           class="block px-3 py-1 text-neon-green/60 font-mono text-[0.6rem] no-underline tracking-[1px] pointer-events-auto hover:text-neon-green hover:[text-shadow:0_0_5px_rgba(63,185,80,0.5)]">EVE_WORKBENCH</a>
+                        <a href="https://zkillboard.com/" target="_blank" rel="noopener"
+                           class="block px-3 py-1 text-neon-green/60 font-mono text-[0.6rem] no-underline tracking-[1px] pointer-events-auto hover:text-neon-green hover:[text-shadow:0_0_5px_rgba(63,185,80,0.5)]">ZKILLBOARD</a>
+                        <a href="https://everookies.com/" target="_blank" rel="noopener"
+                           class="block px-3 py-1 text-neon-green/60 font-mono text-[0.6rem] no-underline tracking-[1px] pointer-events-auto hover:text-neon-green hover:[text-shadow:0_0_5px_rgba(63,185,80,0.5)]">EVE_ROOKIES</a>
+                        <a href="https://wiki.eveuniversity.org/Main_Page" target="_blank" rel="noopener"
+                           class="block px-3 py-1 text-neon-green/60 font-mono text-[0.6rem] no-underline tracking-[1px] pointer-events-auto hover:text-neon-green hover:[text-shadow:0_0_5px_rgba(63,185,80,0.5)]">EVE_UNI</a>
+                        <a href="https://eve-kill.com/" target="_blank" rel="noopener"
+                           class="block px-3 py-1 text-neon-green/60 font-mono text-[0.6rem] no-underline tracking-[1px] pointer-events-auto hover:text-neon-green hover:[text-shadow:0_0_5px_rgba(63,185,80,0.5)]">EVE_KILL</a>
                     </div>
                 </span>
-                <a href="https://ko-fi.com/X7X21RDFR0" target="_blank" rel="noopener" class="footer-link footer-link--author" title="Built by Dexomus Viliana · Support development">DEXOMUS_VILIANA</a>
-                <span class="footer-version">v2.0</span>
+
+                <a href="https://ko-fi.com/X7X21RDFR0"
+                   target="_blank" rel="noopener"
+                   class="text-neon-green font-bold no-underline text-[0.6rem] font-mono uppercase tracking-[1px] transition-colors hover:text-neon-green hover:[text-shadow:0_0_5px_rgba(63,185,80,0.5)]"
+                   title="Built by Dexomus Viliana · Support development">DEXOMUS_VILIANA</a>
+                <span class="text-white/20 text-[0.6rem] font-mono tracking-[1px]">v2.0</span>
             </nav>
 
         </div>
