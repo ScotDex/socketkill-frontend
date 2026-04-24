@@ -35,7 +35,7 @@ export async function onRequest(context) {
             ? `${data.victim.name} of ${victimAffiliation}`
             : data.victim.name;
 
-        let mainClause = `${victimLabel} lost ${article(data.victim.ship)} ${data.victim.ship} in ${data.system.name} | ${data.system.region}`;
+        let mainClause = `${victimLabel} lost ${article(data.victim.ship)} ${data.victim.ship} in ${data.system.name} // ${data.system.region}`;
 
         if (data.totalValue) {
             mainClause += ` worth ${data.totalValue} ISK`;
