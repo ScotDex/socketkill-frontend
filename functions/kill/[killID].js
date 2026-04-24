@@ -35,7 +35,7 @@ export async function onRequest(context) {
             ? `${data.victim.name} of ${victimAffiliation}`
             : data.victim.name;
 
-        let mainClause = `${victimLabel} lost ${article(data.victim.ship)} ${data.victim.ship} in ${data.system.name}, ${data.system.region}`;
+        let mainClause = `${victimLabel} lost ${article(data.victim.ship)} ${data.victim.ship} in ${data.system.name} | ${data.system.region}`;
 
         if (data.totalValue) {
             mainClause += ` worth ${data.totalValue} ISK`;
@@ -49,7 +49,7 @@ export async function onRequest(context) {
                 ? `${data.finalBlow.name} of ${fbAffiliation}`
                 : data.finalBlow.name;
 
-            let fbClause = `final blow by ${fbLabel} in ${article(data.finalBlow.ship)} ${data.finalBlow.ship}`;
+            let fbClause = `Final blow by ${fbLabel} in ${article(data.finalBlow.ship)} ${data.finalBlow.ship}`;
 
             if (data.attackerCount > 1) {
                 fbClause += ` with ${data.attackerCount} attackers`;
