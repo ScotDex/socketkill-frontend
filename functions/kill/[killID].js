@@ -11,10 +11,54 @@ export async function onRequest(context) {
         return new Response('Invalid killID', { status: 400 });
     }
 
+    function article(shipName) {
+        const vowels = ['a', 'e', 'i', 'o', 'u'];
+        const firstLetter = shipName[0].toLowerCase();
+        return vowels.includes(firstLetter) ? 'an' : 'a';
+    }
+
     function esc(s) {
         return String(s ?? '').replace(/[&<>"']/g, c => ({
             '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
         }[c]));
+    }
+
+    function buildTitle(data) {
+        const valueClause = data.totalValue ? ` (${data.totalValue} ISK)` : '';
+        return `${data.victim.name} lost ${article(data.victim.ship)} ${data.victim.ship}${valueClause}`;
+    }
+
+    function buildDescription(data) {
+        const parts = [];
+        const victimAffiliation = data.victim.corp || data.victim.alliance;
+        const victimLabel = victimAffiliation
+            ? `${data.victim.name} of ${victimAffiliation}`
+            : data.victim.name;
+
+        let mainClause = `${victimLabel} lost ${article(data.victim.ship)} ${data.victim.ship} in ${data.system.name}, ${data.system.region}`;
+
+        if (data.totalValue) {
+            mainClause += ` worth ${data.totalValue} ISK`;
+        }
+
+        parts.push(mainClause);
+
+        if (data.finalBlow) {
+            const fbAffiliation = data.finalBlow.corp || data.finalBlow.alliance;
+            const fbLabel = fbAffiliation
+                ? `${data.finalBlow.name} of ${fbAffiliation}`
+                : data.finalBlow.name;
+
+            let fbClause = `final blow by ${fbLabel} in ${article(data.finalBlow.ship)} ${data.finalBlow.ship}`;
+
+            if (data.attackerCount > 1) {
+                fbClause += ` with ${data.attackerCount} attackers`;
+            }
+
+            parts.push(fbClause);
+        }
+
+        return parts.join(': ');
     }
 
     try {
@@ -24,8 +68,8 @@ export async function onRequest(context) {
         }
         const data = await apiRes.json();
 
-        const title = `${data.victim.name} lost a ${data.victim.ship}${data.totalValue ? ` (${data.totalValue} ISK)` : ''}`;
-        const description = `${data.victim.alliance ? `${data.victim.name} (${data.victim.alliance})` : data.victim.name} lost their ${data.victim.ship} in ${data.system.name} (${data.system.region})${data.finalBlow ? `. Final Blow by ${data.finalBlow.name}${data.finalBlow.alliance || data.finalBlow.corp ? ` (${data.finalBlow.alliance || data.finalBlow.corp})` : ''} in their ${data.finalBlow.ship}${data.attackerCount > 1 ? ` along with ${data.attackerCount - 1} other ${data.attackerCount - 1 === 1 ? 'pilot' : 'pilots'}` : ' solo'}` : ''}${data.totalValue ? `. Total Value: ${data.totalValue} ISK` : ''}`;
+        const title = buildTitle(data);
+        const description = buildDescription(data);
         const image = `https://images.evetech.net/types/${data.victim.shipTypeID}/render?size=512`;
         const canonicalUrl = `https://socketkill.com/kill/${id}`;
         const embeddedData = JSON.stringify(data).replace(/'/g, "&#39;").replace(/</g, "\\u003c");
@@ -44,7 +88,7 @@ export async function onRequest(context) {
     <meta property="og:image" content="${image}">
     <meta property="og:url" content="${canonicalUrl}">
     <meta property="og:site_name" content="Socketkill.com">
-    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:card" content="summary">
     <meta name="twitter:title" content="${esc(title)}">
     <meta name="twitter:description" content="${esc(description)}">
     <meta name="twitter:image" content="${image}">
