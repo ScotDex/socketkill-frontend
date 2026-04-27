@@ -1,5 +1,6 @@
 const API_BASE = 'https://ws.socketkill.com';
 const EVE_IMG = 'https://images.evetech.net';
+const RENDER_API = 'https://api.socketkill.com/render';
 const VISIBLE_ATTACKERS = 5;
 const VISIBLE_FIT_ITEMS = 10;
 
@@ -59,10 +60,10 @@ function render(data) {
         setImg('pilot-portrait-img', `${EVE_IMG}/characters/${data.victim.characterID}/portrait?size=128`);
     }
     if (data.victim.corporationID) {
-        setImg('pilot-crest-img', `${EVE_IMG}/corporations/${data.victim.corporationID}/logo?size=64`);
+        setImg('pilot-crest-img', `${RENDER_API}/corp/${data.victim.corporationID}`);
     }
     if (data.victim.allianceID) {
-        setImg('pilot-alliance-img', `${EVE_IMG}/alliances/${data.victim.allianceID}/logo?size=64`);
+        setImg('pilot-alliance-img', `${RENDER_API}/alliance/${data.victim.allianceID}`);
     }
 
     // Location card
@@ -93,7 +94,7 @@ function render(data) {
 
     // Body background ship render
     if (data.victim.shipTypeID) {
-        document.body.style.backgroundImage = `linear-gradient(rgba(10, 12, 16, 0.85), rgba(10, 12, 16, 0.95)), url(${EVE_IMG}/types/${data.victim.shipTypeID}/render?size=512)`;
+        document.body.style.backgroundImage = `linear-gradient(rgba(10, 12, 16, 0.85), rgba(10, 12, 16, 0.95)), url(${RENDER_API}/ship/${data.victim.shipTypeID}?size=512)`;
     }
 
     // Attacker count
@@ -119,7 +120,7 @@ function renderAttackers(attackers) {
                 ${a.characterID ? `<img src="${EVE_IMG}/characters/${a.characterID}/portrait?size=64" class="w-full h-full object-cover" alt="">` : ''}
             </div>
             <div class="w-10 h-10 bg-black border border-eve-border overflow-hidden">
-                ${a.shipTypeID ? `<img src="${EVE_IMG}/types/${a.shipTypeID}/render?size=64" class="w-full h-full object-cover" alt="">` : ''}
+                ${a.shipTypeID ? `<img src="${RENDER_API}/ship/${a.shipTypeID}?size=64" class="w-full h-full object-cover" alt="">` : ''}
             </div>
             <div class="min-w-0">
                 <div class="text-sm text-white font-exo truncate">${escapeHtml(a.name)}</div>
