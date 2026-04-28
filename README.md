@@ -1,23 +1,23 @@
 # Socket.Kill
 
-[YOUR VOICE PARAGRAPH — one or two sentences. What Socket.Kill is, why it exists. EVE-native, direct, same register as the launch post but slightly more measured. Avoid filler adjectives like "high-performance" and "modern" — say what it actually does.]
+The inspiration came from a development project where I was discarding some killmail data, and I decided to do something with that. Subsequently I decided fusing together kill mails with a level of atmosphere and depth that the community didn't ask for.
+
+The scope is very simple, stream kills as fast as technically possible utilizing cloudflare page functions and edge caching, 
 
 Nominated for [CCP Fanfest 2026 New Developer of the Year](https://www.eveonline.com/news/view/meet-your-eve-creator-awards-finalists).
 
-**Live at [socketkill.com](https://socketkill.com)**
+**Live at [socketkill.com](https://socketkill.com) · [Discord](https://discord.gg/UnFN8UY6Dz)**
 
-[SCREENSHOT — kill page or live feed. Drop the image into the repo and reference here.]
+![Snippet](image.png)
 
 ## Features
 
-[SHARPEN THIS LIST. The original was generic. Specifics worth surfacing:]
-
 - **Real-time WebSocket feed.** Sub-second from kill to client. Most killboards poll; Socket.Kill pushes.
 - **Per-kill social previews.** OG tags rendered server-side via Cloudflare Pages Functions, so Discord, Twitter, and Bluesky cards reflect actual kill data.
-- **Edge-cached image proxy.** Ship renders, corp logos, alliance logos served via Cloudflare's edge. Faster than hitting EVE's image server directly.
-- **Multi-channel Discord integration.** Whale alerts, AT/officer/Rorqual sightings, corp-specific intel feeds.
-- **Region filtering** on the live feed.
-- **Distinctive interface.** Terminal-aesthetic design, not a generic killboard layout.
+- **Edge-cached image proxy.** Ship renders, corp logos, alliance logos served via Cloudflare's edge. Performance improvement from the CCP image server.
+- **Multi-channel Discord integration.** [Whale alerts, AT/officer/Rorqual sightings, corp-specific intel feeds](https://discord.gg/UnFN8UY6Dz)
+- **Multi-mode filtering** on the live feed, you can filter corporations, alliances, systems and region
+- **Atmospheric interface.** Terminal-aesthetic design from the alien franchise 
 
 ## Architecture
 
@@ -63,3 +63,5 @@ CCP is in no way responsible for the content on or functioning of this website, 
 Developed by [@ScottishDex / Dexomus Viliana](https://socketkill.com)
 
 Killmail data: [zKillboard](https://zkillboard.com)
+
+[EVE API Explorer](https://developers.eveonline.com/api-explorer)
