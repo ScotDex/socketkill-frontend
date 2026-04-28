@@ -135,11 +135,6 @@ export async function onRequest(context) {
 </head>
 <body data-kill='${embeddedData}'>
 
-    <div class="beta-badge" aria-label="Beta — Early Access">
-        <span class="beta-dot"></span>
-        BETA — EARLY ACCESS
-    </div>
-
     <header class="site-header">
         <div class="header-left">
             <h1 class="site-title m-0">
