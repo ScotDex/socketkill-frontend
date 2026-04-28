@@ -190,7 +190,7 @@ export async function onRequest(context) {
     </section>
 
     <section class="fade-card md:col-span-6 bg-eve-dark border border-eve-border rounded-sm p-4">
-        <div class="text-[10px] tracking-widest text-gray-500 mb-4">&gt; WRECKAGE RECOVERED</div>
+        <div class="text-[10px] tracking-widest text-gray-500 mb-4">&gt; KILLMAIL CONTENTS</div>
         <div id="fit-groups" class="space-y-4">
             <div class="text-sm text-gray-500 italic">&gt; NO DATA</div>
         </div>

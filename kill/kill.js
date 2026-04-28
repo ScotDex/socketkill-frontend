@@ -54,7 +54,7 @@ function render(data) {
         ? `<a href="https://zkillboard.com/character/${data.victim.characterID}/" target="_blank" rel="noopener noreferrer">${escapeHtml(data.victim.name)}</a>`
         : escapeHtml(data.victim.name);
     setText('pilot-corp', data.victim.corp);
-    setText('pilot-alliance', data.victim.alliance || 'UNAFFILIATED');
+    setText('pilot-alliance', data.victim.alliance || 'NO ALLIANCE');
 
     if (data.victim.characterID) {
         setImg('pilot-portrait-img', `${EVE_IMG}/characters/${data.victim.characterID}/portrait?size=128`);
@@ -202,7 +202,8 @@ function renderFit(items) {
 function renderGroup({ key, label }, items, expanded = false) {
     if ((key === 'subsystem' || key === 'fighter') && items.length === 0) return '';
 
-    const count = items.reduce((sum, i) => sum + i.quantity, 0);
+    const dropped = items.reduce((sum, i) => sum + (i.dropped || 0), 0);
+    const destroyed = items.reduce((sum, i) => sum + (i.destroyed || 0), 0);
     const visibleItems = expanded ? items : items.slice(0, VISIBLE_FIT_ITEMS);
     const showExpandButton = !expanded && items.length > VISIBLE_FIT_ITEMS;
 
@@ -210,7 +211,12 @@ function renderGroup({ key, label }, items, expanded = false) {
         <div class="fit-group mb-4" data-group="${key}">
             <div class="flex justify-between items-center text-[10px] tracking-widest text-gray-500 uppercase mb-2 border-b border-white/5 pb-1">
                 <span>&gt; ${label}</span>
-                ${count > 0 ? `<span class="text-[10px] text-gray-600">${count}</span>` : ''}
+                ${(dropped > 0 || destroyed > 0) ? ` <span class="text-[10px] font-mono">
+                    <span class="text-green-400">${dropped}</span>
+                    <span class="text-gray-600"> / </span>
+                    <span class="text-red-400">${destroyed}</span>
+                    </span>
+                ` : ''}
             </div>
             ${items.length === 0 ? '<div class="text-[10px] text-gray-700 italic ml-2">&gt; NONE</div>' : `
                 <div class="grid grid-cols-[32px_1fr_auto_auto] items-center gap-3 px-1.5 py-1 text-[9px] tracking-widest text-gray-600 uppercase">
