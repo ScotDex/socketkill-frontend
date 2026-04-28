@@ -55,9 +55,10 @@ function render(data) {
         : escapeHtml(data.victim.name);
     setText('pilot-corp', data.victim.corp);
     setText('pilot-alliance', data.victim.alliance || 'NO ALLIANCE');
-
     if (data.victim.characterID) {
         setImg('pilot-portrait-img', `${EVE_IMG}/characters/${data.victim.characterID}/portrait?size=128`);
+    } else if (data.victim.corporationID) {
+        setImg('pilot-portrait-img', `${RENDER_API}/corp/${data.victim.corporationID}`);
     }
     if (data.victim.corporationID) {
         setImg('pilot-crest-img', `${RENDER_API}/corp/${data.victim.corporationID}`);
