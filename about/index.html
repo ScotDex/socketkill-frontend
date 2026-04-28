@@ -44,17 +44,44 @@
       <div id="faq" class="flex flex-col gap-3">
         
         <script>
-          const faqData = [
-            { q: "What is Socket.Kill?", a: "Socket.Kill is a real-time EVE Online killmail streaming platform. It processes kills as they happen and broadcasts them live via WebSocket — lower latency than traditional killboards." },
-            { q: "How is it different from a killboard?", a: "The data comes from Squizz's newly developed R2 bucket feature, but the platform is designed to simply render and stream killmails as fast as possible, zkillboard and Eve-Kill is stats and history." },
-            { q: "Can I filter by system as well as region?", a: "Yes the filter matches against system names also. Type any system name and the feed will filter to kills in that system." },
-            { q: "Why the cool animations and visuals?", a: "When I was young, I always loved the alien franchise and all existing tools out there often opt for utility and usefulness, so I decided to go down the road of atmosphere and aesthetics and why not my favourite kind!" },
-            { q: "How do I support the project?", a: "There is a link at the top which gives you the opportunity to support the page by paying a whole pound per month..." },
-            { q: "Who is responsible for this witchcraft?", a: "Socket.Kill was built and is maintained by Dexomus Viliana — an EVE Online player and cloud infrastructure engineer. Get in touch at dev@socketkill.com." },
-            { q: "Where is the API Documentation?", a: "Visit <a href='https://api.socketkill.com/docs/' class='text-phosphor-bright underline'>api.socketkill.com/docs</a> for the full API reference." },
-            { q: "I have an idea, can I write it out on a feedback form?", a: "Yes, I put together a rudimentary Google feedback form. <a href='https://docs.google.com/forms/d/e/1FAIpQLSe7hmRVq9Fz2ThbuhgTJyBFN2qGJKzdIhgFbTUeINWpS6KEuw/viewform?pli=1' class='text-phosphor-bright underline'>fill it out here</a>." },
-            { q: "Is this open source?", a: "Yes the GitHub icon at the top will take you to all 1300 lines of CSS that make the visuals possible." }
-          ];
+const faqData = [
+    {
+        q: "What is Socket.Kill?",
+        a: "The design it optimized to produce killmails as fast as the internet allows, streamlining every aspect of the rendering process"
+    },
+    {
+        q: "How is this different from zKill or Eve-Kill?",
+        a: "Both contribute to historical records — stats, history, deep detailed information. Socket.Kill is a live feed. They're complementary tools, not competitors. Idea is to use both."
+    },
+    {
+        q: "Where does the data come from?",
+        a: "Squizz's recently developed R2 feed from zKillboard, which is utilized by multiple EVE killmail tools. Socket.Kill renders it differently."
+    },
+    {
+        q: "Can I filter the feed?",
+        a: "Yes. Type a corp, alliance, system, or region name and the feed filters to matching kills. Multi-mode — combine filters as needed."
+    },
+    {
+        q: "What's with the green-on-black aesthetic?",
+        a: "Well alot of interfaces opt for utility and re-useability, I thought I would go down a different route - the idea comes from fusing the alien franchise with eve online."
+    },
+    {
+        q: "How do I support the project?",
+        a: "[REWRITE WHEN GITHUB SPONSORS IS LIVE. For now, leave this question out or replace with a placeholder pointing to GitHub.]"
+    },
+    {
+        q: "Who built this?",
+        a: "Dexomus Viliana. EVE player, cloud infrastructure engineer. Contact me in game if you want."
+    },
+    {
+        q: "Is there an API?",
+        a: "Yes. Image proxy and kill data: <a href='https://api.socketkill.com/docs/' class='text-phosphor-bright underline'>api.socketkill.com/docs</a>. WebSocket access is whitelist-based — get in touch if you want to integrate."
+    },
+    {
+        q: "Is this open source?",
+        a: "The frontend is. <a href='https://github.com/ScotDex/socketkill-frontend' class='text-phosphor-bright underline'>github.com/ScotDex/socketkill-frontend</a>. I cannot permit back end open source yet, some corporations are sensitive..."
+    }
+];
 
           const faqContainer = document.getElementById('faq');
           faqData.forEach(item => {
