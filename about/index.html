@@ -14,13 +14,6 @@
       }
     }
   </script>
-  <style>
-    @keyframes filter-pulse {
-      0%, 100% { box-shadow: 0 0 0 rgba(0, 255, 136, 0); border-color: #00ff88; }
-      50% { box-shadow: 0 0 8px rgba(0, 255, 136, 0.4); border-color: rgba(0, 255, 136, 0.6); }
-    }
-    .animate-beta { animation: filter-pulse 2s ease-in-out infinite; }
-  </style>
   <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
   <title>Socket.Kill - About</title>
@@ -29,7 +22,7 @@
 <body class="font-mono min-h-screen bg-[radial-gradient(ellipse_at_20%_50%,rgba(30,15,60,0.4),transparent_50%),radial-gradient(ellipse_at_80%_20%,rgba(10,30,60,0.4),transparent_45%)] bg-fixed">
 
   <header class="text-center py-12 border-b border-[#1a1a2e]">
-    <h1 class="text-5xl text-phosphor-bright tracking-widest mb-4">SOCKET.KILL <span class="text-xs border border-phosphor-bright px-2 py-1 animate-beta">BETA</span></h1>
+    <h1 class="text-5xl text-phosphor-bright tracking-widest mb-4">SOCKET.KILL </h1>
     <p class="text-lg text-gray-500 mb-8">Real-time EVE Online killmail streaming.</p>
     <a href="https://socketkill.com" class="bg-phosphor-bright text-black px-10 py-3 font-bold tracking-widest hover:bg-green-500 transition">MAIN SITE</a>
     
@@ -40,7 +33,6 @@
       <a href="https://angrygoldfish5.wordpress.com/" title="Wordpress" class="hover:text-phosphor-bright transition"><i class="fa-brands fa-wordpress"></i></a>
       <a href="https://twitch.tv/scottishdex" title="Twitch" class="hover:text-phosphor-bright transition"><i class="fa-brands fa-twitch"></i></a>
       <a href="https://youtube.com/@scottishdex" title="YouTube" class="hover:text-phosphor-bright transition"><i class="fa-brands fa-youtube"></i></a>
-      <a href="https://ko-fi.com/scottishdex" title="Support on Ko-fi" class="hover:text-phosphor-bright transition"><i class="fa-solid fa-mug-hot"></i></a>
     </div>
   </header>
 
@@ -84,7 +76,7 @@
   </main>
 
   <footer class="text-center py-8 text-gray-700 text-sm tracking-widest">
-    © 2026 DEXOMUS VILIANA // SCOTTISHDEX
+    © 2026 SOCKETKILL.COM
   </footer>
 
   <script>
@@ -100,32 +92,6 @@
       }
     });
 
-    // Ad Logic
-    const ads = [
-      { img: 'https://edge.socketkill.com/friend.jpg', title: 'START YOUR EVE JOURNEY', text: 'New player? Get 1,000,000 skill points free', cta: 'CLAIM BONUS', url: 'https://www.eveonline.com/signup?invc=e32ca441-aa95-4eb7-ad06-d2c6334a5872' },
-      { img: 'https://web-platforms.sfo2.cdn.digitaloceanspaces.com/WWW/Badge%201.svg', title: 'DIGITAL OCEAN HOSTING', text: '$200 credit for new accounts', cta: 'GET CREDIT', url: 'https://www.digitalocean.com/?refcode=1808909b79cf' },
-      { img: 'https://edge.socketkill.com/NoD_Stacked_White.png', title: 'DO YOU STREAM?', text: 'Discounts Available', cta: 'GET DEAL', url: 'https://nerdordie.com/shop/ref/kps2mr/' },
-      { img: 'https://storage.ko-fi.com/cdn/brandasset/v2/support_me_on_kofi_dark.png', title: 'SUPPORT SOCKETKILL', text: 'Help keep these tools free', cta: 'DONATE', url: 'https://ko-fi.com/scottishdex' }
-    ];
-
-    let currentAd = 0;
-    function renderAd() {
-      const ad = ads[currentAd];
-      document.getElementById('ad-slot').innerHTML = `
-        <div class="flex items-center gap-6 bg-[#0d0d14] border border-[#1a1a2e] p-5">
-          <img src="${ad.img}" class="w-16 h-auto" alt="${ad.title}">
-          <div class="flex-grow">
-            <h3 class="text-phosphor-bright text-xs tracking-widest mb-1">${ad.title}</h3>
-            <p class="text-gray-500 text-xs">${ad.text}</p>
-          </div>
-          <a href="${ad.url}" target="_blank" class="border border-phosphor-bright text-phosphor-bright px-4 py-2 text-xs hover:bg-phosphor-bright hover:text-black transition">
-            ${ad.cta}
-          </a>
-        </div>
-      `;
-    }
-    renderAd();
-    setInterval(() => { currentAd = (currentAd + 1) % ads.length; renderAd(); }, 15000);
   </script>
 </body>
 </html>
