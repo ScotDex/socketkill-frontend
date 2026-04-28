@@ -23,7 +23,7 @@
 
   <header class="text-center py-12 border-b border-[#1a1a2e]">
     <h1 class="text-5xl text-phosphor-bright tracking-widest mb-4">SOCKET.KILL </h1>
-    <p class="text-lg text-gray-500 mb-8">Real-time EVE Online killmail streaming.</p>
+    <p class="text-lg text-gray-500 mb-8">Killmail streaming that you didnt ask for.</p>
     <a href="https://socketkill.com" class="bg-phosphor-bright text-black px-10 py-3 font-bold tracking-widest hover:bg-green-500 transition">MAIN SITE</a>
     
     <div class="flex gap-8 justify-center mt-10 text-2xl">
@@ -40,13 +40,13 @@
     <div id="ad-slot" class="my-8"></div>
 
     <section class="border-b border-[#1a1a2e] py-6">
-      <h2 class="text-phosphor-bright text-sm tracking-[0.2em] uppercase mb-6">Frequently Asked Questions</h2>
+      <h2 class="text-phosphor-bright text-base tracking-[0.2em] uppercase mb-6">Frequently Asked Questions</h2>
       <div id="faq" class="flex flex-col gap-3">
         
         <script>
           const faqData = [
             { q: "What is Socket.Kill?", a: "Socket.Kill is a real-time EVE Online killmail streaming platform. It processes kills as they happen and broadcasts them live via WebSocket — lower latency than traditional killboards." },
-            { q: "How is it different from zkillboard?", a: "The data comes from Squizz's newly developed R2 bucket feature, but the platform is designed to simply render and stream killmails as fast as possible, zkillboard's area is stats and history." },
+            { q: "How is it different from a killboard?", a: "The data comes from Squizz's newly developed R2 bucket feature, but the platform is designed to simply render and stream killmails as fast as possible, zkillboard and Eve-Kill is stats and history." },
             { q: "Can I filter by system as well as region?", a: "Yes the filter matches against system names also. Type any system name and the feed will filter to kills in that system." },
             { q: "Why the cool animations and visuals?", a: "When I was young, I always loved the alien franchise and all existing tools out there often opt for utility and usefulness, so I decided to go down the road of atmosphere and aesthetics and why not my favourite kind!" },
             { q: "How do I support the project?", a: "There is a link at the top which gives you the opportunity to support the page by paying a whole pound per month..." },
@@ -75,9 +75,22 @@
     </section>
   </main>
 
-  <footer class="text-center py-8 text-gray-700 text-sm tracking-widest">
-    © 2026 SOCKETKILL.COM
-  </footer>
+<footer class="max-w-7xl mx-auto p-4 mt-8 border-t border-eve-border text-center">
+    <div class="flex flex-col md:flex-row justify-between items-center gap-4 text-[10px] tracking-widest text-gray-500 font-exo">
+        <div>
+            <a href="/" class="hover:text-eve-accent transition-colors">&lt; BACK TO SOCKETKILL.COM</a>
+        </div>
+        <div class="space-x-4">
+            <a href="https://socketkill.com/about/" class="hover:text-eve-accent">ABOUT</a>
+            <a href="https://github.com/ScotDex/socketkill-frontend" target="_blank" class="hover:text-eve-accent">GITHUB</a>
+            <a href="https://api.socketkill.com/docs/" class="hover:text-eve-accent">API</a>
+            <a href="https://discord.gg/dpgmEm9REc" target="_blank" class="hover:text-eve-accent">DISCORD</a>
+        </div>
+        <div>
+            &copy; 2026 SOCKETKILL.COM
+        </div>
+    </div>
+</footer>
 
   <script>
     // Accordion Logic
