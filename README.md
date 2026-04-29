@@ -4,8 +4,6 @@ The inspiration came from a development project where I was discarding some kill
 
 The scope is very simple, stream kills as fast as technically possible utilizing cloudflare page functions and edge caching, 
 
-<iframe src="https://github.com/sponsors/ScotDex/button" title="Sponsor ScottishDex" height="32" width="114" style="border: 0; border-radius: 6px;"></iframe>
-
 Nominated for [CCP Fanfest 2026 New Developer of the Year](https://www.eveonline.com/news/view/meet-your-eve-creator-awards-finalists).
 
 **Live at [socketkill.com](https://socketkill.com) · [Discord](https://discord.gg/UnFN8UY6Dz)**
@@ -17,7 +15,7 @@ Nominated for [CCP Fanfest 2026 New Developer of the Year](https://www.eveonline
 - **Real-time WebSocket feed.** Sub-second from kill to client. Most killboards poll; Socket.Kill pushes.
 - **Per-kill social previews.** OG tags rendered server-side via Cloudflare Pages Functions, so Discord, Twitter, and Bluesky cards reflect actual kill data.
 - **Edge-cached image proxy.** Ship renders, corp logos, alliance logos served via Cloudflare's edge. Performance improvement from the CCP image server.
-- **Multi-channel Discord integration.** [Whale alerts, AT/officer/Rorqual sightings, corp-specific intel feeds](https://discord.gg/UnFN8UY6Dz)
+- **Multi-channel Discord integration.** [Whale alerts, AT/officer/Rorqual sightings, Multiple Value Thresholds](https://discord.gg/UnFN8UY6Dz)
 - **Multi-mode filtering** on the live feed, you can filter corporations, alliances, systems and region
 - **Atmospheric interface.** Terminal-aesthetic design from the alien franchise 
 
