@@ -5,6 +5,18 @@ const VISIBLE_ATTACKERS = 5;
 const VISIBLE_FIT_ITEMS = 10;
 
 
+function externalLink(kind, value) {
+    switch (kind) {
+        case 'character':  return `https://zkillboard.com/character/${value}/`;
+        case 'corp':       return `https://zkillboard.com/corporation/${value}/`;
+        case 'alliance':   return `https://zkillboard.com/alliance/${value}/`;
+        case 'system':     return `https://evemaps.dotlan.net/system/${encodeURIComponent(String(value).replace(/ /g, '_'))}`;
+        case 'region':     return `https://evemaps.dotlan.net/region/${encodeURIComponent(String(value).replace(/ /g, '_'))}`;
+        case 'type':       return `https://everef.net/type/${value}`;
+}
+}
+
+
 const FIT_GROUP_ORDER = [
     { key: 'high', label: 'HIGH SLOTS' },
     { key: 'mid', label: 'MID SLOTS' },
@@ -15,6 +27,8 @@ const FIT_GROUP_ORDER = [
     { key: 'fighter', label: 'FIGHTER BAY' },
     { key: 'cargo', label: 'CARGO BAY' },
 ];
+
+
 
 async function loadKill() {
     typeTitle('socket-title', 'Socket.Kill', 100);
@@ -49,12 +63,27 @@ async function loadKill() {
 
 function render(data) {
     // Pilot card
-    const el = document.getElementById('pilot-name');
-    el.innerHTML = data.victim.characterID
-        ? `<a href="https://zkillboard.com/character/${data.victim.characterID}/" target="_blank" rel="noopener noreferrer">${escapeHtml(data.victim.name)}</a>`
-        : escapeHtml(data.victim.name);
-    setText('pilot-corp', data.victim.corp);
-    setText('pilot-alliance', data.victim.alliance || 'NO ALLIANCE');
+    const pilotEl = document.getElementById('pilot-name');
+    if (pilotEl) {
+        pilotEl.innerHTML = data.victim.characterID
+            ? `<a href="${externalLink('character', data.victim.characterID)}" target="_blank" rel="noopener noreferrer">${escapeHtml(data.victim.name)}</a>`
+            : escapeHtml(data.victim.name);
+    }
+
+    const corpEl = document.getElementById('pilot-corp');
+    if (corpEl) {
+        corpEl.innerHTML = data.victim.corporationID
+            ? `<a href="${externalLink('corp', data.victim.corporationID)}" target="_blank" rel="noopener noreferrer">${escapeHtml(data.victim.corp)}</a>`
+            : escapeHtml(data.victim.corp);
+    }
+
+    const allianceEl = document.getElementById('pilot-alliance');
+    if (allianceEl) {
+        allianceEl.innerHTML = data.victim.allianceID
+            ? `<a href="${externalLink('alliance', data.victim.allianceID)}" target="_blank" rel="noopener noreferrer">${escapeHtml(data.victim.alliance)}</a>`
+            : 'NO ALLIANCE';
+    }
+
     if (data.victim.characterID) {
         setImg('pilot-portrait-img', `${EVE_IMG}/characters/${data.victim.characterID}/portrait?size=128`);
     } else if (data.victim.corporationID) {
@@ -124,8 +153,8 @@ function renderAttackers(attackers) {
                 ${a.shipTypeID ? `<img src="${RENDER_API}/ship/${a.shipTypeID}?size=64" class="w-full h-full object-cover" alt="">` : ''}
             </div>
             <div class="min-w-0">
-                <div class="text-sm text-white font-exo truncate">${escapeHtml(a.name)}</div>
-                <div class="text-[10px] text-gray-400 truncate">${escapeHtml(a.corp)}</div>
+                <div class="text-sm text-white font-exo truncate">${a.characterID ? `<a href="${externalLink('character', a.characterID)}" target="_blank" rel="noopener noreferrer">${escapeHtml(a.name)}</a>` : escapeHtml(a.name)}</div>
+                <div class="text-[10px] text-gray-400 truncate">${a.corporationID ? `<a href="${externalLink('corp', a.corporationID)}" target="_blank" rel="noopener noreferrer">${escapeHtml(a.corp)}</a>` : escapeHtml(a.corp)}</div>
             </div>
             <div class="font-mono text-xs text-gray-300 text-right" title="${a.damage.toLocaleString()} damage">${a.damagePercent.toFixed(1)}%</div>
         </li>
@@ -242,12 +271,16 @@ function renderItemRow(item) {
         : item.dropped > 0 ? 'bg-green-500/10 border-l-green-500'
             : 'bg-red-500/10 border-l-red-500';
 
+    const itemName = item.typeID
+        ? `<a href="${externalLink('type', item.typeID)}" target="_blank" rel="noopener noreferrer" class="hover:text-eve-accent transition-colors">${escapeHtml(item.name)}</a>`
+        : escapeHtml(item.name);
+
     return `
         <div class="grid grid-cols-[32px_1fr_auto_auto] items-center gap-3 p-1.5 border-b border-white/5 text-sm font-mono border-l-4 ${state}">
             <div class="w-8 h-8 bg-black border border-eve-border flex items-center justify-center">
-                <img src="https://api.socketkill.com/render/market/${item.typeID}" alt="" class="w-full h-full object-cover opacity-90" loading="lazy">
+                <img src="${RENDER_API}/market/${item.typeID}" alt="" class="w-full h-full object-cover opacity-90" loading="lazy">
             </div>
-            <div class="text-white truncate font-exo font-medium" title="${escapeHtml(item.name)}">${escapeHtml(item.name)}</div>
+            <div class="text-white truncate font-exo font-medium" title="${escapeHtml(item.name)}">${itemName}</div>
             <div class="text-gray-400 font-bold ml-2">${item.quantity > 1 ? `×${item.quantity.toLocaleString()}` : ''}</div>
             <div class="text-eve-accent text-right font-mono">${item.formattedValue ? `${item.formattedValue} ISK` : '—'}</div>
         </div>
