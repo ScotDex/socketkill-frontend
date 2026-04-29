@@ -4,6 +4,8 @@ The inspiration came from a development project where I was discarding some kill
 
 The scope is very simple, stream kills as fast as technically possible utilizing cloudflare page functions and edge caching, 
 
+<iframe src="https://github.com/sponsors/ScotDex/button" title="Sponsor ScottishDex" height="32" width="114" style="border: 0; border-radius: 6px;"></iframe>
+
 Nominated for [CCP Fanfest 2026 New Developer of the Year](https://www.eveonline.com/news/view/meet-your-eve-creator-awards-finalists).
 
 **Live at [socketkill.com](https://socketkill.com) · [Discord](https://discord.gg/UnFN8UY6Dz)**
