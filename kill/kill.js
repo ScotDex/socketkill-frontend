@@ -96,11 +96,23 @@ function render(data) {
         setImg('pilot-alliance-img', `${RENDER_API}/alliance/${data.victim.allianceID}`);
     }
 
-    // Location card
-    setText('location-system', data.system?.name || '—');
-    setText('location-region', data.system?.region || '—');
-    setText('location-time', formatTime(data.killmailTime));
+    
+// Location card
+const systemEl = document.getElementById('location-system');
+if (systemEl) {
+    systemEl.innerHTML = data.system?.name
+        ? `<a href="${externalLink('system', data.system.name)}" target="_blank" rel="noopener noreferrer">${escapeHtml(data.system.name)}</a>`
+        : '—';
+}
 
+const regionEl = document.getElementById('location-region');
+if (regionEl) {
+    regionEl.innerHTML = data.system?.region
+        ? `<a href="${externalLink('region', data.system.region)}" target="_blank" rel="noopener noreferrer">${escapeHtml(data.system.region)}</a>`
+        : '—';
+}
+
+setText('location-time', formatTime(data.killmailTime));
     if (data.system) {
         const sec = classifySecurity(data.system);
         const el = document.getElementById('location-security');
