@@ -26,7 +26,7 @@ const FIT_GROUP_ORDER = [
     { key: 'drone', label: 'DRONE BAY' },
     { key: 'fighter', label: 'FIGHTER BAY' },
     { key: 'cargo', label: 'CARGO BAY' },
-    { key: 'implants', label: 'IMPLANTS'}
+    { key: 'implant', label: 'IMPLANTS' },
 ];
 
 
