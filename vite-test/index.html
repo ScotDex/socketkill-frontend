@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Socket.Kill</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="color-scheme" content="dark" />
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@400;600;800&family=Share+Tech+Mono&display=swap" rel="stylesheet" />
+
+  <!-- Vite entry (injects Tailwind + stream.js) -->
+  <script type="module" src="/src/main.js"></script>
+</head>
+<body>
+
+  <div class="fog-overlay"></div>
+
+  <div id="crt-screen">
+    <div class="max-w-[1100px] mx-auto px-2 py-3">
+
+      <!-- ── HEADER ── -->
+      <header class="site-header">
+        <div class="min-w-0">
+          <h5 class="m-0 text-base font-semibold">
+            <span id="socket-title" class="typewriter" aria-label="Socket.Kill"></span>
+          </h5>
+        </div>
+
+        <div class="header-center" aria-label="Killmails processed">
+          KILLMAILS PROCESSED
+          <span id="kill-counter">0</span>
+          <span class="opacity-40">//</span>
+          <span class="opacity-40 text-xs uppercase tracking-widest">TQ_STATUS</span>
+          <span class="text-white font-bold text-sm" id="player-count-header">0</span>
+          <span class="opacity-40">//</span>
+          <span class="opacity-40 text-xs uppercase tracking-widest">ISK_DESTROYED</span>
+          <span class="text-white font-bold text-sm" id="isk-ticker-header">0.00T</span>
+        </div>
+
+        <div class="header-right">
+          <div id="status"
+               class="status-offline"
+               role="status"
+               aria-live="polite"
+               aria-label="connection-status">
+            ● CONNECTING...
+          </div>
+        </div>
+      </header>
+
+      <!-- ── TERMINAL FILTER BAR ── -->
+      <div class="terminal-header">
+        <div class="flex items-center shrink-0 mr-2">
+          <span class="terminal-chevron">&gt;</span>
+          <span class="terminal-status-text">&gt; READY</span>
+        </div>
+
+        <div class="terminal-input-wrapper">
+          <input
+            type="text"
+            id="regionSearch"
+            class="terminal-input-field"
+            placeholder="SEARCH_STREAM"
+            autocomplete="off"
+          />
+          <div id="region-suggestions"></div>
+        </div>
+
+        <span id="active-filter-label" class="filter-label"></span>
+      </div>
+
+      <!-- ── EMPTY / BOOT STATE ── -->
+      <div id="empty-state">
+        <div class="boot-sequence"></div>
+      </div>
+
+      <!-- ── KILL FEED ── -->
+      <div id="feed"></div>
+
+    </div>
+  </div>
+
+  <!-- ── FOOTER ── -->
+  <footer class="legal-footer">
+    <div class="footer-content">
+
+      <!-- Left -->
+      <div class="footer-left">
+        <span class="tech-spec">
+          [ CREDITS:
+          <a href="https://github.com/zKillboard/zKillboard/wiki/API-(R2Z2)" target="_blank" rel="noopener" class="credit-link">R2 FROM ZKILL</a> //
+          <a href="https://developers.eveonline.com/api-explorer" target="_blank" rel="noopener" class="credit-link">ESI</a> //
+          <a href="https://www.flickr.com/photos/rixxjavix/" target="_blank" rel="noopener" class="credit-link">@RIXXJAVIX</a> ]
+        </span>
+        <span class="ccp-notice">EVE Online and the EVE logo are the registered trademarks of CCP hf. All rights reserved.</span>
+      </div>
+
+      <!-- Center -->
+      <div class="footer-center">
+        <div class="footer-stat">
+          <span class="footer-stat-label">GLOBAL_NPC_DEATHS</span>
+          <span id="npc-count" class="footer-stat-value font-bold">...</span>
+        </div>
+      </div>
+
+      <!-- Right -->
+      <nav class="footer-nav" aria-label="Footer navigation">
+        <a href="https://socketkill.com/about/" rel="noopener" class="footer-link">ABOUT</a>
+        <a href="https://socketkill.com/map/"   rel="noopener" class="footer-link">HEAT_MAP</a>
+
+        <span class="footer-network-wrapper">
+          <span class="footer-link" id="network-toggle">LINKS</span>
+          <div id="network-dropdown">
+            <a href="https://eveworkbench.com"              target="_blank" rel="noopener" class="network-link">EVE_WORKBENCH</a>
+            <a href="https://zkillboard.com/"               target="_blank" rel="noopener" class="network-link">ZKILLBOARD</a>
+            <a href="https://everookies.com/"               target="_blank" rel="noopener" class="network-link">EVE_ROOKIES</a>
+            <a href="https://wiki.eveuniversity.org/Main_Page" target="_blank" rel="noopener" class="network-link">EVE_UNI</a>
+            <a href="https://eve-kill.com/"                 target="_blank" rel="noopener" class="network-link">EVE_KILL</a>
+          </div>
+        </span>
+
+        <a href="https://ko-fi.com/X7X21RDFR0" target="_blank" rel="noopener"
+           class="footer-link footer-link--author"
+           title="Built by Dexomus Viliana · Support development">
+          DEXOMUS_VILIANA
+        </a>
+        <span class="footer-version">v2.0</span>
+      </nav>
+
+    </div>
+  </footer>
+
+</body>
+</html>
