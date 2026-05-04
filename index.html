@@ -31,8 +31,6 @@
 <meta name="twitter:image" content="https://socketkill.com/socket-preview-v1.png">
 <script defer src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "9a7b8334fd974f46a3b570cbc18d90b1"}'></script>
 
-
-  <!-- Vite entry (injects Tailwind + stream.js) -->
   <script type="module" src="./src/main.js"></script>
 </head>
 <body>
@@ -42,7 +40,6 @@
   <div id="crt-screen">
     <div class="max-w-[1100px] mx-auto px-2 py-3">
 
-      <!-- ── HEADER ── -->
       <header class="site-header">
         <div class="min-w-0">
           <h5 class="m-0 text-base font-semibold">
@@ -72,7 +69,7 @@
         </div>
       </header>
 
-      <!-- ── TERMINAL FILTER BAR ── -->
+      
       <div class="terminal-header">
         <div class="flex items-center shrink-0 mr-2">
           <span class="terminal-chevron">&gt;</span>
@@ -93,22 +90,19 @@
         <span id="active-filter-label" class="filter-label"></span>
       </div>
 
-      <!-- ── EMPTY / BOOT STATE ── -->
+   
       <div id="empty-state">
         <div class="boot-sequence"></div>
       </div>
-
-      <!-- ── KILL FEED ── -->
       <div id="feed"></div>
 
     </div>
   </div>
 
-  <!-- ── FOOTER ── -->
+  
   <footer class="legal-footer">
     <div class="footer-content">
 
-      <!-- Left -->
       <div class="footer-left">
         <span class="tech-spec">
           [ CREDITS:
@@ -119,7 +113,6 @@
         <span class="ccp-notice">EVE Online and the EVE logo are the registered trademarks of CCP hf. All rights reserved.</span>
       </div>
 
-      <!-- Center -->
       <div class="footer-center">
         <div class="footer-stat">
           <span class="footer-stat-label">GLOBAL_NPC_DEATHS</span>
@@ -127,7 +120,6 @@
         </div>
       </div>
 
-      <!-- Right -->
       <nav class="footer-nav" aria-label="Footer navigation">
         <a href="https://socketkill.com/about/" rel="noopener" class="footer-link">ABOUT</a>
         <a href="https://socketkill.com/map/"   rel="noopener" class="footer-link">HEAT_MAP</a>

@@ -1,61 +1,48 @@
-// ============================================================
-// SOCKET.KILL — STREAM.JS (Vite port)
-// Logic identical to original; imports via npm instead of CDN
-// ============================================================
+
 
 import { io } from 'socket.io-client'
 import { gsap } from 'gsap'
 
 const socket = io('https://ws.socketkill.com')
 
-// ---- DOM refs ----------------------------------------------
-const feed          = document.getElementById('feed')
-const status        = document.getElementById('status')
+const feed = document.getElementById('feed')
+const status = document.getElementById('status')
 const counterElement = document.getElementById('kill-counter')
-const regionSearch  = document.getElementById('regionSearch')
+const regionSearch = document.getElementById('regionSearch')
 
-// ---- Constants ---------------------------------------------
-const MAX_FEED_SIZE      = 70
-const WHALE_THRESHOLD    = 10_000_000_000
-const BILLION_THRESHOLD  = 1_000_000_000
+const MAX_FEED_SIZE = 70
+const WHALE_THRESHOLD = 10_000_000_000
+const BILLION_THRESHOLD = 1_000_000_000
 
-// ---- State -------------------------------------------------
-let regionCache   = []
+let regionCache = []
 let selectedIndex = -1
 
-// ============================================================
-// UTILITIES
-// ============================================================
 
 function escapeHtml(value) {
   if (value == null) return ''
   return String(value)
-    .replace(/&/g,  '&amp;')
-    .replace(/</g,  '&lt;')
-    .replace(/>/g,  '&gt;')
-    .replace(/"/g,  '&quot;')
-    .replace(/'/g,  '&#39;')
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;')
 }
 
 function formatIskShorthand(value) {
   const num = Number(value) || 0
   if (num >= 1e12) return (num / 1e12).toFixed(2) + 'T'
-  if (num >= 1e9)  return (num / 1e9).toFixed(2)  + 'B'
-  if (num >= 1e6)  return (num / 1e6).toFixed(1)  + 'M'
-  if (num >= 1e3)  return (num / 1e3).toFixed(1)  + 'K'
+  if (num >= 1e9) return (num / 1e9).toFixed(2) + 'B'
+  if (num >= 1e6) return (num / 1e6).toFixed(1) + 'M'
+  if (num >= 1e3) return (num / 1e3).toFixed(1) + 'K'
   return num.toLocaleString()
 }
 
 function getUtcTimestamp() {
   const now = new Date()
-  const hh  = now.getUTCHours().toString().padStart(2, '0')
-  const mm  = now.getUTCMinutes().toString().padStart(2, '0')
+  const hh = now.getUTCHours().toString().padStart(2, '0')
+  const mm = now.getUTCMinutes().toString().padStart(2, '0')
   return `[${hh}:${mm}]`
 }
-
-// ============================================================
-// RENDERERS — animations & typewriter effects
-// ============================================================
 
 function counterSurge() {
   const counter = document.getElementById('kill-counter')
@@ -178,12 +165,9 @@ function typeIskValue(el, text) {
   render()
 }
 
-// ============================================================
-// KILL ROW — build & insert
-// ============================================================
 
 function buildKillRow(kill) {
-  const val     = Number(kill.val) || 0
+  const val = Number(kill.val) || 0
   const isWhale = val >= WHALE_THRESHOLD
   const iskClass = val >= BILLION_THRESHOLD ? 'isk-billion' : 'isk-million'
 
@@ -247,34 +231,28 @@ function insertKillRow(kill) {
     setTimeout(() => document.body.classList.remove('signal-interference'), 400)
   }
 
-  // Apply current filter
   const filterTerm = regionSearch.value.toLowerCase().trim()
   if (filterTerm !== '') {
-    const locationMatch = (kill.locationLabel  || '').toLowerCase().includes(filterTerm)
-    const allianceMatch = (kill.allianceName   || '').toLowerCase().includes(filterTerm)
+    const locationMatch = (kill.locationLabel || '').toLowerCase().includes(filterTerm)
+    const allianceMatch = (kill.allianceName || '').toLowerCase().includes(filterTerm)
     if (!locationMatch && !allianceMatch) div.hidden = true
   }
 
   feed.prepend(div)
 
-  // Post-insert animations
   typeIskValue(div.querySelector('.isk-value'), formatIskShorthand(val))
   div.querySelector('.article-target').innerText = kill.article || 'a'
   renderShipName(div.querySelector('.type-target'), kill.ship)
 
-  // Trim feed
   while (feed.children.length > MAX_FEED_SIZE) {
     feed.lastElementChild?.remove()
   }
 }
 
-// ============================================================
-// AUTOCOMPLETE — region search dropdown
-// ============================================================
 
 function showSuggestions(term) {
   const dropdown = document.getElementById('region-suggestions')
-  const matches  = regionCache.filter(r => r.toLowerCase().includes(term)).slice(0, 6)
+  const matches = regionCache.filter(r => r.toLowerCase().includes(term)).slice(0, 6)
 
   if (matches.length === 0 || term.length < 2) {
     dropdown.classList.remove('active')
@@ -303,7 +281,7 @@ function showSuggestions(term) {
 
 function moveSelection(direction) {
   const dropdown = document.getElementById('region-suggestions')
-  const items    = dropdown.querySelectorAll('.suggestion-item')
+  const items = dropdown.querySelectorAll('.suggestion-item')
   if (items.length === 0) return
 
   items.forEach(item => item.classList.remove('selected'))
@@ -328,7 +306,7 @@ function commitSelection() {
 }
 
 function applyFilter(term) {
-  const header      = document.querySelector('.terminal-header')
+  const header = document.querySelector('.terminal-header')
   const filterLabel = document.getElementById('active-filter-label')
 
   header.classList.toggle('filter-active', term !== '')
@@ -360,9 +338,9 @@ function bindAutocomplete() {
     if (!dropdown.classList.contains('active')) return
 
     switch (e.key) {
-      case 'ArrowDown': e.preventDefault(); moveSelection('down');  break
-      case 'ArrowUp':   e.preventDefault(); moveSelection('up');    break
-      case 'Enter':     e.preventDefault(); commitSelection();      break
+      case 'ArrowDown': e.preventDefault(); moveSelection('down'); break
+      case 'ArrowUp': e.preventDefault(); moveSelection('up'); break
+      case 'Enter': e.preventDefault(); commitSelection(); break
       case 'Escape':
         dropdown.classList.remove('active')
         selectedIndex = -1
@@ -378,14 +356,11 @@ function bindAutocomplete() {
   })
 }
 
-// ============================================================
-// SOCKET HANDLERS
-// ============================================================
 
 function bindSocketHandlers() {
   socket.on('connect', () => {
-    status.innerText   = '● ONLINE'
-    status.className   = 'status-online'
+    status.innerText = '● ONLINE'
+    status.className = 'status-online'
   })
 
   socket.on('disconnect', () => {
@@ -421,11 +396,11 @@ function bindSocketHandlers() {
 
   socket.on('nebula-update', (data) => {
     if (!data || !data.url) return
-    const tempImg  = new Image()
-    tempImg.src    = data.url
+    const tempImg = new Image()
+    tempImg.src = data.url
     tempImg.onload = () => {
-      document.body.style.backgroundImage    = `linear-gradient(rgba(13,17,23,0.8), rgba(13,17,23,0.8)), url('${data.url}')`
-      document.body.style.backgroundSize     = 'cover'
+      document.body.style.backgroundImage = `linear-gradient(rgba(13,17,23,0.8), rgba(13,17,23,0.8)), url('${data.url}')`
+      document.body.style.backgroundSize = 'cover'
       document.body.style.backgroundAttachment = 'fixed'
       document.body.style.backgroundPosition = 'center'
     }
@@ -437,9 +412,7 @@ function bindSocketHandlers() {
   })
 }
 
-// ============================================================
-// PERIODIC TASKS
-// ============================================================
+
 
 async function updateNPCTicker() {
   const npcDisplay = document.getElementById('npc-count')
@@ -447,9 +420,9 @@ async function updateNPCTicker() {
 
   try {
     const response = await fetch('https://api.socketkill.com/stats/npc-kills')
-    const data     = await response.json()
+    const data = await response.json()
     if (data && data.lifetimeTotal) {
-      npcDisplay.innerText    = data.lifetimeTotal.toLocaleString()
+      npcDisplay.innerText = data.lifetimeTotal.toLocaleString()
       npcDisplay.style.opacity = '0.5'
       setTimeout(() => (npcDisplay.style.opacity = '1'), 200)
     }
@@ -458,12 +431,10 @@ async function updateNPCTicker() {
   }
 }
 
-// ============================================================
-// UI BINDINGS
-// ============================================================
+
 
 function bindNetworkDropdown() {
-  const toggle   = document.getElementById('network-toggle')
+  const toggle = document.getElementById('network-toggle')
   const dropdown = document.getElementById('network-dropdown')
   if (!toggle || !dropdown) return
 
@@ -478,10 +449,6 @@ function bindNetworkDropdown() {
     }
   })
 }
-
-// ============================================================
-// INIT
-// ============================================================
 
 function initApp() {
   typeTitle('socket-title', 'Socket.Kill', 150)
