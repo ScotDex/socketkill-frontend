@@ -139,6 +139,7 @@ export async function onRequest(context) {
         <div class="header-left">
             <h1 class="site-title m-0">
                 <span id="socket-title" class="typewriter" aria-label="Socket.Kill"></span>
+                <span class="ml-2 px-1.5 py-0.5 text-[9px] tracking-widest text-gray-500 border border-gray-700 uppercase">beta</span>
             </h1>
         </div>
     </header>
