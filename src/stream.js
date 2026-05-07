@@ -190,7 +190,7 @@ function buildKillRow(kill) {
             <strong class="ship-name">
               <span class="timestamp">${getUtcTimestamp()}</span>
               ${escapeHtml(victimDisplay)} lost
-              <span class="article-target"></span><span class="type-target ship-name-container inline-block min-w-[12ch] align-bottom"></span>
+              <span class="article-target"></span><span class="type-target ship-name-container inline-block min-w-[12ch] align-baseline"></span>
             </strong>
           </div>
           <div class="text-sm">
