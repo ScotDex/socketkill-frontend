@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Socket.Kill // [Folder Name TBD]</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="color-scheme" content="dark" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@400;600;800&family=Share+Tech+Mono&display=swap" rel="stylesheet" />
+
+  <link rel="icon" type="image/png" href="https://edge.socketkill.com/favicon.png">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            'eve-dark': '#0a0b0e',
+            'eve-border': 'rgba(255, 255, 255, 0.1)',
+            'eve-accent': '#00d4ff',
+            'phosphor': '#3fb950',
+          },
+          fontFamily: {
+            'mono': ['Share Tech Mono', 'monospace'],
+            'exo': ['Exo 2', 'sans-serif'],
+          },
+        },
+      },
+    }
+  </script>
+
+  <style>
+    body {
+      background: #0a0b0e;
+      color: #c9d1d9;
+      font-family: 'Exo 2', sans-serif;
+    }
+
+    /* Tactical corner brackets — same language as the kill page */
+    .tactical-frame {
+      position: relative;
+    }
+    .tactical-frame::before,
+    .tactical-frame::after {
+      content: "";
+      position: absolute;
+      left: -1px;
+      right: -1px;
+      height: 14px;
+      pointer-events: none;
+      filter: drop-shadow(0 0 3px rgba(63, 185, 80, 0.4));
+    }
+    .tactical-frame::before {
+      top: -1px;
+      background:
+        linear-gradient(to right, #3fb950 0, #3fb950 14px, transparent 14px) top left / 100% 1px no-repeat,
+        linear-gradient(to bottom, #3fb950 0, #3fb950 14px, transparent 14px) top left / 1px 100% no-repeat,
+        linear-gradient(to left, #3fb950 0, #3fb950 14px, transparent 14px) top right / 100% 1px no-repeat,
+        linear-gradient(to bottom, #3fb950 0, #3fb950 14px, transparent 14px) top right / 1px 100% no-repeat;
+    }
+    .tactical-frame::after {
+      bottom: -1px;
+      background:
+        linear-gradient(to right, #3fb950 0, #3fb950 14px, transparent 14px) bottom left / 100% 1px no-repeat,
+        linear-gradient(to top, #3fb950 0, #3fb950 14px, transparent 14px) bottom left / 1px 100% no-repeat,
+        linear-gradient(to left, #3fb950 0, #3fb950 14px, transparent 14px) bottom right / 100% 1px no-repeat,
+        linear-gradient(to top, #3fb950 0, #3fb950 14px, transparent 14px) bottom right / 1px 100% no-repeat;
+    }
+  </style>
+</head>
+
+<body class="min-h-screen">
+
+  <!-- HEADER: site nav line. Mirrors the kill page header. -->
+  <header class="border-b border-eve-border bg-black/40 backdrop-blur-sm">
+    <div class="max-w-7xl mx-auto px-4 py-3 flex justify-between items-center">
+      <h1 class="font-mono text-lg tracking-widest text-phosphor uppercase">
+        <a href="/" class="hover:text-eve-accent transition-colors">SOCKET.KILL</a>
+        <span class="text-gray-600 mx-2">//</span>
+        <span class="text-white">[FOLDER NAME]</span>
+      </h1>
+
+      <nav class="flex gap-4 text-[10px] tracking-widest text-gray-500 font-exo uppercase">
+        <a href="/" class="hover:text-eve-accent">LIVE</a>
+        <a href="/about/" class="hover:text-eve-accent">ABOUT</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- DATE NAVIGATION: previous | current | next. The primary controller. -->
+  <section class="max-w-7xl mx-auto px-4 pt-8 pb-4">
+    <div class="flex items-center justify-between font-mono">
+
+      <a href="#" id="prev-day"
+         class="text-eve-accent border border-eve-border px-4 py-2 hover:bg-white/5 transition-colors text-sm tracking-widest">
+        &lt; PREV
+      </a>
+
+      <div class="text-center">
+        <div class="text-[10px] tracking-widest text-gray-500 uppercase mb-1">VIEWING</div>
+        <div id="current-date" class="text-2xl text-white tracking-widest">2026.05.07</div>
+        <div id="day-status" class="text-[10px] tracking-widest text-phosphor mt-1 uppercase">&gt; LIVE</div>
+      </div>
+
+      <a href="#" id="next-day"
+         class="text-eve-accent border border-eve-border px-4 py-2 hover:bg-white/5 transition-colors text-sm tracking-widest">
+        NEXT &gt;
+      </a>
+    </div>
+  </section>
+
+  <!-- DAY STATS BAR: aggregate numbers for the day in view. Optional. -->
+  <section class="max-w-7xl mx-auto px-4 pb-4">
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-3 font-mono text-sm">
+      <div class="border border-eve-border bg-black/40 p-3">
+        <div class="text-[10px] tracking-widest text-gray-500 uppercase">KILLS</div>
+        <div id="stat-kills" class="text-white text-lg">—</div>
+      </div>
+      <div class="border border-eve-border bg-black/40 p-3">
+        <div class="text-[10px] tracking-widest text-gray-500 uppercase">ISK DESTROYED</div>
+        <div id="stat-isk" class="text-phosphor text-lg">—</div>
+      </div>
+      <div class="border border-eve-border bg-black/40 p-3">
+        <div class="text-[10px] tracking-widest text-gray-500 uppercase">SYSTEMS HIT</div>
+        <div id="stat-systems" class="text-white text-lg">—</div>
+      </div>
+      <div class="border border-eve-border bg-black/40 p-3">
+        <div class="text-[10px] tracking-widest text-gray-500 uppercase">LARGEST LOSS</div>
+        <div id="stat-largest" class="text-eve-accent text-lg">—</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- MAIN CONTENT: the kill list for the day -->
+  <main class="max-w-7xl mx-auto px-4 pb-8">
+    <div class="tactical-frame bg-eve-dark p-4 mt-4">
+
+      <div class="flex justify-between items-center mb-4 text-[10px] tracking-widest text-gray-500 uppercase font-exo">
+        <span>&gt; KILLMAILS // <span id="kill-count">0</span></span>
+        <span id="last-updated">&gt; UPDATED 0s AGO</span>
+      </div>
+
+      <!-- Where the kills get rendered. -->
+      <ul id="kill-list" class="space-y-1">
+        <li class="text-gray-500 italic text-sm font-mono p-4 text-center">
+          &gt; LOADING...
+        </li>
+      </ul>
+
+      <!-- Pagination within a day, if a day has too many to render at once -->
+      <div id="pagination" class="flex justify-center mt-6 gap-2 hidden">
+        <button class="text-[10px] text-eve-accent border border-eve-border px-3 py-1 hover:bg-white/5">LOAD MORE</button>
+      </div>
+
+    </div>
+  </main>
+
+  <!-- FOOTER: matches existing site -->
+  <footer class="max-w-7xl mx-auto p-4 mt-8 border-t border-eve-border text-center">
+    <div class="flex flex-col md:flex-row justify-between items-center gap-4 text-[10px] tracking-widest text-gray-500 font-exo">
+      <div>
+        <a href="/" class="hover:text-eve-accent transition-colors">&lt; BACK TO LIVE FEED</a>
+      </div>
+      <div class="space-x-4">
+        <a href="https://socketkill.com/about/" class="hover:text-eve-accent">ABOUT</a>
+        <a href="https://github.com/ScotDex/socketkill-frontend" target="_blank" class="hover:text-eve-accent">GITHUB</a>
+        <a href="https://api.socketkill.com/docs/" class="hover:text-eve-accent">API</a>
+        <a href="https://discord.gg/dpgmEm9REc" target="_blank" class="hover:text-eve-accent">DISCORD</a>
+      </div>
+      <div>&copy; 2026 SOCKETKILL.COM</div>
+    </div>
+  </footer>
+
+</body>
+</html>
