@@ -1,177 +1,194 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <title>Socket.Kill // [Folder Name TBD]</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="color-scheme" content="dark" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SOCKET.KILL // ARCHIVE_DATA</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Fira+Code:wght@300;500;700&display=swap');
+        
+        body {
+            background-color: #020202;
+            color: #4ade80;
+            font-family: 'Fira Code', monospace;
+        }
 
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@400;600;800&family=Share+Tech+Mono&display=swap" rel="stylesheet" />
+        .crt-overlay {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.1) 50%), 
+                        linear-gradient(90deg, rgba(255, 0, 0, 0.02), rgba(0, 255, 0, 0.01), rgba(0, 0, 255, 0.02));
+            background-size: 100% 3px, 2px 100%;
+            pointer-events: none;
+            z-index: 50;
+        }
 
-  <link rel="icon" type="image/png" href="https://edge.socketkill.com/favicon.png">
-  <script src="https://cdn.tailwindcss.com"></script>
-  <script>
-    tailwind.config = {
-      theme: {
-        extend: {
-          colors: {
-            'eve-dark': '#0a0b0e',
-            'eve-border': 'rgba(255, 255, 255, 0.1)',
-            'eve-accent': '#00d4ff',
-            'phosphor': '#3fb950',
-          },
-          fontFamily: {
-            'mono': ['Share Tech Mono', 'monospace'],
-            'exo': ['Exo 2', 'sans-serif'],
-          },
-        },
-      },
-    }
-  </script>
+        .terminal-border { border: 1px solid rgba(74, 222, 128, 0.2); }
+        .victim-img { filter: sepia(100%) hue-rotate(60deg) brightness(80%) contrast(130%) grayscale(0.3); }
+        
+        .loading-shimmer {
+            background: linear-gradient(90deg, transparent, rgba(74, 222, 128, 0.1), transparent);
+            background-size: 200% 100%;
+            animation: loading 1.5s infinite;
+        }
 
-  <style>
-    body {
-      background: #0a0b0e;
-      color: #c9d1d9;
-      font-family: 'Exo 2', sans-serif;
-    }
-
-    /* Tactical corner brackets — same language as the kill page */
-    .tactical-frame {
-      position: relative;
-    }
-    .tactical-frame::before,
-    .tactical-frame::after {
-      content: "";
-      position: absolute;
-      left: -1px;
-      right: -1px;
-      height: 14px;
-      pointer-events: none;
-      filter: drop-shadow(0 0 3px rgba(63, 185, 80, 0.4));
-    }
-    .tactical-frame::before {
-      top: -1px;
-      background:
-        linear-gradient(to right, #3fb950 0, #3fb950 14px, transparent 14px) top left / 100% 1px no-repeat,
-        linear-gradient(to bottom, #3fb950 0, #3fb950 14px, transparent 14px) top left / 1px 100% no-repeat,
-        linear-gradient(to left, #3fb950 0, #3fb950 14px, transparent 14px) top right / 100% 1px no-repeat,
-        linear-gradient(to bottom, #3fb950 0, #3fb950 14px, transparent 14px) top right / 1px 100% no-repeat;
-    }
-    .tactical-frame::after {
-      bottom: -1px;
-      background:
-        linear-gradient(to right, #3fb950 0, #3fb950 14px, transparent 14px) bottom left / 100% 1px no-repeat,
-        linear-gradient(to top, #3fb950 0, #3fb950 14px, transparent 14px) bottom left / 1px 100% no-repeat,
-        linear-gradient(to left, #3fb950 0, #3fb950 14px, transparent 14px) bottom right / 100% 1px no-repeat,
-        linear-gradient(to top, #3fb950 0, #3fb950 14px, transparent 14px) bottom right / 1px 100% no-repeat;
-    }
-  </style>
+        @keyframes loading {
+            0% { background-position: 200% 0; }
+            100% { background-position: -200% 0; }
+        }
+    </style>
 </head>
+<body class="p-6">
+    <div class="crt-overlay"></div>
 
-<body class="min-h-screen">
+    <header class="max-w-6xl mx-auto mb-10 flex justify-between items-end border-b border-green-900/40 pb-4">
+        <div>
+            <h1 class="text-xl font-bold tracking-widest text-white">RECORDS_ARCHIVE</h1>
+            <p class="text-[10px] opacity-50 uppercase tracking-tighter">Secure Retrieval // Stateless Edge Architecture</p>
+        </div>
+        <div class="text-right">
+            <div class="text-[10px] opacity-40">UTC_TIME</div>
+            <div id="clock" class="text-xs">--:--:--</div>
+        </div>
+    </header>
 
-  <!-- HEADER: site nav line. Mirrors the kill page header. -->
-  <header class="border-b border-eve-border bg-black/40 backdrop-blur-sm">
-    <div class="max-w-7xl mx-auto px-4 py-3 flex justify-between items-center">
-      <h1 class="font-mono text-lg tracking-widest text-phosphor uppercase">
-        <a href="/" class="hover:text-eve-accent transition-colors">SOCKET.KILL</a>
-        <span class="text-gray-600 mx-2">//</span>
-        <span class="text-white">[FOLDER NAME]</span>
-      </h1>
+    <main class="max-w-6xl mx-auto">
+        <div class="mb-10 flex gap-2">
+            <input type="text" id="kill-input" placeholder="ENTER_KILL_ID..." class="bg-black border border-green-900/50 px-4 py-2 text-xs w-64 focus:outline-none focus:border-green-400 text-green-400">
+            <button onclick="manualLookup()" class="bg-green-900/20 border border-green-900/50 px-6 py-2 text-xs hover:bg-green-900/40 transition-colors">RETRIEVE</button>
+        </div>
 
-      <nav class="flex gap-4 text-[10px] tracking-widest text-gray-500 font-exo uppercase">
-        <a href="/" class="hover:text-eve-accent">LIVE</a>
-        <a href="/about/" class="hover:text-eve-accent">ABOUT</a>
-      </nav>
-    </div>
-  </header>
+        <div id="report-container" class="hidden">
+            <div class="terminal-border bg-green-900/5 p-8 relative overflow-hidden">
+                <div id="shimmer-overlay" class="absolute inset-0 loading-shimmer opacity-0 pointer-events-none"></div>
 
-  <!-- DATE NAVIGATION: previous | current | next. The primary controller. -->
-  <section class="max-w-7xl mx-auto px-4 pt-8 pb-4">
-    <div class="flex items-center justify-between font-mono">
+                <div class="flex justify-between border-b border-green-900/50 pb-6 mb-8">
+                    <div>
+                        <div id="km-system" class="text-3xl font-bold text-white tracking-tighter uppercase">--</div>
+                        <div id="km-region" class="text-xs opacity-50 italic">--</div>
+                    </div>
+                    <div class="text-right">
+                        <div id="km-time" class="text-xs text-green-400 mb-1">--</div>
+                        <div id="km-value" class="text-2xl font-bold text-white">--</div>
+                    </div>
+                </div>
 
-      <a href="#" id="prev-day"
-         class="text-eve-accent border border-eve-border px-4 py-2 hover:bg-white/5 transition-colors text-sm tracking-widest">
-        &lt; PREV
-      </a>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-16">
+                    <div class="space-y-4">
+                        <div class="text-[10px] bg-green-900/30 px-2 py-0.5 border border-green-700/50 inline-block">LOSS_IDENTIFIED</div>
+                        <div class="flex gap-6">
+                            <img id="km-victim-portrait" src="" class="w-40 h-40 terminal-border victim-img">
+                            <div class="flex flex-col justify-center">
+                                <div id="km-victim-name" class="text-2xl font-bold text-white">--</div>
+                                <div id="km-victim-corp" class="text-sm opacity-70">--</div>
+                                <div id="km-victim-ship" class="text-green-400 font-bold mt-4 uppercase">--</div>
+                            </div>
+                        </div>
+                    </div>
 
-      <div class="text-center">
-        <div class="text-[10px] tracking-widest text-gray-500 uppercase mb-1">VIEWING</div>
-        <div id="current-date" class="text-2xl text-white tracking-widest">2026.05.07</div>
-        <div id="day-status" class="text-[10px] tracking-widest text-phosphor mt-1 uppercase">&gt; LIVE</div>
-      </div>
+                    <div class="space-y-4">
+                        <div class="text-[10px] bg-red-900/30 px-2 py-0.5 border border-red-700/50 text-red-400 inline-block">FINAL_BLOW_UNIT</div>
+                        <div class="flex gap-6">
+                            <img id="km-fb-portrait" src="" class="w-40 h-40 terminal-border grayscale">
+                            <div class="flex flex-col justify-center">
+                                <div id="km-fb-name" class="text-2xl font-bold text-white">--</div>
+                                <div id="km-fb-corp" class="text-sm opacity-70">--</div>
+                                <div id="km-fb-ship" class="text-red-400 font-bold mt-4 uppercase">--</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
-      <a href="#" id="next-day"
-         class="text-eve-accent border border-eve-border px-4 py-2 hover:bg-white/5 transition-colors text-sm tracking-widest">
-        NEXT &gt;
-      </a>
-    </div>
-  </section>
+                <div class="mt-16">
+                    <div class="flex justify-between items-end border-b border-green-900/30 mb-6 pb-2">
+                        <span class="text-[10px]">COMBAT_LOG_PARTICIPANTS</span>
+                        <span id="km-count" class="text-[10px] opacity-40">--</span>
+                    </div>
+                    <div id="km-attackers" class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4">
+                        </div>
+                </div>
+            </div>
+        </div>
 
-  <!-- DAY STATS BAR: aggregate numbers for the day in view. Optional. -->
-  <section class="max-w-7xl mx-auto px-4 pb-4">
-    <div class="grid grid-cols-2 md:grid-cols-4 gap-3 font-mono text-sm">
-      <div class="border border-eve-border bg-black/40 p-3">
-        <div class="text-[10px] tracking-widest text-gray-500 uppercase">KILLS</div>
-        <div id="stat-kills" class="text-white text-lg">—</div>
-      </div>
-      <div class="border border-eve-border bg-black/40 p-3">
-        <div class="text-[10px] tracking-widest text-gray-500 uppercase">ISK DESTROYED</div>
-        <div id="stat-isk" class="text-phosphor text-lg">—</div>
-      </div>
-      <div class="border border-eve-border bg-black/40 p-3">
-        <div class="text-[10px] tracking-widest text-gray-500 uppercase">SYSTEMS HIT</div>
-        <div id="stat-systems" class="text-white text-lg">—</div>
-      </div>
-      <div class="border border-eve-border bg-black/40 p-3">
-        <div class="text-[10px] tracking-widest text-gray-500 uppercase">LARGEST LOSS</div>
-        <div id="stat-largest" class="text-eve-accent text-lg">—</div>
-      </div>
-    </div>
-  </section>
+        <div id="error-msg" class="hidden text-red-600 border border-red-900/50 p-4 text-xs bg-red-900/10 uppercase animate-pulse">
+            DATA_RETRIEVAL_FAILURE: RECORD_NOT_FOUND_IN_EDGE_SHARD
+        </div>
+    </main>
 
-  <!-- MAIN CONTENT: the kill list for the day -->
-  <main class="max-w-7xl mx-auto px-4 pb-8">
-    <div class="tactical-frame bg-eve-dark p-4 mt-4">
+    <script>
+        const API_BASE = "https://ws.socketkill.com";
 
-      <div class="flex justify-between items-center mb-4 text-[10px] tracking-widest text-gray-500 uppercase font-exo">
-        <span>&gt; KILLMAILS // <span id="kill-count">0</span></span>
-        <span id="last-updated">&gt; UPDATED 0s AGO</span>
-      </div>
+        // Handle Manual Input
+        function manualLookup() {
+            const id = document.getElementById('kill-input').value;
+            if (id) loadKillmail(id);
+        }
 
-      <!-- Where the kills get rendered. -->
-      <ul id="kill-list" class="space-y-1">
-        <li class="text-gray-500 italic text-sm font-mono p-4 text-center">
-          &gt; LOADING...
-        </li>
-      </ul>
+        async function loadKillmail(killID) {
+            const container = document.getElementById('report-container');
+            const errorView = document.getElementById('error-msg');
+            const shimmer = document.getElementById('shimmer-overlay');
+            
+            errorView.classList.add('hidden');
+            container.classList.remove('hidden');
+            shimmer.style.opacity = '1';
 
-      <!-- Pagination within a day, if a day has too many to render at once -->
-      <div id="pagination" class="flex justify-center mt-6 gap-2 hidden">
-        <button class="text-[10px] text-eve-accent border border-eve-border px-3 py-1 hover:bg-white/5">LOAD MORE</button>
-      </div>
+            try {
+                // Jab your new databaseless API
+                const response = await fetch(`${API_BASE}/api/kill/${killID}`);
+                if (!response.ok) throw new Error('NOT_FOUND');
+                
+                const data = await response.json();
+                
+                // Hydrate Fields
+                document.getElementById('km-system').innerText = data.system.name;
+                document.getElementById('km-region').innerText = `${data.system.region} // SEC_STATUS: ${data.system.security.toFixed(1)}`;
+                document.getElementById('km-time').innerText = data.killmailTime;
+                document.getElementById('km-value').innerText = data.totalValue;
 
-    </div>
-  </main>
+                document.getElementById('km-victim-portrait').src = `https://images.evetech.net/characters/${data.victim.characterID}/portrait?size=256`;
+                document.getElementById('km-victim-name').innerText = data.victim.name;
+                document.getElementById('km-victim-corp').innerText = data.victim.corp;
+                document.getElementById('km-victim-ship').innerText = data.victim.ship;
 
-  <!-- FOOTER: matches existing site -->
-  <footer class="max-w-7xl mx-auto p-4 mt-8 border-t border-eve-border text-center">
-    <div class="flex flex-col md:flex-row justify-between items-center gap-4 text-[10px] tracking-widest text-gray-500 font-exo">
-      <div>
-        <a href="/" class="hover:text-eve-accent transition-colors">&lt; BACK TO LIVE FEED</a>
-      </div>
-      <div class="space-x-4">
-        <a href="https://socketkill.com/about/" class="hover:text-eve-accent">ABOUT</a>
-        <a href="https://github.com/ScotDex/socketkill-frontend" target="_blank" class="hover:text-eve-accent">GITHUB</a>
-        <a href="https://api.socketkill.com/docs/" class="hover:text-eve-accent">API</a>
-        <a href="https://discord.gg/dpgmEm9REc" target="_blank" class="hover:text-eve-accent">DISCORD</a>
-      </div>
-      <div>&copy; 2026 SOCKETKILL.COM</div>
-    </div>
-  </footer>
+                document.getElementById('km-fb-portrait').src = `https://images.evetech.net/characters/${data.finalBlow.characterID}/portrait?size=256`;
+                document.getElementById('km-fb-name').innerText = data.finalBlow.name;
+                document.getElementById('km-fb-corp').innerText = data.finalBlow.corp;
+                document.getElementById('km-fb-ship').innerText = data.finalBlow.ship;
 
+                const attackers = document.getElementById('km-attackers');
+                attackers.innerHTML = data.attackers.slice(0, 18).map(a => `
+                    <div class="p-2 border border-green-900/20 bg-black text-[9px] hover:border-green-400 transition-colors cursor-default">
+                        <div class="text-white truncate font-bold">${a.name || 'Unknown'}</div>
+                        <div class="opacity-50 truncate">${a.ship || 'Unknown Ship'}</div>
+                        <div class="text-red-500 mt-1">${a.damagePercent}% DMG</div>
+                    </div>
+                `).join('');
+                
+                document.getElementById('km-count').innerText = `${data.attackerCount} UNITS RECORDED`;
+                shimmer.style.opacity = '0';
+
+            } catch (err) {
+                container.classList.add('hidden');
+                errorView.classList.remove('hidden');
+            }
+        }
+
+        // Auto-load if URL contains ID (e.g. socketkill.com/archive?id=12345)
+        window.addEventListener('DOMContentLoaded', () => {
+            const params = new URLSearchParams(window.location.search);
+            const id = params.get('id');
+            if (id) {
+                document.getElementById('kill-input').value = id;
+                loadKillmail(id);
+            }
+            
+            // Simple clock
+            setInterval(() => {
+                document.getElementById('clock').innerText = new Date().toISOString().slice(11, 19) + " UTC";
+            }, 1000);
+        });
+    </script>
 </body>
 </html>
