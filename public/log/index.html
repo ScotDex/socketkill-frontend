@@ -3,15 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SOCKET.KILL // ARCHIVE_DATA</title>
+    <title>SOCKET.KILL // DAILY_LOGS</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Fira+Code:wght@300;500;700&display=swap');
         
         body {
-            background-color: #020202;
+            background-color: #050505;
             color: #4ade80;
             font-family: 'Fira Code', monospace;
+            overflow-x: hidden;
         }
 
         .crt-overlay {
@@ -25,125 +26,146 @@
         }
 
         .terminal-border { border: 1px solid rgba(74, 222, 128, 0.2); }
-        .victim-img { filter: sepia(100%) hue-rotate(60deg) brightness(80%) contrast(130%) grayscale(0.3); }
+        .victim-img { filter: sepia(100%) hue-rotate(60deg) brightness(80%) contrast(120%) grayscale(0.5); }
         
-        .loading-shimmer {
-            background: linear-gradient(90deg, transparent, rgba(74, 222, 128, 0.1), transparent);
-            background-size: 200% 100%;
-            animation: loading 1.5s infinite;
-        }
-
-        @keyframes loading {
-            0% { background-position: 200% 0; }
-            100% { background-position: -200% 0; }
-        }
+        /* Custom Scrollbar for the Manifest List */
+        .manifest-scroll::-webkit-scrollbar { width: 4px; }
+        .manifest-scroll::-webkit-scrollbar-track { background: #000; }
+        .manifest-scroll::-webkit-scrollbar-thumb { background: #166534; }
     </style>
 </head>
-<body class="p-6">
+<body class="p-4 md:p-8">
     <div class="crt-overlay"></div>
 
-    <header class="max-w-6xl mx-auto mb-10 flex justify-between items-end border-b border-green-900/40 pb-4">
+    <header class="mb-8 border-b border-green-900/40 pb-4 flex justify-between items-end">
         <div>
-            <h1 class="text-xl font-bold tracking-widest text-white">RECORDS_ARCHIVE</h1>
-            <p class="text-[10px] opacity-50 uppercase tracking-tighter">Secure Retrieval // Stateless Edge Architecture</p>
+            <h1 class="text-2xl font-bold tracking-tighter">ARCHIVE_RETRIEVAL</h1>
+            <p id="log-meta" class="text-[10px] opacity-60 uppercase">Sharded Edge Manifest // No On-Board DB</p>
         </div>
-        <div class="text-right">
-            <div class="text-[10px] opacity-40">UTC_TIME</div>
-            <div id="clock" class="text-xs">--:--:--</div>
+        <div class="flex gap-4">
+            <input type="date" id="date-picker" class="bg-black border border-green-900 text-xs p-1 text-green-400 focus:outline-none">
+            <button onclick="fetchDailyLog()" class="text-xs bg-green-900/20 px-3 border border-green-900 hover:bg-green-900/40">LOAD_SHARD</button>
         </div>
     </header>
 
-    <main class="max-w-6xl mx-auto">
-        <div class="mb-10 flex gap-2">
-            <input type="text" id="kill-input" placeholder="ENTER_KILL_ID..." class="bg-black border border-green-900/50 px-4 py-2 text-xs w-64 focus:outline-none focus:border-green-400 text-green-400">
-            <button onclick="manualLookup()" class="bg-green-900/20 border border-green-900/50 px-6 py-2 text-xs hover:bg-green-900/40 transition-colors">RETRIEVE</button>
-        </div>
+    <main class="grid grid-cols-1 lg:grid-cols-12 gap-6 h-[calc(100vh-180px)]">
+        
+        <section class="lg:col-span-4 flex flex-col min-h-0">
+            <h2 class="text-xs bg-green-900/20 p-1 border border-green-900/50 inline-block w-fit mb-2">SHARD_INDEX</h2>
+            <div id="manifest-list" class="manifest-scroll overflow-y-auto space-y-1 pr-2 terminal-border bg-black/20 p-2">
+                <div class="text-[10px] opacity-40 animate-pulse p-4">AWAITING_SHARD_SELECTION...</div>
+            </div>
+        </section>
 
-        <div id="report-container" class="hidden">
-            <div class="terminal-border bg-green-900/5 p-8 relative overflow-hidden">
-                <div id="shimmer-overlay" class="absolute inset-0 loading-shimmer opacity-0 pointer-events-none"></div>
+        <section id="detail-view" class="lg:col-span-8 flex flex-col min-h-0">
+            <div id="km-placeholder" class="h-full border border-dashed border-green-900/30 flex items-center justify-center text-xs opacity-30 uppercase">
+                Select_Record_From_Manifest
+            </div>
 
-                <div class="flex justify-between border-b border-green-900/50 pb-6 mb-8">
+            <div id="kill-report-target" class="terminal-border bg-black/40 p-6 hidden overflow-y-auto manifest-scroll">
+                <div class="flex justify-between items-start border-b border-green-900/50 pb-4 mb-8">
                     <div>
-                        <div id="km-system" class="text-3xl font-bold text-white tracking-tighter uppercase">--</div>
-                        <div id="km-region" class="text-xs opacity-50 italic">--</div>
+                        <div id="km-system" class="text-2xl font-bold text-white tracking-widest uppercase">--</div>
+                        <div id="km-region" class="text-[10px] opacity-50 uppercase">--</div>
                     </div>
                     <div class="text-right">
-                        <div id="km-time" class="text-xs text-green-400 mb-1">--</div>
-                        <div id="km-value" class="text-2xl font-bold text-white">--</div>
+                        <div id="km-time" class="text-xs text-green-400">--</div>
+                        <div id="km-value" class="text-xl font-bold text-white mt-1">--</div>
                     </div>
                 </div>
 
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-16">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-12">
                     <div class="space-y-4">
-                        <div class="text-[10px] bg-green-900/30 px-2 py-0.5 border border-green-700/50 inline-block">LOSS_IDENTIFIED</div>
-                        <div class="flex gap-6">
-                            <img id="km-victim-portrait" src="" class="w-40 h-40 terminal-border victim-img">
-                            <div class="flex flex-col justify-center">
-                                <div id="km-victim-name" class="text-2xl font-bold text-white">--</div>
-                                <div id="km-victim-corp" class="text-sm opacity-70">--</div>
-                                <div id="km-victim-ship" class="text-green-400 font-bold mt-4 uppercase">--</div>
+                        <span class="text-[10px] border border-green-700/50 bg-green-900/20 px-2 py-0.5">SUBJECT_INFO</span>
+                        <div class="flex gap-4">
+                            <img id="km-victim-portrait" src="" class="w-32 h-32 terminal-border victim-img bg-green-900/10">
+                            <div>
+                                <div id="km-victim-name" class="text-xl font-bold text-white leading-tight">--</div>
+                                <div id="km-victim-corp" class="text-sm opacity-80">--</div>
+                                <div id="km-victim-ship" class="text-green-400 font-bold mt-2 text-sm uppercase">--</div>
                             </div>
                         </div>
                     </div>
 
                     <div class="space-y-4">
-                        <div class="text-[10px] bg-red-900/30 px-2 py-0.5 border border-red-700/50 text-red-400 inline-block">FINAL_BLOW_UNIT</div>
-                        <div class="flex gap-6">
-                            <img id="km-fb-portrait" src="" class="w-40 h-40 terminal-border grayscale">
-                            <div class="flex flex-col justify-center">
-                                <div id="km-fb-name" class="text-2xl font-bold text-white">--</div>
-                                <div id="km-fb-corp" class="text-sm opacity-70">--</div>
-                                <div id="km-fb-ship" class="text-red-400 font-bold mt-4 uppercase">--</div>
+                        <span class="text-[10px] border border-red-700/50 bg-red-900/20 px-2 py-0.5 text-red-400">HOSTILE_ACTOR</span>
+                        <div class="flex gap-4">
+                            <img id="km-fb-portrait" src="" class="w-32 h-32 terminal-border grayscale bg-red-900/10">
+                            <div>
+                                <div id="km-fb-name" class="text-xl font-bold text-white leading-tight">--</div>
+                                <div id="km-fb-corp" class="text-sm opacity-80">--</div>
+                                <div id="km-fb-ship" class="text-red-400 font-bold mt-2 text-sm uppercase">--</div>
                             </div>
                         </div>
                     </div>
                 </div>
 
-                <div class="mt-16">
-                    <div class="flex justify-between items-end border-b border-green-900/30 mb-6 pb-2">
-                        <span class="text-[10px]">COMBAT_LOG_PARTICIPANTS</span>
-                        <span id="km-count" class="text-[10px] opacity-40">--</span>
+                <div class="mt-12">
+                    <div class="flex justify-between items-end border-b border-green-900/30 mb-4 pb-1">
+                        <span class="text-[10px]">ENGAGEMENT_PARTICIPANTS</span>
+                        <span id="km-count" class="text-[10px] opacity-50 uppercase">--</span>
                     </div>
-                    <div id="km-attackers" class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4">
+                    <div id="km-attackers" class="grid grid-cols-2 md:grid-cols-4 gap-2">
                         </div>
                 </div>
             </div>
-        </div>
-
-        <div id="error-msg" class="hidden text-red-600 border border-red-900/50 p-4 text-xs bg-red-900/10 uppercase animate-pulse">
-            DATA_RETRIEVAL_FAILURE: RECORD_NOT_FOUND_IN_EDGE_SHARD
-        </div>
+        </section>
     </main>
 
     <script>
-        const API_BASE = "https://ws.socketkill.com";
+        const API_HOST = "https://ws.socketkill.com";
 
-        // Handle Manual Input
-        function manualLookup() {
-            const id = document.getElementById('kill-input').value;
-            if (id) loadKillmail(id);
-        }
+        // Set default date to today
+        document.getElementById('date-picker').value = new Date().toISOString().slice(0, 10);
 
-        async function loadKillmail(killID) {
-            const container = document.getElementById('report-container');
-            const errorView = document.getElementById('error-msg');
-            const shimmer = document.getElementById('shimmer-overlay');
-            
-            errorView.classList.add('hidden');
-            container.classList.remove('hidden');
-            shimmer.style.opacity = '1';
+        async function fetchDailyLog() {
+            const date = document.getElementById('date-picker').value;
+            const list = document.getElementById('manifest-list');
+            list.innerHTML = `<div class="text-[10px] animate-pulse p-4">ACCESSING_SHARD: ${date}...</div>`;
 
             try {
-                // Jab your new databaseless API
-                const response = await fetch(`${API_BASE}/api/kill/${killID}`);
-                if (!response.ok) throw new Error('NOT_FOUND');
-                
+                const res = await fetch(`${API_HOST}/api/kills/${date}`);
+                const data = await res.json();
+
+                if (!data.kills || data.kills.length === 0) {
+                    list.innerHTML = `<div class="text-[10px] text-red-500 p-4">NO_RECORDS_FOR_THIS_SHARD</div>`;
+                    return;
+                }
+
+                list.innerHTML = data.kills.map(k => `
+                    <div onclick="loadDetail(${k.killID})" class="p-2 border border-green-900/30 bg-green-900/5 hover:bg-green-900/20 cursor-pointer flex justify-between items-center transition-all group">
+                        <div class="truncate">
+                            <div class="text-[10px] text-white font-bold group-hover:text-green-400">${k.victim.ship}</div>
+                            <div class="text-[8px] opacity-50 uppercase truncate w-32">${k.victim.name}</div>
+                        </div>
+                        <div class="text-right">
+                            <div class="text-[10px] font-bold text-green-400">${k.formattedValue}</div>
+                            <div class="text-[8px] opacity-40 uppercase">${k.time.split('T')[1].slice(0, 5)} UTC</div>
+                        </div>
+                    </div>
+                `).join('');
+
+                document.getElementById('log-meta').innerText = `SHARD_SIZE: ${data.total} RECORDS // SHOWING: ${data.count}`;
+            } catch (err) {
+                list.innerHTML = `<div class="text-[10px] text-red-600 p-4">CRITICAL_SHARD_FAILURE</div>`;
+            }
+        }
+
+        async function loadDetail(killID) {
+            const target = document.getElementById('kill-report-target');
+            const placeholder = document.getElementById('km-placeholder');
+            
+            placeholder.innerText = "PARSING_ENCRYPTED_STREAM...";
+            
+            try {
+                const response = await fetch(`${API_HOST}/api/kill/${killID}`);
                 const data = await response.json();
                 
-                // Hydrate Fields
+                placeholder.classList.add('hidden');
+                target.classList.remove('hidden');
+
                 document.getElementById('km-system').innerText = data.system.name;
-                document.getElementById('km-region').innerText = `${data.system.region} // SEC_STATUS: ${data.system.security.toFixed(1)}`;
+                document.getElementById('km-region').innerText = `${data.system.region} // SEC: ${data.system.security.toFixed(1)}`;
                 document.getElementById('km-time').innerText = data.killmailTime;
                 document.getElementById('km-value').innerText = data.totalValue;
 
@@ -157,38 +179,25 @@
                 document.getElementById('km-fb-corp').innerText = data.finalBlow.corp;
                 document.getElementById('km-fb-ship').innerText = data.finalBlow.ship;
 
-                const attackers = document.getElementById('km-attackers');
-                attackers.innerHTML = data.attackers.slice(0, 18).map(a => `
-                    <div class="p-2 border border-green-900/20 bg-black text-[9px] hover:border-green-400 transition-colors cursor-default">
+                document.getElementById('km-attackers').innerHTML = data.attackers.slice(0, 16).map(a => `
+                    <div class="p-1 border border-green-900/20 bg-black text-[8px]">
                         <div class="text-white truncate font-bold">${a.name || 'Unknown'}</div>
-                        <div class="opacity-50 truncate">${a.ship || 'Unknown Ship'}</div>
-                        <div class="text-red-500 mt-1">${a.damagePercent}% DMG</div>
+                        <div class="text-red-500">${a.damagePercent}% DMG</div>
                     </div>
                 `).join('');
                 
-                document.getElementById('km-count').innerText = `${data.attackerCount} UNITS RECORDED`;
-                shimmer.style.opacity = '0';
+                document.getElementById('km-count').innerText = `${data.attackerCount} AGGRESSORS`;
+                target.scrollTop = 0;
 
             } catch (err) {
-                container.classList.add('hidden');
-                errorView.classList.remove('hidden');
+                placeholder.classList.remove('hidden');
+                placeholder.innerText = "RETRIEVAL_ERROR";
+                target.classList.add('hidden');
             }
         }
 
-        // Auto-load if URL contains ID (e.g. socketkill.com/archive?id=12345)
-        window.addEventListener('DOMContentLoaded', () => {
-            const params = new URLSearchParams(window.location.search);
-            const id = params.get('id');
-            if (id) {
-                document.getElementById('kill-input').value = id;
-                loadKillmail(id);
-            }
-            
-            // Simple clock
-            setInterval(() => {
-                document.getElementById('clock').innerText = new Date().toISOString().slice(11, 19) + " UTC";
-            }, 1000);
-        });
+        // Auto-fetch on load
+        fetchDailyLog();
     </script>
 </body>
 </html>
