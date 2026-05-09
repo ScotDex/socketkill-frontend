@@ -1,13 +1,13 @@
 const API_BASE = 'https://ws.socketkill.com';
 
 const els = {
-  list:        document.getElementById('kill-list'),
-  count:       document.getElementById('kill-count'),
-  status:      document.getElementById('status-text'),
+  list: document.getElementById('kill-list'),
+  count: document.getElementById('kill-count'),
+  status: document.getElementById('status-text'),
   currentDate: document.getElementById('current-date'),
-  dayStatus:   document.getElementById('day-status'),
-  prev:        document.getElementById('prev-day'),
-  next:        document.getElementById('next-day'),
+  dayStatus: document.getElementById('day-status'),
+  prev: document.getElementById('prev-day'),
+  next: document.getElementById('next-day'),
 };
 
 // ---- Date helpers ----
@@ -35,7 +35,7 @@ function classifySec(sec, regionID) {
   if (sec == null) return { label: '—', cls: '' };
   if (regionID === 10000070) return { label: 'POCH', cls: 'sec-pochven' };
   if (sec >= 0.5) return { label: sec.toFixed(1), cls: 'sec-high' };
-  if (sec > 0)    return { label: sec.toFixed(1), cls: 'sec-low' };
+  if (sec > 0) return { label: sec.toFixed(1), cls: 'sec-low' };
   return { label: sec.toFixed(1), cls: 'sec-null' };
 }
 
@@ -45,22 +45,41 @@ function escapeHtml(s) {
   }[c]));
 }
 
-// ---- Rendering ----
 function renderRow(k) {
   const sec = classifySec(k.system.security, k.system.regionID);
+  const portraitSrc = k.victim.characterID
+    ? `https://api.socketkill.com/render/character/${k.victim.characterID}?size=64`
+    : `https://api.socketkill.com/render/corp/${k.victim.corporationID}?size=64`;
+  const shipSrc = `https://api.socketkill.com/render/ship/${k.victim.shipTypeID}?size=64`;
+
   return `
     <li>
       <a href="/kill/${k.killID}"
-         class="grid grid-cols-[80px_1fr_180px_140px_80px_120px] gap-3 px-2 py-2 hover:bg-white/5 transition-colors text-sm">
+         class="grid grid-cols-[40px_40px_60px_1fr_140px_60px_120px] gap-3 items-center px-2 py-2 hover:bg-white/5 transition-colors">
+        
+        <img src="${shipSrc}" loading="lazy"
+             class="w-10 h-10 border border-eve-border bg-black object-cover"
+             onerror="this.style.opacity='0.2'" alt="">
+        
+        <img src="${portraitSrc}" loading="lazy"
+             class="w-10 h-10 border border-eve-border bg-black object-cover"
+             onerror="this.style.opacity='0.2'" alt="">
+        
         <span class="font-mono text-gray-500 text-xs">${formatTime(k.time)}</span>
-        <span class="text-white truncate font-exo" title="${escapeHtml(k.victim.name)}">${escapeHtml(k.victim.name)}</span>
-        <span class="text-gray-300 truncate font-exo" title="${escapeHtml(k.victim.ship)}">${escapeHtml(k.victim.ship)}</span>
+        
+        <div class="min-w-0">
+          <div class="text-white truncate font-exo text-sm" title="${escapeHtml(k.victim.name)}">${escapeHtml(k.victim.name)}</div>
+          <div class="text-gray-400 truncate font-exo text-xs" title="${escapeHtml(k.victim.ship)}">${escapeHtml(k.victim.ship)}</div>
+        </div>
+        
         <span class="truncate font-mono text-xs" title="${escapeHtml(k.system.region)}">
           <span class="text-white">${escapeHtml(k.system.name)}</span>
           <span class="${sec.cls} ml-1">${sec.label}</span>
         </span>
+        
         <span class="text-right text-gray-400 font-mono text-xs">${k.attackerCount}</span>
-        <span class="text-right text-eve-accent font-mono">${k.formattedValue}</span>
+        
+        <span class="text-right text-eve-accent font-mono text-sm">${k.formattedValue}</span>
       </a>
     </li>
   `;
