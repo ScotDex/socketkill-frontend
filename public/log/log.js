@@ -69,15 +69,15 @@ function renderRow(k) {
         
         <div class="min-w-0">
           <div class="text-white truncate font-exo text-sm" title="${escapeHtml(k.victim.name)}">${escapeHtml(k.victim.name)}</div>
-          <div class="text-gray-400 truncate font-exo text-xs" title="${escapeHtml(k.victim.ship)}">${escapeHtml(k.victim.ship)}</div>
+          <div class="text-gray-400 truncate font-exo text-sm" title="${escapeHtml(k.victim.ship)}">${escapeHtml(k.victim.ship)}</div>
         </div>
         
-        <span class="truncate font-mono text-xs" title="${escapeHtml(k.system.region)}">
+        <span class="truncate font-mono text-sm" title="${escapeHtml(k.system.region)}">
           <span class="text-white">${escapeHtml(k.system.name)}</span>
           <span class="${sec.cls} ml-1">${sec.label}</span>
         </span>
         
-        <span class="text-right text-gray-400 font-mono text-xs">${k.attackerCount}</span>
+        <span class="text-right text-gray-400 font-mono text-sm">${k.attackerCount}</span>
         
         <span class="text-right text-eve-accent font-mono text-sm">${k.formattedValue}</span>
       </a>

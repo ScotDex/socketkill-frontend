@@ -4,39 +4,6 @@
      font-family: 'Exo 2', sans-serif;
  }
 
- /* Tactical corner brackets — matches kill page */
- .tactical-frame {
-     position: relative;
- }
-
- .tactical-frame::before,
- .tactical-frame::after {
-     content: "";
-     position: absolute;
-     left: -1px;
-     right: -1px;
-     height: 14px;
-     pointer-events: none;
-     filter: drop-shadow(0 0 3px rgba(63, 185, 80, 0.4));
- }
-
- .tactical-frame::before {
-     top: -1px;
-     background:
-         linear-gradient(to right, #3fb950 0, #3fb950 14px, transparent 14px) top left / 100% 1px no-repeat,
-         linear-gradient(to bottom, #3fb950 0, #3fb950 14px, transparent 14px) top left / 1px 100% no-repeat,
-         linear-gradient(to left, #3fb950 0, #3fb950 14px, transparent 14px) top right / 100% 1px no-repeat,
-         linear-gradient(to bottom, #3fb950 0, #3fb950 14px, transparent 14px) top right / 1px 100% no-repeat;
- }
-
- .tactical-frame::after {
-     bottom: -1px;
-     background:
-         linear-gradient(to right, #3fb950 0, #3fb950 14px, transparent 14px) bottom left / 100% 1px no-repeat,
-         linear-gradient(to top, #3fb950 0, #3fb950 14px, transparent 14px) bottom left / 1px 100% no-repeat,
-         linear-gradient(to left, #3fb950 0, #3fb950 14px, transparent 14px) bottom right / 100% 1px no-repeat,
-         linear-gradient(to top, #3fb950 0, #3fb950 14px, transparent 14px) bottom right / 1px 100% no-repeat;
- }
 
  /* Security colour bands */
  .sec-high {
