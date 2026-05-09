@@ -48,7 +48,7 @@ function escapeHtml(s) {
 function renderRow(k) {
   const sec = classifySec(k.system.security, k.system.regionID);
   const portraitSrc = k.victim.characterID
-    ? `https://api.socketkill.com/render/character/${k.victim.characterID}?size=64`
+    ? `https://images.evetech.net/characters/${k.victim.characterID}/portrait?size=64`
     : `https://api.socketkill.com/render/corp/${k.victim.corporationID}?size=64`;
   const shipSrc = `https://api.socketkill.com/render/ship/${k.victim.shipTypeID}?size=64`;
 
