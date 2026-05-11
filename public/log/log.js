@@ -24,7 +24,7 @@ function shiftDate(dateStr, days) {
   return d.toISOString().slice(0, 10);
 }
 
-function whaleClass(value){
+function whaleClass(value) {
   if (value > 20_000_000_000) return 'whale-mega';
   if (value > 10_000_000_000) return 'whale-large';
   if (value > 1_000_000_000) return 'whale-notable';
@@ -58,7 +58,7 @@ function renderRow(k) {
     ? `https://images.evetech.net/characters/${k.victim.characterID}/portrait?size=64`
     : `https://api.socketkill.com/render/corp/${k.victim.corporationID}?size=64`;
   const shipSrc = `https://api.socketkill.com/render/ship/${k.victim.shipTypeID}?size=64`;
-  const whale = whaleClass(k.totalValue); 
+  const whale = whaleClass(k.totalValue);
 
   return `
     <li>
@@ -134,6 +134,37 @@ async function loadDay(date) {
     els.list.innerHTML = renderError(`Failed to load ${date}: ${err.message}`);
     els.status.textContent = '> ERROR';
   }
+}
+
+const urlParams = new URLSearchParams(window.location.search);
+const currentPage = parseInt(urlParams.get('page')) || 1;
+
+async function loadPage(page) {
+  const url = page > 1
+    ? `${API_BASE}/api/kills/${date}?page=${page}`
+    : `${API_BASE}/api/kills/${date}`;
+
+  const res = await fetch(url);
+  const data = await res.json();
+
+  renderKills(data.kills);
+  updatePaginationButtons(data);
+}
+
+function updatePaginationButtons(data) {
+  const prevBtn = document.getElementById('prev-page');
+  const nextBtn = document.getElementById('next-page');
+
+  prevBtn.disabled = !data.hasPrev;
+  nextBtn.disabled = !data.hasMore;
+
+  prevBtn.onclick = () => navigateToPage(data.page - 1);
+  nextBtn.onclick = () => navigateToPage(data.page + 1);
+}
+
+function navigateToPage(page) {
+  const url = page > 1 ? `?page=${page}` : window.location.pathname;
+  window.location.href = url;
 }
 
 // ---- Auto-refresh for today only ----
