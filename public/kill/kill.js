@@ -295,7 +295,7 @@ function renderItemRow(item) {
             </div>
             <div class="text-white truncate font-exo font-medium" title="${escapeHtml(item.name)}">${itemName}</div>
             <div class="text-gray-400 font-bold ml-2">${item.quantity > 1 ? `×${item.quantity.toLocaleString()}` : ''}</div>
-            <div class="text-eve-accent text-right font-mono">${item.formattedValue ? `${item.formattedValue} ISK` : '—'}</div>
+            <div class="text-eve-accent text-right font-mono">${item.formattedValue && item.price > 0 ? `${item.formattedValue} ISK` : '—'}</div>
         </div>
     `;
 }

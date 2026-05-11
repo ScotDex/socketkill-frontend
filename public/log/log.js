@@ -24,6 +24,13 @@ function shiftDate(dateStr, days) {
   return d.toISOString().slice(0, 10);
 }
 
+function whaleClass(value){
+  if (value > 20_000_000_000) return 'whale-mega';
+  if (value > 10_000_000_000) return 'whale-large';
+  if (value > 1_000_000_000) return 'whale-notable';
+  return '';
+}
+
 // ---- Formatters ----
 function formatTime(iso) {
   if (!iso) return '—';
@@ -51,6 +58,7 @@ function renderRow(k) {
     ? `https://images.evetech.net/characters/${k.victim.characterID}/portrait?size=64`
     : `https://api.socketkill.com/render/corp/${k.victim.corporationID}?size=64`;
   const shipSrc = `https://api.socketkill.com/render/ship/${k.victim.shipTypeID}?size=64`;
+  const whale = whaleClass(k.totalValue); 
 
   return `
     <li>
@@ -79,7 +87,7 @@ function renderRow(k) {
         
         <span class="text-right text-gray-400 font-mono text-sm">${k.attackerCount}</span>
         
-        <span class="text-right text-eve-accent font-mono text-sm">${k.formattedValue}</span>
+        <span class="text-right text-eve-accent font-mono text-sm ${whale}">${k.formattedValue}</span>
       </a>
     </li>
   `;

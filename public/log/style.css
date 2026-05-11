@@ -25,3 +25,16 @@
  .sec-wspace {
      color: #58a6ff;
  }
+
+ .whale-notable {
+  color: #c97070;
+}
+
+.whale-large {
+  color: #d84545;
+}
+
+.whale-mega {
+  color: #ff2020;
+  text-shadow: 0 0 6px rgba(255, 32, 32, 0.4);
+}
