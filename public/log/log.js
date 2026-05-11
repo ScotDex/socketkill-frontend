@@ -109,21 +109,7 @@ function renderError(msg) {
   return `<li class="text-red-400 italic text-sm font-mono p-4 text-center">&gt; ${escapeHtml(msg)}</li>`;
 }
 
-// ---- Date controller ----
-function updateDateUI(date) {
-  const isToday = date === today();
-  els.currentDate.textContent = date.replace(/-/g, '.');
-  els.dayStatus.textContent = `> ${isToday ? 'LIVE' : 'ARCHIVED'}`;
-  els.prevDay.href = `/log/${shiftDate(date, -1)}`;
 
-  if (isToday) {
-    els.nextDay.href = '#';
-    els.nextDay.classList.add('opacity-30', 'cursor-not-allowed');
-  } else {
-    els.nextDay.href = `/log/${shiftDate(date, 1)}`;
-    els.nextDay.classList.remove('opacity-30', 'cursor-not-allowed');
-  }
-}
 
 // ---- Pagination controller ----
 function updatePaginationUI(data, date) {
