@@ -166,6 +166,5 @@ function startAutoRefresh(date, page) {
 const date = getDateFromUrl();
 const currentPage = getPageFromUrl();
 
-updateDateUI(date);
 loadDay(date, currentPage);
 startAutoRefresh(date, currentPage);
