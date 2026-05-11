@@ -11,25 +11,25 @@
   <link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@400;600;800&family=Share+Tech+Mono&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="style.css">
   <script defer src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "9a7b8334fd974f46a3b570cbc18d90b1"}'></script>
-  <meta name="description" content="Daily killmail archive for {date}. Browse losses, ships, and ISK destroyed.">
+  <meta name="description" content="Daily killmail archive. Browse losses, ships, and ISK destroyed.">
   <meta name="keywords" content="eve online, eve, pvp, socket.kill, killboard, archived, eve tool, pvp tracker, gatekeeper, mmorpg, third party, socket, kill, eve killboard, eve pvp, eve wormhole, eve nullsec, eve lowsec, eve highsec, eve wormhole pvp">
   <meta name="author" content="Dexomus Viliana">
 
 
-<meta property="og:type" content="website">
-<meta property="og:url" content="https://socketkill.com">
-<meta property="og:title" content="Socket.Kill">
-<meta property="og:description" content="Daily killmail archive for {date}. Browse losses, ships, and ISK destroyed.">
-<meta property="og:image" content="https://socketkill.com/socket-preview-v1.png">
-<meta property="og:image:width" content="1200">
-<meta property="og:image:height" content="630">
-<meta property="og:image:type" content="image/png">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://socketkill.com">
+  <meta property="og:title" content="Socket.Kill">
+  <meta property="og:description" content="Daily killmail archive. Browse losses, ships, and ISK destroyed.">
+  <meta property="og:image" content="https://socketkill.com/socket-preview-v1.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:type" content="image/png">
 
-<meta name="twitter:card" content="summary_large_image">
-<meta property="twitter:url" content="https://socketkill.com/">
-<meta property="twitter:title" content="Socket.Kill">
-<meta property="twitter:description" content="Daily killmail archive for {date}. Browse losses, ships, and ISK destroyed.">
-<meta name="twitter:image" content="https://socketkill.com/socket-preview-v1.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta property="twitter:url" content="https://socketkill.com/">
+  <meta property="twitter:title" content="Socket.Kill">
+  <meta property="twitter:description" content="Daily killmail archive. Browse losses, ships, and ISK destroyed.">
+  <meta name="twitter:image" content="https://socketkill.com/socket-preview-v1.png">
 
   <link rel="icon" type="image/png" href="https://edge.socketkill.com/favicon.png">
   <script src="https://cdn.tailwindcss.com"></script>
@@ -74,7 +74,7 @@
   <section class="max-w-7xl mx-auto px-4 pt-8 pb-4">
     <div class="flex items-center justify-between font-mono">
       <a id="prev-day" href="#"
-         class="text-eve-accent border border-eve-border px-4 py-2 hover:bg-white/5 transition-colors text-sm tracking-widest">&lt; PREV</a>
+         class="text-eve-accent border border-eve-border px-4 py-2 hover:bg-white/5 transition-colors text-sm tracking-widest">&lt; PREV DAY</a>
 
       <div class="text-center">
         <div class="text-[10px] tracking-widest text-gray-500 uppercase mb-1">VIEWING</div>
@@ -83,12 +83,12 @@
       </div>
 
       <a id="next-day" href="#"
-         class="text-eve-accent border border-eve-border px-4 py-2 hover:bg-white/5 transition-colors text-sm tracking-widest">NEXT &gt;</a>
+         class="text-eve-accent border border-eve-border px-4 py-2 hover:bg-white/5 transition-colors text-sm tracking-widest">NEXT DAY &gt;</a>
     </div>
   </section>
 
   <!-- KILL TABLE -->
-  <main class="max-w-7xl mx-auto px-4 pb-8">
+  <main class="max-w-7xl mx-auto px-4 pb-4">
     <div class="tactical-frame bg-eve-dark p-4 mt-4">
 
       <!-- Status line -->
@@ -98,15 +98,15 @@
       </div>
 
       <!-- Column headers -->
-<div class="hidden md:grid grid-cols-[40px_40px_60px_1fr_140px_60px_120px] gap-3 px-2 py-2 border-b border-eve-border text-[10px] tracking-widest text-gray-500 uppercase font-mono">
-  <span></span>
-  <span></span>
-  <span>TIME</span>
-  <span>VICTIM</span>
-  <span>SYSTEM</span>
-  <span class="text-right">ATTACKERS</span>
-  <span class="text-right">ISK DESTROYED</span>
-</div>
+      <div class="hidden md:grid grid-cols-[40px_40px_60px_1fr_140px_60px_120px] gap-3 px-2 py-2 border-b border-eve-border text-[10px] tracking-widest text-gray-500 uppercase font-mono">
+        <span></span>
+        <span></span>
+        <span>TIME</span>
+        <span>VICTIM</span>
+        <span>SYSTEM</span>
+        <span class="text-right">ATTACKERS</span>
+        <span class="text-right">ISK DESTROYED</span>
+      </div>
 
       <!-- Rows go here -->
       <ul id="kill-list" class="divide-y divide-white/5">
@@ -115,6 +115,25 @@
 
     </div>
   </main>
+
+  <!-- PAGINATION -->
+  <section class="max-w-7xl mx-auto px-4 pb-8">
+    <div class="flex items-center justify-between font-mono">
+      <button id="prev-page"
+              class="text-eve-accent border border-eve-border px-4 py-2 hover:bg-white/5 transition-colors text-sm tracking-widest disabled:opacity-30 disabled:cursor-not-allowed">
+        &lt; NEWER
+      </button>
+
+      <div id="page-indicator" class="text-[10px] tracking-widest text-gray-500 uppercase">
+        &gt; PAGE 1
+      </div>
+
+      <button id="next-page"
+              class="text-eve-accent border border-eve-border px-4 py-2 hover:bg-white/5 transition-colors text-sm tracking-widest disabled:opacity-30 disabled:cursor-not-allowed">
+        OLDER &gt;
+      </button>
+    </div>
+  </section>
 
   <footer class="max-w-7xl mx-auto p-4 mt-8 border-t border-eve-border text-center">
     <div class="flex flex-col md:flex-row justify-between items-center gap-4 text-[10px] tracking-widest text-gray-500 font-exo">

@@ -6,8 +6,11 @@ const els = {
   status: document.getElementById('status-text'),
   currentDate: document.getElementById('current-date'),
   dayStatus: document.getElementById('day-status'),
-  prev: document.getElementById('prev-day'),
-  next: document.getElementById('next-day'),
+  prevDay: document.getElementById('prev-day'),
+  nextDay: document.getElementById('next-day'),
+  prevPage: document.getElementById('prev-page'),
+  nextPage: document.getElementById('next-page'),
+  pageIndicator: document.getElementById('page-indicator'),
 };
 
 // ---- Date helpers ----
@@ -16,6 +19,11 @@ const today = () => new Date().toISOString().slice(0, 10);
 function getDateFromUrl() {
   const match = window.location.pathname.match(/\/log\/(\d{4}-\d{2}-\d{2})/);
   return match ? match[1] : today();
+}
+
+function getPageFromUrl() {
+  const params = new URLSearchParams(window.location.search);
+  return Math.max(1, parseInt(params.get('page')) || 1);
 }
 
 function shiftDate(dateStr, days) {
@@ -58,35 +66,35 @@ function renderRow(k) {
     ? `https://images.evetech.net/characters/${k.victim.characterID}/portrait?size=64`
     : `https://api.socketkill.com/render/corp/${k.victim.corporationID}?size=64`;
   const shipSrc = `https://api.socketkill.com/render/ship/${k.victim.shipTypeID}?size=64`;
-  const whale = whaleClass(k.totalValue);
+  const whale = whaleClass(k.rawValue);
 
   return `
     <li>
       <a href="/kill/${k.killID}"
          class="grid grid-cols-[40px_40px_60px_1fr_140px_60px_120px] gap-3 items-center px-2 py-2 hover:bg-white/5 transition-colors">
-        
+
         <img src="${shipSrc}" loading="lazy"
              class="w-10 h-10 border border-eve-border bg-black object-cover"
              onerror="this.style.opacity='0.2'" alt="">
-        
+
         <img src="${portraitSrc}" loading="lazy"
              class="w-10 h-10 border border-eve-border bg-black object-cover"
              onerror="this.style.opacity='0.2'" alt="">
-        
+
         <span class="font-mono text-gray-500 text-xs">${formatTime(k.time)}</span>
-        
+
         <div class="min-w-0">
           <div class="text-white truncate font-exo text-sm" title="${escapeHtml(k.victim.name)}">${escapeHtml(k.victim.name)}</div>
           <div class="text-gray-400 truncate font-exo text-sm" title="${escapeHtml(k.victim.ship)}">${escapeHtml(k.victim.ship)}</div>
         </div>
-        
+
         <span class="truncate font-mono text-sm" title="${escapeHtml(k.system.region)}">
           <span class="text-white">${escapeHtml(k.system.name)}</span>
           <span class="${sec.cls} ml-1">${sec.label}</span>
         </span>
-        
+
         <span class="text-right text-gray-400 font-mono text-sm">${k.attackerCount}</span>
-        
+
         <span class="text-right text-eve-accent font-mono text-sm ${whale}">${k.formattedValue}</span>
       </a>
     </li>
@@ -106,80 +114,72 @@ function updateDateUI(date) {
   const isToday = date === today();
   els.currentDate.textContent = date.replace(/-/g, '.');
   els.dayStatus.textContent = `> ${isToday ? 'LIVE' : 'ARCHIVED'}`;
-  els.prev.href = `/log/${shiftDate(date, -1)}`;
+  els.prevDay.href = `/log/${shiftDate(date, -1)}`;
 
   if (isToday) {
-    els.next.href = '#';
-    els.next.classList.add('opacity-30', 'cursor-not-allowed');
+    els.nextDay.href = '#';
+    els.nextDay.classList.add('opacity-30', 'cursor-not-allowed');
   } else {
-    els.next.href = `/log/${shiftDate(date, 1)}`;
-    els.next.classList.remove('opacity-30', 'cursor-not-allowed');
+    els.nextDay.href = `/log/${shiftDate(date, 1)}`;
+    els.nextDay.classList.remove('opacity-30', 'cursor-not-allowed');
   }
 }
 
+// ---- Pagination controller ----
+function updatePaginationUI(data, date) {
+  els.prevPage.disabled = !data.hasPrev;
+  els.nextPage.disabled = !data.hasMore;
+  els.pageIndicator.textContent = `> PAGE ${data.page}`;
+
+  els.prevPage.onclick = () => navigateToPage(date, data.page - 1);
+  els.nextPage.onclick = () => navigateToPage(date, data.page + 1);
+}
+
+function navigateToPage(date, page) {
+  const url = page > 1 ? `/log/${date}?page=${page}` : `/log/${date}`;
+  window.location.href = url;
+}
+
 // ---- Fetch + render ----
-async function loadDay(date) {
+async function loadDay(date, page = 1) {
   els.status.textContent = '> LOADING';
   els.list.innerHTML = `<li class="text-gray-500 italic text-sm font-mono p-4 text-center">&gt; LOADING...</li>`;
 
   try {
-    const res = await fetch(`${API_BASE}/api/kills/${date}`);
+    const url = page > 1
+      ? `${API_BASE}/api/kills/${date}?page=${page}`
+      : `${API_BASE}/api/kills/${date}`;
+
+    const res = await fetch(url);
     if (!res.ok) throw new Error(`HTTP ${res.status}`);
     const data = await res.json();
 
     els.count.textContent = data.count;
-    els.status.textContent = `> ${data.hasMore ? `SHOWING ${data.count} OF ${data.total}` : 'COMPLETE'}`;
+    els.status.textContent = `> ${data.hasMore || data.hasPrev ? `SHOWING ${data.count} OF ${data.total}` : 'COMPLETE'}`;
     els.list.innerHTML = data.kills.length ? data.kills.map(renderRow).join('') : renderEmpty();
+
+    updatePaginationUI(data, date);
   } catch (err) {
     els.list.innerHTML = renderError(`Failed to load ${date}: ${err.message}`);
     els.status.textContent = '> ERROR';
   }
 }
 
-const urlParams = new URLSearchParams(window.location.search);
-const currentPage = parseInt(urlParams.get('page')) || 1;
-
-async function loadPage(page) {
-  const url = page > 1
-    ? `${API_BASE}/api/kills/${date}?page=${page}`
-    : `${API_BASE}/api/kills/${date}`;
-
-  const res = await fetch(url);
-  const data = await res.json();
-
-  renderKills(data.kills);
-  updatePaginationButtons(data);
-}
-
-function updatePaginationButtons(data) {
-  const prevBtn = document.getElementById('prev-page');
-  const nextBtn = document.getElementById('next-page');
-
-  prevBtn.disabled = !data.hasPrev;
-  nextBtn.disabled = !data.hasMore;
-
-  prevBtn.onclick = () => navigateToPage(data.page - 1);
-  nextBtn.onclick = () => navigateToPage(data.page + 1);
-}
-
-function navigateToPage(page) {
-  const url = page > 1 ? `?page=${page}` : window.location.pathname;
-  window.location.href = url;
-}
-
-// ---- Auto-refresh for today only ----
+// ---- Auto-refresh for today's page 1 only ----
 let refreshInterval = null;
-function startAutoRefresh(date) {
+function startAutoRefresh(date, page) {
   if (refreshInterval) clearInterval(refreshInterval);
-  if (date !== today()) return;
+  if (date !== today() || page > 1) return;
 
   refreshInterval = setInterval(() => {
-    if (document.visibilityState === 'visible') loadDay(date);
+    if (document.visibilityState === 'visible') loadDay(date, 1);
   }, 30_000);
 }
 
 // ---- Boot ----
 const date = getDateFromUrl();
+const currentPage = getPageFromUrl();
+
 updateDateUI(date);
-loadDay(date);
-startAutoRefresh(date);
+loadDay(date, currentPage);
+startAutoRefresh(date, currentPage);
