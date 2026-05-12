@@ -80,6 +80,24 @@ body::before {
   z-index: 1;
 }
 
+/* --- SIDEBAR POSITIONING FIX --- */
+
+/* Anchor the sidebar to the right edge of the main container */
+.sidebar-anchor {
+  position: absolute;
+  top: 80px; /* Aligns vertically with the top of the feed */
+  left: calc(100% + 2rem); /* Starts exactly at the right edge + 32px gap */
+  width: 280px;
+  z-index: 50;
+}
+
+/* Ensure the sidebar stays visible if it's long */
+.sidebar-anchor {
+  position: sticky;
+  align-self: flex-start;
+  height: fit-content;
+}
+
 body::after {
   content: "";
   position: fixed;
