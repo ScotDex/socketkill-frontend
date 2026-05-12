@@ -16,20 +16,20 @@
   <meta name="keywords" content="eve online, eve, pvp, socket.kill, killboard, real-time, intel, whale hunter, wormhole, low-latency, eve tool, pvp tracker, gatekeeper, mmorpg, third, party, tools, socket, kill, socket kill, socket kill feed">
 
   <meta property="og:type" content="website">
-<meta property="og:url" content="https://socketkill.com">
-<meta property="og:title" content="Socket.Kill">
-<meta property="og:description" content="Socket.Kill - Live kill feed for Eve Online optimized for rendering speed and performance complete with a global NPC death counter and stream filter.">
-<meta property="og:image" content="https://socketkill.com/socket-preview-v1.png">
-<meta property="og:image:width" content="1200">
-<meta property="og:image:height" content="630">
-<meta property="og:image:type" content="image/png">
+  <meta property="og:url" content="https://socketkill.com">
+  <meta property="og:title" content="Socket.Kill">
+  <meta property="og:description" content="Socket.Kill - Live kill feed for Eve Online optimized for rendering speed and performance complete with a global NPC death counter and stream filter.">
+  <meta property="og:image" content="https://socketkill.com/socket-preview-v1.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:type" content="image/png">
 
-<meta name="twitter:card" content="summary_large_image">
-<meta property="twitter:url" content="https://socketkill.com/">
-<meta property="twitter:title" content="Socket.Kill">
-<meta property="twitter:description" content="Socket.Kill - Live kill feed for Eve Online optimized for rendering speed and performance complete with a global NPC death counter and stream filter.">
-<meta name="twitter:image" content="https://socketkill.com/socket-preview-v1.png">
-<script defer src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "9a7b8334fd974f46a3b570cbc18d90b1"}'></script>
+  <meta name="twitter:card" content="summary_large_image">
+  <meta property="twitter:url" content="https://socketkill.com/">
+  <meta property="twitter:title" content="Socket.Kill">
+  <meta property="twitter:description" content="Socket.Kill - Live kill feed for Eve Online optimized for rendering speed and performance complete with a global NPC death counter and stream filter.">
+  <meta name="twitter:image" content="https://socketkill.com/socket-preview-v1.png">
+  <script defer src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "9a7b8334fd974f46a3b570cbc18d90b1"}'></script>
 
   <script type="module" src="./src/main.js"></script>
 </head>
@@ -38,7 +38,7 @@
   <div class="fog-overlay"></div>
 
   <div id="crt-screen">
-    <div class="max-w-[1100px] mx-auto px-2 py-3">
+    <div class="max-w-[1400px] mx-auto px-2 py-3">
 
       <header class="site-header">
         <div class="min-w-0">
@@ -69,37 +69,59 @@
         </div>
       </header>
 
-      
-      <div class="terminal-header">
-        <div class="flex items-center shrink-0 mr-2">
-          <span class="terminal-chevron">&gt;</span>
-          <span class="terminal-status-text">&gt; READY</span>
+
+      <div class="grid grid-cols-1 lg:grid-cols-[1fr_280px] gap-6 items-start">
+
+        <div class="min-w-0">
+
+          <div class="terminal-header">
+            <div class="flex items-center shrink-0 mr-2">
+              <span class="terminal-chevron">&gt;</span>
+              <span class="terminal-status-text">&gt; READY</span>
+            </div>
+
+            <div class="terminal-input-wrapper">
+              <input
+                type="text"
+                id="regionSearch"
+                class="terminal-input-field"
+                placeholder="SEARCH_STREAM"
+                autocomplete="off"
+              />
+              <div id="region-suggestions"></div>
+            </div>
+
+            <span id="active-filter-label" class="filter-label"></span>
+          </div>
+
+
+          <div id="empty-state">
+            <div class="boot-sequence"></div>
+          </div>
+          <div id="feed"></div>
+
         </div>
 
-        <div class="terminal-input-wrapper">
-          <input
-            type="text"
-            id="regionSearch"
-            class="terminal-input-field"
-            placeholder="SEARCH_STREAM"
-            autocomplete="off"
-          />
-          <div id="region-suggestions"></div>
-        </div>
+        <aside class="hidden lg:flex flex-col gap-4 lg:sticky lg:top-4">
 
-        <span id="active-filter-label" class="filter-label"></span>
-      </div>
+          <div class="bg-glass-bg border border-border-dim p-3 font-mono">
+            <div class="flex justify-between items-center pb-2 mb-2 border-b border-border-dim">
+              <span class="text-[0.65rem] tracking-[0.15em] text-white/40 uppercase">SHIPS LOST TODAY</span>
+              <span class="text-[0.7rem] font-bold text-neon-green" id="today-ships-total">0</span>
+            </div>
+            <ul id="today-ships-list" class="list-none p-0 m-0 max-h-[600px] overflow-y-auto">
+              <li class="text-white/40 italic text-xs py-2 text-center">&gt; AWAITING DATA</li>
+            </ul>
+          </div>
 
-   
-      <div id="empty-state">
-        <div class="boot-sequence"></div>
+        </aside>
+
       </div>
-      <div id="feed"></div>
 
     </div>
   </div>
 
-  
+
   <footer class="legal-footer">
     <div class="footer-content">
 

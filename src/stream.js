@@ -394,6 +394,33 @@ function bindSocketHandlers() {
       : 'OFFLINE'
   })
 
+  socket.on ('todays-stats', (data) => {
+    const list = document.getElementById('todays-ships-list')
+    const totalEl = document.getElementById('todays-ships-total')
+    if (!list || !data?.ships) return
+
+    if (data.ships.length === 0) {
+      list.innerHTML = '<li class="text-white/40 italic text-xs py-2 text-center">&gt; AWAITING DATA</li>'
+      if (totalEl) totalEl.textContent = '0'
+      return
+    }
+
+    const total = data.ships.reduce((sum, s) => sum + s.count, 0)
+    if (totalEl) totalEl.textContent = total.toLocaleString()
+    
+    const today = new Date().toISOString().slice(0, 10)
+
+        list.innerHTML = data.ships.map(s => `
+      <li class="border-b border-white/5 last:border-b-0 hover:bg-white/5 transition-colors">
+        <a href="/log/${today}?ship=${s.typeID}" class="flex justify-between items-center px-1 py-1.5 text-xs">
+          <span class="text-white truncate flex-1 min-w-0 font-body" title="${escapeHtml(s.name)}">${escapeHtml(s.name)}</span>
+          <span class="text-neon-green font-bold font-mono pl-2 shrink-0">${s.count}</span>
+        </a>
+      </li>
+    `).join('')
+  })
+  
+
   socket.on('nebula-update', (data) => {
     if (!data || !data.url) return
     const tempImg = new Image()
