@@ -80,22 +80,30 @@ body::before {
   z-index: 1;
 }
 
-/* --- SIDEBAR POSITIONING FIX --- */
+/* --- EMERGENCY SIDEBAR FIX --- */
 
-/* Anchor the sidebar to the right edge of the main container */
-.sidebar-anchor {
+/* Pushes sidebar outside the 1100px centered container */
+.sidebar-right-anchor {
   position: absolute;
-  top: 80px; /* Aligns vertically with the top of the feed */
-  left: calc(100% + 2rem); /* Starts exactly at the right edge + 32px gap */
+  left: 100%; /* Align to the very right edge of the container */
+  margin-left: 2rem; /* Give it a 32px gap from the feed */
+  top: 100px; /* Align with the start of the feed */
   width: 280px;
   z-index: 50;
 }
 
-/* Ensure the sidebar stays visible if it's long */
-.sidebar-anchor {
+/* Ensure it sticks as you scroll */
+.sidebar-right-anchor {
   position: sticky;
   align-self: flex-start;
   height: fit-content;
+}
+
+/* Safety Breakpoint: Hide sidebar if it would overlap on smaller screens */
+@media (max-width: 1550px) {
+  .sidebar-right-anchor {
+    display: none !important;
+  }
 }
 
 body::after {
